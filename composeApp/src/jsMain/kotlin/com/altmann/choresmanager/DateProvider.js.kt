@@ -11,12 +11,6 @@ private fun getCurrentMonthJS(): Int =
 private fun getCurrentYearJS(): Int =
     js("new Date().getFullYear()")
 
-private fun getDaysInMonthJS(month: Int, year: Int): Int =
-    js("new Date(month, year + 1, 0).getDate()")
-
-private fun getFirstDayOfWeekJS(month: Int, year: Int): Int =
-    js("new Date(month, year + 1, 0).getDay()")
-
 actual class DateProvider {
     actual fun getCurrentDay(): Int = getCurrentDayJS()
 
@@ -24,7 +18,4 @@ actual class DateProvider {
 
     actual fun getCurrentYear(): Int = getCurrentYearJS()
 
-    actual fun getDaysInMonth(month: Int, year: Int): Int = getDaysInMonthJS(month, year)
-
-    actual fun getFirstDayOfWeek(month: Int, year: Int): Int = getFirstDayOfWeekJS(month, year)
 }

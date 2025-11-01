@@ -17,13 +17,4 @@ actual class DateProvider {
         return calendar.get(Calendar.YEAR)
     }
 
-    actual fun getDaysInMonth(month: Int, year: Int) : Int {
-        calendar.set(year, month, 1)
-        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
-    }
-
-    actual fun getFirstDayOfWeek(month : Int, year : Int) : Int {
-        calendar.set(year, month, 1)
-        return calendar.get(Calendar.DAY_OF_WEEK)
-    }
 }
