@@ -42,11 +42,11 @@ fun CalendarScreen() {
     // Selected month (anchor on first day)
     var anchor by remember {
         mutableStateOf(
-            CalendarHelper().today().let { LocalDate(it.year, it.month.ordinal+1, 1) })
+            CalendarHelper.today().let { LocalDate(it.year, it.month.ordinal+1, 1) })
     }
-    var selectedDate by remember { mutableStateOf(CalendarHelper().today()) }
+    var selectedDate by remember { mutableStateOf(CalendarHelper.today()) }
 
-    val (start, end) = remember(anchor) { CalendarHelper().monthGridWindow(anchor) }
+    val (start, end) = remember(anchor) { CalendarHelper.monthGridWindow(anchor) }
 
     // used for debbuging
     print("\n ${anchor}")

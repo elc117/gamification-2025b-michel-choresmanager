@@ -8,7 +8,7 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 
-class CalendarHelper {
+object CalendarHelper {
     val dateProvider = DateProvider()
 
     // Determines the days that should be present in the calendar grid
