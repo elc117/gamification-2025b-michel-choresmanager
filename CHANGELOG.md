@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added CalendarViewModel
+- Added Dependencies for future DI implementation
+- Added directories for file organization
+
+### Changed
+
+- Changed CalendarScreen to use its ViewModel
+- Renamed helpers folder to utils
+
+### Removed
+
+- Greeting.kt
+
 ## [0.1.0] - 2025-11-01
 
 ### Added

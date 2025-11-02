@@ -1,4 +1,4 @@
-package com.altmann.choresmanager
+package com.altmann.choresmanager.ui.screens.calendar
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -11,16 +11,15 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,22 +29,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import choresmanager.composeapp.generated.resources.Res
-import kotlinx.coroutines.flow.WhileSubscribed
+import com.altmann.choresmanager.utils.CalendarHelper
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 
 @Composable
-fun CalendarScreen() {
+fun CalendarScreen(
+    viewModel: CalendarViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+) {
     // Selected month (anchor on first day)
-    var anchor by remember {
-        mutableStateOf(
-            CalendarHelper.today().let { LocalDate(it.year, it.month.ordinal+1, 1) })
-    }
-    var selectedDate by remember { mutableStateOf(CalendarHelper.today()) }
-
+    val anchor by viewModel.anchor.collectAsState()
+    val selectedDate by viewModel.selectedDate.collectAsState()
     val (start, end) = remember(anchor) { CalendarHelper.monthGridWindow(anchor) }
 
     // used for debbuging
@@ -54,8 +50,8 @@ fun CalendarScreen() {
     Column(Modifier.fillMaxSize().padding(16.dp)) {
         MonthHeader(
             anchor = anchor,
-            onPrev = { anchor = anchor.minus(DatePeriod(months = 1)) },
-            onNext = { anchor = anchor.plus(DatePeriod(months = 1)) }
+            onPrev = viewModel::onPrev,
+            onNext = viewModel::onNext
         )
         Spacer(modifier = Modifier.height(8.dp))
         WeekdayRow()
@@ -64,7 +60,7 @@ fun CalendarScreen() {
             start = start,
             occurencesByDate = mapOf(Pair(anchor, listOf("Work", "College"))),
             selectedDate = selectedDate,
-            onSelect = {selectedDate = it},
+            onSelect = {viewModel.onSelectDate(it)},
             // Days outside the current month get colored grey
             inAnchorMonth = {it.month.ordinal == anchor.month.ordinal && it.year == anchor.year}
         )

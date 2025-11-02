@@ -1,10 +1,9 @@
-package com.altmann.choresmanager
+package com.altmann.choresmanager.utils
 
-import androidx.compose.runtime.remember
+import com.altmann.choresmanager.DateProvider
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 
@@ -13,7 +12,7 @@ object CalendarHelper {
 
     // Determines the days that should be present in the calendar grid
     fun monthGridWindow(anchor : LocalDate) : Pair<LocalDate, LocalDate> {
-        val firstOfMonth = LocalDate(anchor.year, anchor.month.ordinal+1, 1)
+        val firstOfMonth = LocalDate(anchor.year, anchor.month.ordinal + 1, 1)
         val gridStart = previousOrSameSunday(firstOfMonth)
         val end = gridStart.plus(DatePeriod(days = 41)) // a 7x6 grid has 42 cells
         return gridStart to end
@@ -35,6 +34,10 @@ object CalendarHelper {
     }
     // Creates a LocalDate type with the current day
     fun today() : LocalDate {
-        return LocalDate(dateProvider.getCurrentYear(), dateProvider.getCurrentMonth()+1, dateProvider.getCurrentDay())
+        return LocalDate(
+            dateProvider.getCurrentYear(),
+            dateProvider.getCurrentMonth() + 1,
+            dateProvider.getCurrentDay()
+        )
     }
 }
