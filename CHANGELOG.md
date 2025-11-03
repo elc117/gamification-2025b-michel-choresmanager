@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added CalendarViewModel
 - Added Dependencies for future DI implementation
 - Added directories for file organization
+- Added Chore class hierarchy with 4 types of chores
 
 ### Changed
 
