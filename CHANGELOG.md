@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Dependencies for future DI implementation
 - Added directories for file organization
 - Added Chore class hierarchy with 4 types of chores
+- Added Chore List to DayCells in CalendarScreen
+- Added static chores to demonstrate Chore List functionality
 
 ### Changed
 

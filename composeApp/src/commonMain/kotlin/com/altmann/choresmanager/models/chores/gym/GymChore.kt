@@ -22,7 +22,7 @@ class GymChore(
     deleted: Boolean? = false,
     userId: Int,
     finished: Boolean? = false,
-    color: Color? = Color.Blue,
+    color: Color? = Color.Red,
 
     val workout: List<Exercise>,
     val exerciseDay : String // e.g. "Leg Day", "Arm Day"

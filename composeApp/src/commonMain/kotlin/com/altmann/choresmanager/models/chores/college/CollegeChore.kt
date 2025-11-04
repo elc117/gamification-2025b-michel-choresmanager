@@ -23,7 +23,7 @@ class CollegeChore(
     deleted: Boolean? = false,
     userId: Int,
     finished: Boolean? = false,
-    color: Color? = Color.Companion.Blue,
+    color: Color? = Color.Blue,
 
     val subject: String,
     val location: String?,

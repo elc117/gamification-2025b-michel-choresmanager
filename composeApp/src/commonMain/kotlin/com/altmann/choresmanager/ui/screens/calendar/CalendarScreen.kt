@@ -13,12 +13,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,8 +32,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.altmann.choresmanager.models.Priority
+import com.altmann.choresmanager.models.chores.Chore
+import com.altmann.choresmanager.models.chores.college.CollegeChore
+import com.altmann.choresmanager.models.chores.gym.GymChore
 import com.altmann.choresmanager.utils.CalendarHelper
 import kotlinx.datetime.DatePeriod
+import kotlinx.datetime.DateTimePeriod
+import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
@@ -43,9 +52,14 @@ fun CalendarScreen(
     val anchor by viewModel.anchor.collectAsState()
     val selectedDate by viewModel.selectedDate.collectAsState()
     val (start, end) = remember(anchor) { CalendarHelper.monthGridWindow(anchor) }
-
+    val chores by viewModel.chores.collectAsState()
+    LaunchedEffect(anchor) {
+        viewModel.loadingChores()
+    }
     // used for debbuging
     print("\n ${anchor}")
+
+
 
     Column(Modifier.fillMaxSize().padding(16.dp)) {
         MonthHeader(
@@ -58,11 +72,11 @@ fun CalendarScreen(
         Spacer(modifier = Modifier.height(4.dp))
         MonthGrid(
             start = start,
-            occurencesByDate = mapOf(Pair(anchor, listOf("Work", "College"))),
+            occurencesByDate = chores,
             selectedDate = selectedDate,
-            onSelect = {viewModel.onSelectDate(it)},
+            onSelect = { viewModel.onSelectDate(it) },
             // Days outside the current month get colored grey
-            inAnchorMonth = {it.month.ordinal == anchor.month.ordinal && it.year == anchor.year}
+            inAnchorMonth = { it.month.ordinal == anchor.month.ordinal && it.year == anchor.year }
         )
     }
 }
@@ -100,7 +114,7 @@ private fun WeekdayRow() {
 @Composable
 private fun MonthGrid(
     start: LocalDate,
-    occurencesByDate: Map<LocalDate, List<String>>, // maps day to chore
+    occurencesByDate: Map<LocalDate, List<Chore>>, // maps day to chore
     selectedDate: LocalDate,
     onSelect: (LocalDate) -> Unit,
     inAnchorMonth: (LocalDate) -> Boolean
@@ -120,7 +134,7 @@ private fun MonthGrid(
                         occurences = occ,
                         selected = date == selectedDate,
                         faded = !inAnchorMonth(date),
-                        onClick = {onSelect(date)},
+                        onClick = { onSelect(date) },
                         modifier = Modifier.weight(1f).aspectRatio(1f).padding(4.dp)
                     )
                 }
@@ -132,7 +146,7 @@ private fun MonthGrid(
 @Composable
 private fun DayCell(
     date: LocalDate,
-    occurences: List<String>,
+    occurences: List<Chore>,
     selected: Boolean,
     faded: Boolean,
     onClick: () -> Unit,
@@ -155,26 +169,36 @@ private fun DayCell(
         border = BorderStroke(1.dp, border)
     ) {
         Box(Modifier.fillMaxSize().padding(6.dp)) {
-            Text(
-                text = date.dayOfMonth.toString(),
-                style = MaterialTheme.typography.bodyLarge,
-                color = textColor,
-                modifier = Modifier.align(Alignment.TopCenter),
-                fontWeight = fontWeight
-            )
-            if (occurences.isNotEmpty()) {
-                Box(
-                    modifier = Modifier.align(Alignment.BottomEnd)
-                        .background(MaterialTheme.colorScheme.secondary, RoundedCornerShape(12.dp))
-                        .padding(horizontal = 6.dp, vertical = 2.dp)
-                ) {
-                    Text(
-                        text = occurences.size.toString(),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSecondary
-                    )
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+                Text(
+                    text = date.dayOfMonth.toString(),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = textColor,
+                    fontWeight = fontWeight
+                )
+                if (occurences.isNotEmpty()) {
+                    LazyColumn {
+                        items(occurences.size) { i ->
+                            Box(
+                                modifier = Modifier
+                                    .background(
+                                        occurences[i].color ?: MaterialTheme.colorScheme.primary,
+                                        RoundedCornerShape(8.dp)
+                                    )
+                            ) {
+                                Text(
+                                    text = occurences[i].title,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onPrimary,
+                                    modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
     }
+
 }

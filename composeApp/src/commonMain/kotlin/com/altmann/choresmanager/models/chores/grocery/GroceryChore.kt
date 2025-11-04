@@ -22,7 +22,7 @@ class GroceryChore(
     deleted: Boolean? = false,
     userId: Int,
     finished: Boolean? = false,
-    color: Color? = Color.Companion.Green,
+    color: Color? = Color.Green,
 
     val items : List<Item> = emptyList()
 ) : Chore(
