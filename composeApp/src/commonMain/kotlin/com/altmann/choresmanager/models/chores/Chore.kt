@@ -17,7 +17,7 @@ open class Chore(
     val title: String,
     val description: String,
     var priority: Priority,
-    val finishedDate: LocalDate,
+    val finishedDate: LocalDate?,
     val deleted: Boolean? = false,
     val userId: Int,
     val finished: Boolean? = false,

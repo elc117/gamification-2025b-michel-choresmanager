@@ -15,11 +15,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Chore class hierarchy with 4 types of chores
 - Added Chore List to DayCells in CalendarScreen
 - Added static chores to demonstrate Chore List functionality
+- Added popUp to add new chores to specific days in CalendarScreen
 
 ### Changed
 
 - Changed CalendarScreen to use its ViewModel
 - Renamed helpers folder to utils
+- Changed mapping function logic allowing multiple chores per day
+- Changed finishedDate to nullable in Chore class
 
 ### Removed
 

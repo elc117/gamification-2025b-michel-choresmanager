@@ -1,10 +1,6 @@
 package com.altmann.choresmanager.ui.screens.calendar
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
-import com.altmann.choresmanager.DateProvider
 import com.altmann.choresmanager.models.Priority
 import com.altmann.choresmanager.models.chores.Chore
 import com.altmann.choresmanager.models.chores.college.CollegeChore
@@ -19,96 +15,99 @@ import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
 import kotlinx.datetime.minus
-import kotlinx.datetime.number
 import kotlinx.datetime.plus
+import kotlin.collections.listOf
 
 class CalendarViewModel : ViewModel() {
     private val _anchor =
         MutableStateFlow(CalendarHelper.today().let { LocalDate(it.year, it.month, 1) })
     val anchor = _anchor.asStateFlow()
 
-    private val _chores = MutableStateFlow<Map<LocalDate, List<Chore>>>(emptyMap())
+
+    private val _mappedChores = MutableStateFlow<Map<LocalDate, List<Chore>>>(emptyMap())
+    val mappedChores = _mappedChores.asStateFlow()
+
+    private val _chores = MutableStateFlow<List<Chore>>(emptyList())
     val chores = _chores.asStateFlow()
 
 
     private val _selectedDate = MutableStateFlow(CalendarHelper.today())
     val selectedDate = _selectedDate.asStateFlow()
 
+    private val _expandedDay = MutableStateFlow(false)
+    val expandedDay = _expandedDay.asStateFlow()
+
     fun onSelectDate(date: LocalDate) {
-        _selectedDate.value = date
+        if (_selectedDate.value != date) {
+            _selectedDate.value = date
+            _expandedDay.value = false
+        } else {
+            _expandedDay.value = !_expandedDay.value
+        }
+    }
+
+    fun dismissExpandedDay() {
+        _expandedDay.value = false
+    }
+
+    fun addChore(chore: Chore) {
+        _chores.value = _chores.value.plus(chore)
+        chores.value.forEach {
+            print(it.endDate.toString() + "\n")
+        }
+        print(mappedChores.value.values.size)
     }
 
     fun onNext() = _anchor.update { it.plus(DatePeriod(months = 1)) }
 
     fun onPrev() = _anchor.update { it.minus(DatePeriod(months = 1)) }
 
-    fun loadingChores(){
-        // Chores loading test
-        val chore = CollegeChore(
-            choreId = 1,
-            startTime = DateTimePeriod(hours = 10),
-            endTime = DateTimePeriod(hours = 12),
-            daysOfWeek = listOf(DayOfWeek.TUESDAY, DayOfWeek.THURSDAY),
-            startDate = LocalDate(2025, 6, 1),
-            endDate = LocalDate(2025, 12, 20),
-            choreException = listOf(),
-            title = "Aula de Paradigmas",
-            description = "Aula de paradigmas de programação",
-            priority = Priority.NORMAL,
-            finishedDate = LocalDate(2024, 6, 1),
-            userId = 1,
-            subject = "Paradigmas de programação",
-            location = "Anexo A - Sala 258",
-            professor = "Andrea",
-            totalHours = 60
-        )
-        val chore1 = GymChore(
-            choreId = 1,
-            startTime = DateTimePeriod(hours = 10),
-            endTime = DateTimePeriod(hours = 12),
-            daysOfWeek = listOf(DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY),
-            startDate = LocalDate(2025, 6, 1),
-            endDate = LocalDate(2025, 12, 31),
-            choreException = listOf(),
-            title = "Treino de perna",
-            description = "Treinão de perna",
-            priority = Priority.NORMAL,
-            finishedDate = LocalDate(2024, 6, 1),
-            userId = 1,
-            workout = listOf(),
-            exerciseDay = "Leg Day"
-        )
 
-        val daysInMonth = when (anchor.value.month) {
+    private fun generateChoreMap(
+        anchor: LocalDate,
+        chores: List<Chore>
+    ): Map<LocalDate, List<Chore>> {
+
+        val daysInMonth = when (anchor.month) {
             Month.JANUARY, Month.MARCH, Month.MAY, Month.JULY,
             Month.AUGUST, Month.OCTOBER, Month.DECEMBER -> 31
+
             Month.APRIL, Month.JUNE, Month.SEPTEMBER, Month.NOVEMBER -> 30
-            Month.FEBRUARY -> if (anchor.value.year % 4 == 0 && (anchor.value.year % 100 != 0 || anchor.value.year % 400 == 0)) 29 else 28
+            Month.FEBRUARY -> if (anchor.year % 4 == 0 && (anchor.year % 100 != 0 || anchor.year % 400 == 0)) 29 else 28
         }
 
-        val list = listOf(chore, chore1)
-        val map =
-            list.flatMap { chore ->
-                // Generate dates for the current month based on the chore's schedule
+        return chores
+            .flatMap { chore ->
                 (1..daysInMonth).mapNotNull { day ->
-                    val date = LocalDate(anchor.value.year, anchor.value.month, day)
-                    if (date >= chore.startDate && date <= chore.endDate &&
-                        chore.daysOfWeek.contains(date.dayOfWeek) &&
-                        date !in chore.choreException) {
+                    val date = LocalDate(anchor.year, anchor.month, day)
+                    if (
+                        date >= chore.startDate &&
+                        date <= chore.endDate &&
+                        date.dayOfWeek in chore.daysOfWeek
+                    ) {
                         date to chore
                     } else null
                 }
-
-            }.groupBy({ it.first }, { it.second })
-        if (_chores.value != map){
-        _chores.update { if (map.entries.equals(it.entries)) it else map }
-        }
-
-        map.forEach { (date, chores) ->
-            println("Date: $date")
-            chores.forEach { chore ->
-                println(" - Chore: ${chore.title}")
             }
+            .groupBy({ it.first }, { it.second })
+    }
+
+    fun loadingChores() {
+        // Chores loading test
+
+        val previous = anchor.value.minus(DatePeriod(months = 1))
+        val next = anchor.value.plus(DatePeriod(months = 1))
+
+        val map = listOf(previous, anchor.value, next)
+            // get the entries: Sequence<Entry<LocalDate, List<Chore>>>
+            .flatMap { month -> generateChoreMap(month, chores.value).entries }
+            // for each Entry(date, choreList), create a list of Pair(date, chore)
+            .flatMap { (date, choreList) -> choreList.map { chore -> date to chore } }
+            // group into Map<LocalDate, List<Chore>>
+            .groupBy({ it.first }, { it.second })
+
+        if (_mappedChores.value != map) {
+            _mappedChores.update { if (map.entries == (it.entries)) it else map }
         }
 
     }

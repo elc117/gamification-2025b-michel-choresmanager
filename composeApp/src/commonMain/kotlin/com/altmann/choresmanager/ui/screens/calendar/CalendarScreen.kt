@@ -14,12 +14,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -30,12 +31,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onPlaced
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
 import com.altmann.choresmanager.models.Priority
 import com.altmann.choresmanager.models.chores.Chore
-import com.altmann.choresmanager.models.chores.college.CollegeChore
-import com.altmann.choresmanager.models.chores.gym.GymChore
 import com.altmann.choresmanager.utils.CalendarHelper
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.DateTimePeriod
@@ -51,8 +54,10 @@ fun CalendarScreen(
     // Selected month (anchor on first day)
     val anchor by viewModel.anchor.collectAsState()
     val selectedDate by viewModel.selectedDate.collectAsState()
+    val expanded by viewModel.expandedDay.collectAsState()
     val (start, end) = remember(anchor) { CalendarHelper.monthGridWindow(anchor) }
-    val chores by viewModel.chores.collectAsState()
+    val chores by viewModel.mappedChores.collectAsState()
+
     LaunchedEffect(anchor) {
         viewModel.loadingChores()
     }
@@ -74,7 +79,13 @@ fun CalendarScreen(
             start = start,
             occurencesByDate = chores,
             selectedDate = selectedDate,
+            expanded = expanded,
             onSelect = { viewModel.onSelectDate(it) },
+            onDismiss = { viewModel.dismissExpandedDay() },
+            addChore = {
+                viewModel.addChore(it)
+                viewModel.loadingChores()
+            },
             // Days outside the current month get colored grey
             inAnchorMonth = { it.month.ordinal == anchor.month.ordinal && it.year == anchor.year }
         )
@@ -98,7 +109,7 @@ private fun MonthHeader(anchor: LocalDate, onPrev: () -> Unit, onNext: () -> Uni
 
 @Composable
 private fun WeekdayRow() {
-    val labels = listOf("Sun", "Mon", "Tue", "Weg", "Thu", "Fri", "Sat")
+    val labels = listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
     Row(Modifier.fillMaxWidth()) {
         labels.forEach { label ->
             Box(
@@ -116,7 +127,10 @@ private fun MonthGrid(
     start: LocalDate,
     occurencesByDate: Map<LocalDate, List<Chore>>, // maps day to chore
     selectedDate: LocalDate,
+    expanded: Boolean,
     onSelect: (LocalDate) -> Unit,
+    onDismiss: () -> Unit,
+    addChore: (chore: Chore) -> Unit,
     inAnchorMonth: (LocalDate) -> Boolean
 ) {
     // 6x7 = 42
@@ -133,9 +147,12 @@ private fun MonthGrid(
                         date = date,
                         occurences = occ,
                         selected = date == selectedDate,
+                        expanded = expanded,
                         faded = !inAnchorMonth(date),
                         onClick = { onSelect(date) },
-                        modifier = Modifier.weight(1f).aspectRatio(1f).padding(4.dp)
+                        onDismiss = { onDismiss() },
+                        addChore = addChore,
+                        modifier = Modifier.weight(1f).aspectRatio(1f, true).padding(4.dp)
                     )
                 }
             }
@@ -148,8 +165,11 @@ private fun DayCell(
     date: LocalDate,
     occurences: List<Chore>,
     selected: Boolean,
+    expanded: Boolean,
     faded: Boolean,
     onClick: () -> Unit,
+    onDismiss: () -> Unit,
+    addChore: (chore: Chore) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val bg = when {
@@ -160,6 +180,8 @@ private fun DayCell(
     val textColor = if (faded) Color.Gray else MaterialTheme.colorScheme.onSurface
     val elevation = if (selected) 2.dp else 0.dp
     val fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium
+    var popupOffset by remember { mutableStateOf(0) }
+
 
     Surface(
         modifier = modifier.clickable(onClick = onClick),
@@ -169,8 +191,10 @@ private fun DayCell(
         border = BorderStroke(1.dp, border)
     ) {
         Box(Modifier.fillMaxSize().padding(6.dp)) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxSize()
+            ) {
                 Text(
                     text = date.dayOfMonth.toString(),
                     style = MaterialTheme.typography.bodyLarge,
@@ -197,6 +221,72 @@ private fun DayCell(
                         }
                     }
                 }
+
+            }
+            if (selected && expanded) {
+                val title = remember { mutableStateOf("") }
+                val datePickerVisible = remember { mutableStateOf(false) }
+                val datePicked = remember { mutableStateOf("") }
+                Popup(
+                    alignment = Alignment.BottomCenter,
+                    onDismissRequest = { onDismiss() },
+                    offset = IntOffset(0, y = +popupOffset + 4),
+                    properties = PopupProperties(focusable = true)
+                )
+                {
+                    Surface(
+                        shape = RoundedCornerShape(8.dp),
+                        tonalElevation = 4.dp,
+                        color = MaterialTheme.colorScheme.surface,
+                        modifier = Modifier.onPlaced { popupOffset = it.size.height }
+                            .width(300.dp)
+                    ) {
+                        Column {
+                            TextField(
+                                value = title.value,
+                                onValueChange = { title.value = it },
+                                maxLines = 1,
+                                label = { Text("Chore Title") },
+                                modifier = Modifier.padding(8.dp)
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            TextField(
+                                value = datePicked.value,
+                                onValueChange = { datePicked.value = it },
+                                maxLines = 1,
+                                label = { Text("Due Date") },
+                                modifier = Modifier.padding(8.dp)
+                                    .clickable { datePickerVisible.value = true },
+                            )
+                            Button(
+                                onClick = {
+                                    addChore(
+                                        Chore(
+                                            choreId = 1,
+                                            startTime = DateTimePeriod(hours = 10),
+                                            endTime = DateTimePeriod(hours = 12),
+                                            daysOfWeek = listOf(date.dayOfWeek),
+                                            startDate = date,
+                                            endDate = date+DatePeriod(days = 30),
+                                            choreException = listOf(),
+                                            title = title.value,
+                                            description = "Treinão de perna",
+                                            priority = Priority.NORMAL,
+                                            finishedDate = LocalDate(2024, 6, 1),
+                                            userId = 1,
+                                        )
+                                    )
+                                    print(date.toString() + "\n")
+                                    print(LocalDate(2025, 6, 26).toString())
+                                },
+                                modifier = Modifier.align(Alignment.End)
+                            ) {
+                                Text("Add Chore")
+                            }
+                        }
+                    }
+                }
+
             }
         }
     }
