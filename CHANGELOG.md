@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Chore List to DayCells in CalendarScreen
 - Added static chores to demonstrate Chore List functionality
 - Added popUp to add new chores to specific days in CalendarScreen
+- Added Koin dependency injection
+- Added SQLDelight for database implementation
 
 ### Changed
 

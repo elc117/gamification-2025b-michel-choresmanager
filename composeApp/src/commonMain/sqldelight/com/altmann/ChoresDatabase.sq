@@ -1,0 +1,54 @@
+CREATE TABLE IF NOT EXISTS Chore (
+     choreId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+     startTime TEXT NOT NULL,
+     endTime TEXT NOT NULL,
+     daysOfWeek TEXT NOT NULL,
+     startDate TEXT NOT NULL,
+     endDate TEXT NOT NULL,
+     choreException TEXT,
+     title TEXT NOT NULL,
+     description TEXT NOT NULL,
+     priority TEXT NOT NULL,
+     finishedDate TEXT,
+     deleted INTEGER DEFAULT 0,
+     finished INTEGER DEFAULT 0,
+     color TEXT DEFAULT 'DarkGray'
+);
+
+getAllChores:
+SELECT * FROM Chore WHERE deleted = 0 ORDER BY startDate ASC;
+
+inserChore:
+INSERT INTO Chore (
+startTime, endTime, daysOfWeek,
+ startDate, endDate, choreException,
+  title, description, priority,
+   finishedDate, deleted, finished,
+    color)
+VALUES (
+?, ?, ?,
+ ?, ?, ?,
+  ?, ?, ?,
+   ?, ?, ?,
+    ?);
+
+CREATE TABLE IF NOT EXISTS ChoreInstance(
+    instanceId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    choreId INTEGER NOT NULL,
+    instanceDate TEXT NOT NULL,
+    finishedDate TEXT,
+    deleted INTEGER DEFAULT 0,
+    finished INTEGER DEFAULT 0,
+    FOREIGN KEY (choreId) REFERENCES Chore(choreId) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS User (
+    userId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL
+);
+
+getAllUsers:
+SELECT * FROM User ORDER BY username ASC;
+
+insertUser:
+INSERT INTO User (username) VALUES (?);

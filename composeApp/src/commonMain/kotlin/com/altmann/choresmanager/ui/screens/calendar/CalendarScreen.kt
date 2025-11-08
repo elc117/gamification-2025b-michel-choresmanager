@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -42,9 +43,7 @@ import com.altmann.choresmanager.models.chores.Chore
 import com.altmann.choresmanager.utils.CalendarHelper
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.DateTimePeriod
-import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 
 @Composable
@@ -203,16 +202,16 @@ private fun DayCell(
                 )
                 if (occurences.isNotEmpty()) {
                     LazyColumn {
-                        items(occurences.size) { i ->
+                        items(occurences) { occ ->
                             Box(
                                 modifier = Modifier
                                     .background(
-                                        occurences[i].color ?: MaterialTheme.colorScheme.primary,
+                                        occ.color ?: MaterialTheme.colorScheme.primary,
                                         RoundedCornerShape(8.dp)
                                     )
                             ) {
                                 Text(
-                                    text = occurences[i].title,
+                                    text = occ.title,
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onPrimary,
                                     modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
