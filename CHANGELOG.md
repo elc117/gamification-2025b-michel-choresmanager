@@ -25,6 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renamed helpers folder to utils
 - Changed mapping function logic allowing multiple chores per day
 - Changed finishedDate to nullable in Chore class
+- Moved DayCell compose function to its own file
+- Moved ChorePopup to its own file
 
 ### Removed
 

@@ -48,10 +48,8 @@ class CalendarViewModel(private val userDao: UserDao) : ViewModel() {
         if (_selectedDate.value != date) {
             _selectedDate.value = date
             _expandedDay.value = false
-            insertUser()
         } else {
             _expandedDay.value = !_expandedDay.value
-            getUser()
             users.value.forEach { 
                 print(it.username + "\n")
             }
