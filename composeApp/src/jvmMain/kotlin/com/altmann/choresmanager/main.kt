@@ -7,12 +7,12 @@ import androidx.compose.ui.window.application
 import com.altmann.choresmanager.di.initializeKoin
 
 fun main() = application {
+        initializeKoin()
     Window(
         onCloseRequest = ::exitApplication,
         title = "ChoresManager",
         state = WindowState(width = 800.dp, height = 820.dp)
     ) {
-        initializeKoin()
         App()
     }
 }

@@ -6,12 +6,13 @@ import com.altmann.choresmanager.models.chores.Chore
 import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalTime
 import kotlin.math.floor
 
 class CollegeChore(
     choreId: Int,
-    startTime: DateTimePeriod,
-    endTime: DateTimePeriod,
+    startTime: LocalTime,
+    endTime: LocalTime,
     daysOfWeek: List<DayOfWeek>,
     startDate: LocalDate,
     endDate: LocalDate,

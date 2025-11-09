@@ -18,6 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added popUp to add new chores to specific days in CalendarScreen
 - Added Koin dependency injection
 - Added SQLDelight for database implementation
+- Added TimeTextField composable for time input
+- Added DayOfWeekPicker composable for selecting days of the week
+- Added TimerParser utility for String and LocalTime conversion
 
 ### Changed
 
