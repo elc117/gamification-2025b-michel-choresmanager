@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.DayOfWeek
 
@@ -32,7 +33,7 @@ fun DayOfWeekPicker(onSelect: (DayOfWeek) -> Unit, selectedDays: List<DayOfWeek>
         DayOfWeek.FRIDAY,
         DayOfWeek.SATURDAY
     )
-    Surface {
+    Box {
         Row(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
             startingSunday.forEach { day ->
                 Box(Modifier.weight(1f)) {
@@ -61,6 +62,7 @@ fun DayOfWeekItem(day: DayOfWeek, selected: Boolean, onSelect: (DayOfWeek) -> Un
         border = BorderStroke(1.dp, border),
         modifier = Modifier
             .padding(4.dp)
+            .clip(RoundedCornerShape(8.dp))
             .clickable { onSelect(day) }
     ) {
         Box(

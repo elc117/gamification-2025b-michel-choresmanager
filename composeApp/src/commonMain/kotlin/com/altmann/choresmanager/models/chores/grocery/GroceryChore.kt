@@ -21,7 +21,6 @@ class GroceryChore(
     priority: Priority,
     finishedDate: LocalDate,
     deleted: Boolean? = false,
-    userId: Int,
     finished: Boolean? = false,
     color: Color? = Color.Green,
 
@@ -29,5 +28,5 @@ class GroceryChore(
 ) : Chore(
     choreId, startTime, endTime, daysOfWeek,
     startDate, endDate, choreException, title, description,
-    priority, finishedDate, deleted, userId, finished, color
+    priority, finishedDate, deleted, finished, color
 )

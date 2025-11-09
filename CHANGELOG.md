@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added DateTimeParser utility for Date and Time conversions
 - Added DateTextField composable for date input
 - Added Start and End Date pickers for AddChorePopup
+- Added Priority selector for AddChorePopup
 
 ### Changed
 
@@ -36,6 +37,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 - Greeting.kt
+- Removed userId from Chore class
+
+### Fixed
+
+- Fixed clickable area of DayCell clipping out of bounds
+- Fixed clickable area of DayOfWeekPicker options clipping out of bounds
 
 ## [0.1.0] - 2025-11-01
 

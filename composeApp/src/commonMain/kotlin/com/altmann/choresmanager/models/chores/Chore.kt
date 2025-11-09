@@ -20,7 +20,6 @@ open class Chore(
     var priority: Priority,
     val finishedDate: LocalDate?,
     val deleted: Boolean? = false,
-    val userId: Int,
     val finished: Boolean? = false,
     val color: Color? = Color.DarkGray
 ) {

@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -64,14 +65,18 @@ fun DayCell(
 
 
     Surface(
-        modifier = modifier.clickable(onClick = onClick),
         shape = RoundedCornerShape(8.dp),
+        modifier = modifier
+            .clip(RoundedCornerShape(8.dp))
+            .clickable(onClick = onClick),
         tonalElevation = elevation,
         color = bg,
         border = BorderStroke(1.dp, border)
     ) {
-        Box(Modifier.fillMaxSize()
-            .padding(6.dp)) {
+        Box(
+            Modifier.fillMaxSize()
+                .padding(6.dp)
+        ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxSize()
@@ -105,10 +110,8 @@ fun DayCell(
 
             }
             if (selected && expanded) {
-                val datePicked = remember { mutableStateOf("") }
                 AddChorePopup(
                     onDismiss = onDismiss,
-                    datePicked = datePicked,
                     date = date,
                     addChore = addChore
                 )

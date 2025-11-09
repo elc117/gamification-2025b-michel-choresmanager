@@ -21,7 +21,6 @@ class GymChore(
     priority: Priority,
     finishedDate: LocalDate,
     deleted: Boolean? = false,
-    userId: Int,
     finished: Boolean? = false,
     color: Color? = Color.Red,
 
@@ -31,5 +30,5 @@ class GymChore(
     ) : Chore(
     choreId, startTime, endTime, daysOfWeek,
     startDate, endDate, choreException, title, description,
-    priority, finishedDate, deleted, userId, finished, color
+    priority, finishedDate, deleted, finished, color
 )
