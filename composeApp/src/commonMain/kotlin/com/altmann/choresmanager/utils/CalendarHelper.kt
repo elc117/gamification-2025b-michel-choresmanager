@@ -4,8 +4,10 @@ import com.altmann.choresmanager.DateProvider
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Month
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
+import kotlin.time.Duration.Companion.days
 
 object CalendarHelper {
     val dateProvider = DateProvider()
@@ -40,4 +42,17 @@ object CalendarHelper {
             dateProvider.getCurrentDay()
         )
     }
+
+    fun getDaysInMonth(anchor : LocalDate) : Int {
+        val daysInMonth = when (today().month) {
+            Month.JANUARY, Month.MARCH, Month.MAY, Month.JULY,
+            Month.AUGUST, Month.OCTOBER, Month.DECEMBER -> 31
+
+            Month.APRIL, Month.JUNE, Month.SEPTEMBER, Month.NOVEMBER -> 30
+            Month.FEBRUARY -> if (anchor.year % 4 == 0 && (anchor.year % 100 != 0 || anchor.year % 400 == 0)) 29 else 28
+        }
+
+        return daysInMonth
+    }
+
 }

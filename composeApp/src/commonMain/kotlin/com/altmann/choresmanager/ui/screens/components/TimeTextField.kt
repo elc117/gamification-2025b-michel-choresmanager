@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import com.altmann.choresmanager.utils.TimerParser
+import com.altmann.choresmanager.utils.DateTimeParser
 import kotlinx.coroutines.selects.select
 import kotlinx.datetime.LocalTime
 
@@ -35,8 +35,7 @@ fun TimeTextField(
                 }
                 timeTxt.value = TextFieldValue(updated, selection = TextRange(updated.length))
 
-                val timePair = TimerParser.parseTextToTime(filteredValue)
-                time.value = LocalTime(hour = timePair.first, minute = timePair.second)
+                time.value = DateTimeParser.parseTextToTime(filteredValue)
             }
         },
         maxLines = 1,

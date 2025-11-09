@@ -90,13 +90,7 @@ class CalendarViewModel(private val userDao: UserDao) : ViewModel() {
         chores: List<Chore>
     ): Map<LocalDate, List<Chore>>{
 
-        val daysInMonth = when (anchor.month) {
-            Month.JANUARY, Month.MARCH, Month.MAY, Month.JULY,
-            Month.AUGUST, Month.OCTOBER, Month.DECEMBER -> 31
-
-            Month.APRIL, Month.JUNE, Month.SEPTEMBER, Month.NOVEMBER -> 30
-            Month.FEBRUARY -> if (anchor.year % 4 == 0 && (anchor.year % 100 != 0 || anchor.year % 400 == 0)) 29 else 28
-        }
+        val daysInMonth = CalendarHelper.getDaysInMonth(anchor)
 
         return chores
             .flatMap { chore ->

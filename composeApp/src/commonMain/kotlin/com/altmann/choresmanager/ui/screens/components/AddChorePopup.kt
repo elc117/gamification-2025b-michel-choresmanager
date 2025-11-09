@@ -27,7 +27,7 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import com.altmann.choresmanager.models.Priority
 import com.altmann.choresmanager.models.chores.Chore
-import com.altmann.choresmanager.utils.TimerParser
+import com.altmann.choresmanager.utils.DateTimeParser
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
@@ -67,12 +67,16 @@ fun PopUpContent(
     addChore: (chore: Chore) -> Unit,
 ) {
     val title = remember { mutableStateOf("") }
+    val startDateTxt = remember { mutableStateOf(TextFieldValue(DateTimeParser.parseDateToText(date))) }
+    val endDateTxt = remember { mutableStateOf(TextFieldValue("")) }
     val startTimeTxt = remember { mutableStateOf(TextFieldValue("")) }
     val endTimeTxt = remember { mutableStateOf(TextFieldValue("")) }
     var selectedDays by remember { mutableStateOf<List<DayOfWeek>>(emptyList()) }
 
-    val startTime = remember {mutableStateOf(LocalTime(12, 0))}
-    val endTime = remember {mutableStateOf(LocalTime(14, 0))}
+    val startDate = remember { mutableStateOf(date)}
+    val endDate = remember { mutableStateOf(LocalDate(2024, 6, 1))}
+    val startTime = remember { mutableStateOf(LocalTime(12, 0)) }
+    val endTime = remember { mutableStateOf(LocalTime(14, 0)) }
     Surface(
         shape = RoundedCornerShape(8.dp),
         tonalElevation = 4.dp,
@@ -89,12 +93,17 @@ fun PopUpContent(
                 modifier = Modifier.padding(8.dp)
             )
             FieldSpacer()
-            TextField(
-                value = datePicked.value,
-                onValueChange = { datePicked.value = it },
-                maxLines = 1,
-                label = { Text("Due Date") },
-                modifier = Modifier.padding(8.dp),
+            DateTextField(
+                dateTxt = startDateTxt,
+                date = startDate,
+                label = "Start date",
+                modifier = Modifier
+            )
+            DateTextField(
+                dateTxt = endDateTxt,
+                date = endDate,
+                label = "End date",
+                modifier = Modifier
             )
             FieldSpacer()
             TimeTextField(
@@ -110,6 +119,7 @@ fun PopUpContent(
                 label = "End Time",
                 modifier = Modifier
             )
+            FieldSpacer()
             Text(
                 "Days of Week",
                 style = MaterialTheme.typography.bodySmall,
@@ -133,7 +143,7 @@ fun PopUpContent(
                             endTime = endTime.value,
                             daysOfWeek = selectedDays,
                             startDate = date,
-                            endDate = date + DatePeriod(days = 30),
+                            endDate = endDate.value,
                             choreException = listOf(),
                             title = title.value,
                             description = "Treinão de perna",

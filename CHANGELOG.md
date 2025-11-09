@@ -20,7 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added SQLDelight for database implementation
 - Added TimeTextField composable for time input
 - Added DayOfWeekPicker composable for selecting days of the week
-- Added TimerParser utility for String and LocalTime conversion
+- Added DateTimeParser utility for Date and Time conversions
+- Added DateTextField composable for date input
+- Added Start and End Date pickers for AddChorePopup
 
 ### Changed
 
