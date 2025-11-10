@@ -151,7 +151,7 @@ fun PopUpContent(
                             startTime = startTime.value,
                             endTime = endTime.value,
                             daysOfWeek = selectedDays,
-                            startDate = date,
+                            startDate = startDate.value,
                             endDate = endDate.value,
                             choreException = listOf(),
                             title = title.value,

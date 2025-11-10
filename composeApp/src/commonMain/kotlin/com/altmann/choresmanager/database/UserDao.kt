@@ -6,11 +6,11 @@ import com.altmann.choresmanager.local.LocalDatabase
 
 class UserDao(private val database : LocalDatabase) {
 
-    fun getUsers() : List<User> {
+    suspend fun getUsers() : List<User> {
         return database.getUsers()
     }
 
-    fun insertUser(username: String) {
+    suspend fun insertUser(username: String) {
         database.insertUser(username)
     }
 

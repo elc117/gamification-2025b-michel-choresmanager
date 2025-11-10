@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.DayOfWeek
@@ -44,25 +45,29 @@ class CalendarViewModel(private val userDao: UserDao) : ViewModel() {
     private val _users = MutableStateFlow<List<User>>(emptyList())
     val users = _users.asStateFlow()
 
-    fun onSelectDate(date: LocalDate) {
+    private val scope = CoroutineScope(Dispatchers.Main)
+
+    fun onSelectDate(date: LocalDate) = scope.launch {
         if (_selectedDate.value != date) {
             _selectedDate.value = date
             _expandedDay.value = false
+            insertUser()
         } else {
             _expandedDay.value = !_expandedDay.value
-            users.value.forEach { 
+            getUser()
+            users.value.forEach {
                 print(it.username + "\n")
             }
         }
     }
 
-    fun insertUser() {
+    suspend fun insertUser() {
         CoroutineScope(Dispatchers.Default).run {
             userDao.insertUser("Michel")
         }
     }
 
-    fun getUser() {
+    suspend fun getUser() {
         CoroutineScope(Dispatchers.Default).run {
             _users.value = userDao.getUsers()
         }

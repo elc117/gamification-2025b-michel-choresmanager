@@ -17,7 +17,7 @@ class LocalDatabase(
     )
     private val query = database.choresDatabaseQueries
 
-    fun getUsers(): List<User> {
+    suspend fun getUsers(): List<User> {
         return query.getAllUsers().executeAsList().map {
             User(
                 userId = it.userId,
@@ -26,7 +26,7 @@ class LocalDatabase(
         }
     }
 
-    fun insertUser(username: String) {
+    suspend fun insertUser(username: String) {
         query.insertUser(username)
     }
 }

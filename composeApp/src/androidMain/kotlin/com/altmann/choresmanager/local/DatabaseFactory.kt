@@ -6,5 +6,5 @@ import com.altmann.ChoresDatabase
 
 class AndroidDatabaseDriverFactory(private val context: Context) : DatabaseDriverFactory {
     override fun createDriver() =
-        AndroidSqliteDriver(ChoresDatabase.Schema, context, "chores.db")
+        AndroidSqliteDriver(schema = ChoresDatabase.Schema, context = context, name = "chores.db")
 }
