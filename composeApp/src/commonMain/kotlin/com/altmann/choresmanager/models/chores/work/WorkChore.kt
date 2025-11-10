@@ -19,10 +19,9 @@ class WorkChore(
     title: String,
     description: String,
     priority: Priority,
-    finishedDate: LocalDate,
     deleted: Boolean? = false,
     finished: Boolean? = false,
-    color: Color? = Color.Blue,
+    color: Color = Color.Blue,
 
     val project: String,
     val clientName: String? = null,
@@ -30,5 +29,5 @@ class WorkChore(
 ) : Chore(
     choreId, startTime, endTime, daysOfWeek,
     startDate, endDate, choreException, title, description,
-    priority, finishedDate, deleted, finished, color
+    priority, deleted, finished, color
 )

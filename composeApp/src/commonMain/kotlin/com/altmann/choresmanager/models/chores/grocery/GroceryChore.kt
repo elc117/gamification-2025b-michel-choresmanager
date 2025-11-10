@@ -19,14 +19,13 @@ class GroceryChore(
     title: String,
     description: String,
     priority: Priority,
-    finishedDate: LocalDate,
     deleted: Boolean? = false,
     finished: Boolean? = false,
-    color: Color? = Color.Green,
+    color: Color = Color.Green,
 
     val items : List<Item> = emptyList()
 ) : Chore(
     choreId, startTime, endTime, daysOfWeek,
     startDate, endDate, choreException, title, description,
-    priority, finishedDate, deleted, finished, color
+    priority, deleted, finished, color
 )

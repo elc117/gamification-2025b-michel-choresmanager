@@ -19,10 +19,9 @@ class GymChore(
     title: String,
     description: String,
     priority: Priority,
-    finishedDate: LocalDate,
     deleted: Boolean? = false,
     finished: Boolean? = false,
-    color: Color? = Color.Red,
+    color: Color = Color.Red,
 
     val workout: List<Exercise>,
     val exerciseDay : String // e.g. "Leg Day", "Arm Day"
@@ -30,5 +29,5 @@ class GymChore(
     ) : Chore(
     choreId, startTime, endTime, daysOfWeek,
     startDate, endDate, choreException, title, description,
-    priority, finishedDate, deleted, finished, color
+    priority, deleted, finished, color
 )

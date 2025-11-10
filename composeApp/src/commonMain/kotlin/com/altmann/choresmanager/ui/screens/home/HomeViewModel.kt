@@ -1,12 +1,9 @@
-package com.altmann.choresmanager.ui.screens.calendar
+package com.altmann.choresmanager.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import com.altmann.User
 import com.altmann.choresmanager.database.UserDao
-import com.altmann.choresmanager.models.Priority
 import com.altmann.choresmanager.models.chores.Chore
-import com.altmann.choresmanager.models.chores.college.CollegeChore
-import com.altmann.choresmanager.models.chores.gym.GymChore
 import com.altmann.choresmanager.utils.CalendarHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,15 +12,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DatePeriod
-import kotlinx.datetime.DateTimePeriod
-import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.Month
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
-import kotlin.collections.listOf
 
-class CalendarViewModel(private val userDao: UserDao) : ViewModel() {
+class HomeViewModel(private val userDao: UserDao) : ViewModel() {
     private val _anchor =
         MutableStateFlow(CalendarHelper.today().let { LocalDate(it.year, it.month, 1) })
     val anchor = _anchor.asStateFlow()
@@ -35,6 +28,8 @@ class CalendarViewModel(private val userDao: UserDao) : ViewModel() {
     private val _chores = MutableStateFlow<List<Chore>>(emptyList())
     val chores = _chores.asStateFlow()
 
+    private val _enabledChores = MutableStateFlow<List<Chore>>(emptyList())
+    val enabledChores = _enabledChores.asStateFlow()
 
     private val _selectedDate = MutableStateFlow(CalendarHelper.today())
     val selectedDate = _selectedDate.asStateFlow()
@@ -79,10 +74,19 @@ class CalendarViewModel(private val userDao: UserDao) : ViewModel() {
 
     fun addChore(chore: Chore) {
         _chores.value = _chores.value.plus(chore)
+        _enabledChores.value = _enabledChores.value.plus(chore)
         chores.value.forEach {
             print(it.endDate.toString() + "\n")
         }
-        print(mappedChores.value.values.size)
+    }
+
+    fun enableDisableChore(chore: Chore) {
+        if (!_enabledChores.value.contains(chore)) {
+            _enabledChores.value = _enabledChores.value.plus(chore)
+        } else {
+            _enabledChores.value = _enabledChores.value.minus(chore)
+        }
+        print(enabledChores.value.size)
     }
 
     fun onNext() = _anchor.update { it.plus(DatePeriod(months = 1)) }
@@ -121,7 +125,7 @@ class CalendarViewModel(private val userDao: UserDao) : ViewModel() {
 
         val map = listOf(previous, anchor.value, next)
             // get the entries: Sequence<Entry<LocalDate, List<Chore>>>
-            .flatMap { month -> generateChoreMap(month, chores.value).entries }
+            .flatMap { month -> generateChoreMap(month, enabledChores.value).entries }
             // for each Entry(date, choreList), create a list of Pair(date, chore)
             .flatMap { (date, choreList) -> choreList.map { chore -> date to chore } }
             // group into Map<LocalDate, List<Chore>>

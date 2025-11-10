@@ -1,4 +1,4 @@
-package com.altmann.choresmanager.ui.screens.components
+package com.altmann.choresmanager.ui.screens.components.pickers
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box

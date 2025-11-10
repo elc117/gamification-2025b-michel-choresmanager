@@ -1,4 +1,4 @@
-package com.altmann.choresmanager.ui.screens.components
+package com.altmann.choresmanager.ui.screens.calendar
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.chores.Chore
+import com.altmann.choresmanager.ui.screens.addchorepopup.AddChorePopup
 import kotlinx.datetime.LocalDate
 
 @Composable
@@ -63,7 +64,7 @@ fun DayCell(
                 modifier = Modifier.fillMaxSize()
             ) {
                 Text(
-                    text = date.dayOfMonth.toString(),
+                    text = date.day.toString(),
                     style = MaterialTheme.typography.bodyLarge,
                     color = textColor,
                     fontWeight = fontWeight
@@ -73,7 +74,7 @@ fun DayCell(
                         items(occurences) { occ ->
                             var modifierBox = Modifier
                                 .background(
-                                    occ.color ?: MaterialTheme.colorScheme.primary,
+                                    occ.color,
                                     RoundedCornerShape(8.dp),
                                 )
                                 .clip(RoundedCornerShape(8.dp))
@@ -101,17 +102,15 @@ fun DayCell(
                 }
 
             }
-            if (selected && expanded) {
-                AddChorePopup(
-                    onDismiss = onDismiss,
-                    date = date,
-                    addChore = {
-                        addChore(it)
-                        onDismiss()
-                    },
-                    visible = true
-                )
-            }
+            AddChorePopup(
+                onDismiss = onDismiss,
+                date = date,
+                addChore = {
+                    addChore(it)
+                    onDismiss()
+                },
+                visible = selected && expanded
+            )
 
         }
     }

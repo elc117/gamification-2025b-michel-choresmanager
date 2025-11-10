@@ -25,6 +25,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Start and End Date pickers for AddChorePopup
 - Added Priority selector for AddChorePopup
 - Added Kolor Picker in AddChorePopup
+- Added HomeScreen as the first screen of the app
+- Added SideBar for viewing profile, achievements and disabling chores
+- Added CircleUserIcon composable for user profile representation
+- Added a picture of my cat as a placeholder for user profile image
 
 ### Changed
 
@@ -36,6 +40,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Moved ChorePopup to its own file
 - Changed AddChorePopup to be a DropdownMenu instead of a Popup
 - Made chore in day cell clickable to future implementation of chore details
+- Changed CalendarViewModel to HomeViewModel
+- Refactored components and screens folders for better organization
 
 ### Removed
 

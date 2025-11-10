@@ -23,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.chores.Chore
-import com.altmann.choresmanager.ui.screens.components.DayCell
+import com.altmann.choresmanager.ui.screens.home.HomeViewModel
 import com.altmann.choresmanager.utils.CalendarHelper
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
@@ -31,7 +31,7 @@ import kotlinx.datetime.plus
 
 @Composable
 fun CalendarScreen(
-    viewModel: CalendarViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
     // Selected month (anchor on first day)
     val anchor by viewModel.anchor.collectAsState()
@@ -39,8 +39,9 @@ fun CalendarScreen(
     val expanded by viewModel.expandedDay.collectAsState()
     val (start, end) = remember(anchor) { CalendarHelper.monthGridWindow(anchor) }
     val chores by viewModel.mappedChores.collectAsState()
+    val enabledChores by viewModel.enabledChores.collectAsState()
 
-    LaunchedEffect(anchor) {
+    LaunchedEffect(anchor, enabledChores) {
         viewModel.loadingChores()
     }
     // used for debbuging

@@ -11,7 +11,7 @@ fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
         title = "ChoresManager",
-        state = WindowState(width = 800.dp, height = 820.dp)
+        state = WindowState(width = 1200.dp, height = 820.dp)
     ) {
         App()
     }

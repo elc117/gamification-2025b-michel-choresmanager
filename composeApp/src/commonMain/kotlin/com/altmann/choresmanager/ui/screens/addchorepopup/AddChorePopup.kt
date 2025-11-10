@@ -1,4 +1,4 @@
-package com.altmann.choresmanager.ui.screens.components
+package com.altmann.choresmanager.ui.screens.addchorepopup
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
@@ -26,9 +26,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.Priority
 import com.altmann.choresmanager.models.chores.Chore
+import com.altmann.choresmanager.ui.screens.components.fields.DateTextField
+import com.altmann.choresmanager.ui.screens.components.fields.TimeTextField
+import com.altmann.choresmanager.ui.screens.components.pickers.DayOfWeekPicker
+import com.altmann.choresmanager.ui.screens.components.pickers.PriorityPicker
 import com.altmann.choresmanager.utils.DateTimeParser
 import com.kborowy.colorpicker.KolorPicker
 import kotlinx.datetime.DayOfWeek
@@ -170,6 +175,7 @@ fun PopUpContent(
                 KolorPicker(
                     onColorSelected = {selectedColor.value = it},
                     modifier = Modifier.width(250.dp).height(200.dp),
+                    initialColor = selectedColor.value
                 )
             }
         }
@@ -187,7 +193,6 @@ fun PopUpContent(
                         title = title.value,
                         description = "Treinão de perna",
                         priority = selectedPriority.value,
-                        finishedDate = null,
                         color = selectedColor.value
                     )
                 )
