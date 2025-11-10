@@ -1,40 +1,36 @@
 package com.altmann.choresmanager.ui.screens.components
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.onPlaced
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.PopupProperties
 import com.altmann.choresmanager.models.Priority
 import com.altmann.choresmanager.models.chores.Chore
 import com.altmann.choresmanager.utils.DateTimeParser
+import com.kborowy.colorpicker.KolorPicker
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
@@ -46,7 +42,6 @@ fun AddChorePopup(
     addChore: (chore: Chore) -> Unit,
     visible: Boolean
 ) {
-    val popupOffset = remember { mutableStateOf(0) }
 
     DropdownMenu(
         expanded = visible,
@@ -63,6 +58,7 @@ fun AddChorePopup(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun PopUpContent(
     date: LocalDate,
@@ -76,6 +72,9 @@ fun PopUpContent(
     val endTimeTxt = remember { mutableStateOf(TextFieldValue("")) }
     var selectedDays by remember { mutableStateOf<List<DayOfWeek>>(emptyList()) }
     val selectedPriority = remember { mutableStateOf(Priority.NORMAL) }
+    val selectedColor = remember { mutableStateOf(Color.Gray) }
+
+    var openColorSelection by remember { mutableStateOf(false) }
 
     val startDate = remember { mutableStateOf(date) }
     val endDate = remember { mutableStateOf(LocalDate(2024, 6, 1)) }
@@ -132,41 +131,72 @@ fun PopUpContent(
                 }
             }, selectedDays = selectedDays
         )
-        FieldSpacer()
-
         Row(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.Bottom
         ) {
             PriorityPicker(
                 onPrioritySelected = { selectedPriority.value = it },
                 selectedPriority = selectedPriority.value
             )
             Spacer(modifier = Modifier.weight(1f))
-            Button(
-                onClick = {
-                    addChore(
-                        Chore(
-                            choreId = 1,
-                            startTime = startTime.value,
-                            endTime = endTime.value,
-                            daysOfWeek = selectedDays,
-                            startDate = startDate.value,
-                            endDate = endDate.value,
-                            choreException = listOf(),
-                            title = title.value,
-                            description = "Treinão de perna",
-                            priority = selectedPriority.value,
-                            finishedDate = null
-                        )
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    "Chore Color",
+                    style = MaterialTheme.typography.bodySmall,
+                )
+                Button(
+                    onClick = {
+                        openColorSelection = !openColorSelection
+                    },
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier.width(100.dp),
+                    colors = ButtonColors(
+                        containerColor = selectedColor.value,
+                        contentColor = Color.White,
+                        disabledContentColor = Color.Gray,
+                        disabledContainerColor = Color.LightGray
                     )
-                    print(date.toString() + "\n")
-                },
-                shape = RoundedCornerShape(8.dp),
-                modifier = Modifier.clip(RoundedCornerShape(8.dp))
-            ) {
-                Text("Add Chore")
+                ) {
+                    Text("")
+                }
             }
+            DropdownMenu(
+                expanded = openColorSelection,
+                onDismissRequest = { openColorSelection = false },
+                modifier = Modifier.padding(horizontal = 8.dp),
+                containerColor = MaterialTheme.colorScheme.background,
+            ) {
+                KolorPicker(
+                    onColorSelected = {selectedColor.value = it},
+                    modifier = Modifier.width(250.dp).height(200.dp),
+                )
+            }
+        }
+        Button(
+            onClick = {
+                addChore(
+                    Chore(
+                        choreId = 1,
+                        startTime = startTime.value,
+                        endTime = endTime.value,
+                        daysOfWeek = selectedDays,
+                        startDate = startDate.value,
+                        endDate = endDate.value,
+                        choreException = listOf(),
+                        title = title.value,
+                        description = "Treinão de perna",
+                        priority = selectedPriority.value,
+                        finishedDate = null,
+                        color = selectedColor.value
+                    )
+                )
+                print(date.toString() + "\n")
+            },
+            shape = RoundedCornerShape(8.dp),
+            modifier = Modifier.clip(RoundedCornerShape(8.dp))
+        ) {
+            Text("Add Chore")
         }
     }
 }

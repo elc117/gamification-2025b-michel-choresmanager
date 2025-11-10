@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added DateTextField composable for date input
 - Added Start and End Date pickers for AddChorePopup
 - Added Priority selector for AddChorePopup
+- Added Kolor Picker in AddChorePopup
 
 ### Changed
 
@@ -34,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Moved DayCell compose function to its own file
 - Moved ChorePopup to its own file
 - Changed AddChorePopup to be a DropdownMenu instead of a Popup
+- Made chore in day cell clickable to future implementation of chore details
 
 ### Removed
 

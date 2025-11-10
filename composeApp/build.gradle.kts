@@ -40,6 +40,8 @@ kotlin {
             implementation(libs.koin.androidx.compose)
 
             implementation(libs.sqldelight.android)
+            implementation(libs.kolorpicker)
+
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -56,6 +58,7 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.navigation.compose)
 
+            implementation(libs.kolorpicker)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -66,12 +69,16 @@ kotlin {
             implementation(libs.kotlinx.coroutinesSwing)
 
             implementation(libs.sqldelight.desktop)
+            implementation(libs.kolorpicker)
+
         }
         jsMain.dependencies {
             implementation("app.cash.sqldelight:web-worker-driver:2.1.0")
             implementation(devNpm("copy-webpack-plugin", "9.1.0"))
             implementation(npm("@cashapp/sqldelight-sqljs-worker", "2.1.0"))
             implementation(npm("sql.js", "1.8.0"))
+            implementation(libs.kolorpicker)
+
         }
     }
 }
