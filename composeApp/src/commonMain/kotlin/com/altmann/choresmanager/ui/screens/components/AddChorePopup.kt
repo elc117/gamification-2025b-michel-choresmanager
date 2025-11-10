@@ -1,14 +1,18 @@
 package com.altmann.choresmanager.ui.screens.components
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -39,19 +43,20 @@ import kotlinx.datetime.LocalTime
 fun AddChorePopup(
     onDismiss: () -> Unit,
     date: LocalDate,
-    addChore: (chore: Chore) -> Unit
+    addChore: (chore: Chore) -> Unit,
+    visible: Boolean
 ) {
     val popupOffset = remember { mutableStateOf(0) }
 
-    Popup(
-        alignment = Alignment.BottomCenter,
+    DropdownMenu(
+        expanded = visible,
         onDismissRequest = { onDismiss() },
-        offset = IntOffset(0, y = +popupOffset.value + 4),
-        properties = PopupProperties(focusable = true),
+        modifier = Modifier.width(300.dp).padding(horizontal = 8.dp),
+        containerColor = MaterialTheme.colorScheme.background,
+        border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.primary),
     )
     {
         PopUpContent(
-            popupOffset = popupOffset,
             date = date,
             addChore = addChore,
         )
@@ -60,7 +65,6 @@ fun AddChorePopup(
 
 @Composable
 fun PopUpContent(
-    popupOffset: MutableState<Int>,
     date: LocalDate,
     addChore: (chore: Chore) -> Unit,
 ) {
@@ -77,105 +81,98 @@ fun PopUpContent(
     val endDate = remember { mutableStateOf(LocalDate(2024, 6, 1)) }
     val startTime = remember { mutableStateOf(LocalTime(12, 0)) }
     val endTime = remember { mutableStateOf(LocalTime(14, 0)) }
-    Surface(
-        shape = RoundedCornerShape(8.dp),
-        tonalElevation = 4.dp,
-        color = MaterialTheme.colorScheme.surface,
-        modifier = Modifier.onPlaced { popupOffset.value = it.size.height }
-            .width(300.dp)
-    ) {
-        Column {
-            TextField(
-                value = title.value,
-                onValueChange = { title.value = it },
-                maxLines = 1,
-                label = { Text("Chore Title") },
-                modifier = Modifier.padding(8.dp)
-            )
-            FieldSpacer()
-            DateTextField(
-                dateTxt = startDateTxt,
-                date = startDate,
-                label = "Start date",
-                modifier = Modifier
-            )
-            FieldSpacer()
-            DateTextField(
-                dateTxt = endDateTxt,
-                date = endDate,
-                label = "End date",
-                modifier = Modifier
-            )
-            FieldSpacer()
-            TimeTextField(
-                timeTxt = startTimeTxt,
-                time = startTime,
-                label = "Start Time",
-                modifier = Modifier
-            )
-            FieldSpacer()
-            TimeTextField(
-                timeTxt = endTimeTxt,
-                time = endTime,
-                label = "End Time",
-                modifier = Modifier
-            )
-            FieldSpacer()
-            Text(
-                "Days of Week",
-                style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(start = 8.dp)
-            )
-            DayOfWeekPicker(
-                onSelect = { day ->
-                    selectedDays = if (selectedDays.contains(day)) {
-                        selectedDays - day
-                    } else {
-                        selectedDays + day
-                    }
-                }, selectedDays = selectedDays
-            )
-            FieldSpacer()
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                PriorityPicker(
-                    onPrioritySelected = { selectedPriority.value = it },
-                    selectedPriority = selectedPriority.value
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                Button(
-                    onClick = {
-                        addChore(
-                            Chore(
-                                choreId = 1,
-                                startTime = startTime.value,
-                                endTime = endTime.value,
-                                daysOfWeek = selectedDays,
-                                startDate = date,
-                                endDate = endDate.value,
-                                choreException = listOf(),
-                                title = title.value,
-                                description = "Treinão de perna",
-                                priority = selectedPriority.value,
-                                finishedDate = null
-                            )
-                        )
-                        print(date.toString() + "\n")
-                    },
-                    shape = RoundedCornerShape(8.dp),
-                    modifier = Modifier.clip(RoundedCornerShape(8.dp))
-                ) {
-                    Text("Add Chore")
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        TextField(
+            value = title.value,
+            onValueChange = { title.value = it },
+            maxLines = 1,
+            label = { Text("Chore Title") },
+        )
+        FieldSpacer()
+        DateTextField(
+            dateTxt = startDateTxt,
+            date = startDate,
+            label = "Start date",
+            modifier = Modifier
+        )
+        FieldSpacer()
+        DateTextField(
+            dateTxt = endDateTxt,
+            date = endDate,
+            label = "End date",
+            modifier = Modifier
+        )
+        FieldSpacer()
+        TimeTextField(
+            timeTxt = startTimeTxt,
+            time = startTime,
+            label = "Start Time",
+            modifier = Modifier
+        )
+        FieldSpacer()
+        TimeTextField(
+            timeTxt = endTimeTxt,
+            time = endTime,
+            label = "End Time",
+            modifier = Modifier
+        )
+        FieldSpacer()
+        Text(
+            "Days of Week",
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.padding(start = 8.dp)
+        )
+        DayOfWeekPicker(
+            onSelect = { day ->
+                selectedDays = if (selectedDays.contains(day)) {
+                    selectedDays - day
+                } else {
+                    selectedDays + day
                 }
+            }, selectedDays = selectedDays
+        )
+        FieldSpacer()
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            PriorityPicker(
+                onPrioritySelected = { selectedPriority.value = it },
+                selectedPriority = selectedPriority.value
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Button(
+                onClick = {
+                    addChore(
+                        Chore(
+                            choreId = 1,
+                            startTime = startTime.value,
+                            endTime = endTime.value,
+                            daysOfWeek = selectedDays,
+                            startDate = date,
+                            endDate = endDate.value,
+                            choreException = listOf(),
+                            title = title.value,
+                            description = "Treinão de perna",
+                            priority = selectedPriority.value,
+                            finishedDate = null
+                        )
+                    )
+                    print(date.toString() + "\n")
+                },
+                shape = RoundedCornerShape(8.dp),
+                modifier = Modifier.clip(RoundedCornerShape(8.dp))
+            ) {
+                Text("Add Chore")
             }
         }
     }
 }
 
+
 @Composable
 fun FieldSpacer() {
-    Spacer(modifier = Modifier.height(4.dp))
+    Spacer(modifier = Modifier.height(8.dp))
 }

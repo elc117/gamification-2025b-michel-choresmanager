@@ -33,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed finishedDate to nullable in Chore class
 - Moved DayCell compose function to its own file
 - Moved ChorePopup to its own file
+- Changed AddChorePopup to be a DropdownMenu instead of a Popup
 
 ### Removed
 
@@ -43,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fixed clickable area of DayCell clipping out of bounds
 - Fixed clickable area of DayOfWeekPicker options clipping out of bounds
+- Fixed february date crashing because of wrong anchor date
 
 ## [0.1.0] - 2025-11-01
 

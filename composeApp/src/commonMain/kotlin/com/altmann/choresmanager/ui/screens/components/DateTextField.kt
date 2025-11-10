@@ -43,7 +43,7 @@ fun DateTextField(
         },
         maxLines = 1,
         label = { Text(label) },
-        modifier = modifier.padding(8.dp),
+        modifier = modifier
     )
 }
 

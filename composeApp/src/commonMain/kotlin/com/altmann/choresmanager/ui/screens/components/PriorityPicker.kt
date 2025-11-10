@@ -70,7 +70,8 @@ fun PriorityItem(
         modifier = modifier,
         colors = ButtonDefaults.textButtonColors(
             contentColor = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
-        )
+        ),
+        shape = RoundedCornerShape(8.dp)
     ) {
         Box(
             contentAlignment = Alignment.Center,

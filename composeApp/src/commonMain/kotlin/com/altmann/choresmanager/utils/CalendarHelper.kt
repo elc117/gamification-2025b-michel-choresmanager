@@ -44,14 +44,14 @@ object CalendarHelper {
     }
 
     fun getDaysInMonth(anchor : LocalDate) : Int {
-        val daysInMonth = when (today().month) {
+        val daysInMonth = when (anchor.month) {
             Month.JANUARY, Month.MARCH, Month.MAY, Month.JULY,
             Month.AUGUST, Month.OCTOBER, Month.DECEMBER -> 31
 
             Month.APRIL, Month.JUNE, Month.SEPTEMBER, Month.NOVEMBER -> 30
             Month.FEBRUARY -> if (anchor.year % 4 == 0 && (anchor.year % 100 != 0 || anchor.year % 400 == 0)) 29 else 28
         }
-
+        print(daysInMonth)
         return daysInMonth
     }
 
