@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added SideBar for viewing profile, achievements and disabling chores
 - Added CircleUserIcon composable for user profile representation
 - Added a picture of my cat as a placeholder for user profile image
+- Added CircularProgressIndicator for showing current levelUp progress
 
 ### Changed
 

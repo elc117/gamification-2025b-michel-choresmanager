@@ -118,8 +118,6 @@ class HomeViewModel(private val userDao: UserDao) : ViewModel() {
     }
 
     fun loadingChores()  = CoroutineScope(Dispatchers.Default).run {
-        // Chores loading test
-
         val previous = anchor.value.minus(DatePeriod(months = 1))
         val next = anchor.value.plus(DatePeriod(months = 1))
 
@@ -135,10 +133,6 @@ class HomeViewModel(private val userDao: UserDao) : ViewModel() {
             _mappedChores.update { if (map.entries == it.entries) it else map }
         }
 
-    }
-
-    init {
-        loadingChores()
     }
 
 }
