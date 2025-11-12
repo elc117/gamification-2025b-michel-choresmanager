@@ -34,6 +34,7 @@ fun DayCell(
     onClick: () -> Unit,
     onDismiss: () -> Unit,
     addChore: (chore: Chore) -> Unit,
+    send: (CalendarEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val bg = when {
@@ -82,7 +83,7 @@ fun DayCell(
                             modifierBox = if (selected) {
                                 modifierBox
                                     .clickable(true) {
-                                        print(occ.title)
+                                        send(CalendarEvent.MarkFinished(occ.choreId, date))
                                     }
                             } else {
                                 modifierBox

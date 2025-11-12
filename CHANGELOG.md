@@ -30,6 +30,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added CircleUserIcon composable for user profile representation
 - Added a picture of my cat as a placeholder for user profile image
 - Added CircularProgressIndicator for showing current levelUp progress
+- Added MVI architecture structure for CalendarScreen for better state management
+- Added SharedChoreViewModel for shared chore data logic between screens
+- Added Basic SideBarViewModel for using shared data in SideBar
+- Added CalendarViewModel for state handling in CalendarScreen
+- Added CalendarEvent sealed interface for defining user interactions in CalendarScreen
+- Added CalendarState data class for holding UI state in CalendarScreen
+- Added Chore click in DayCell for finishing chores while in testing
 
 ### Changed
 
@@ -43,11 +50,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Made chore in day cell clickable to future implementation of chore details
 - Changed CalendarViewModel to HomeViewModel
 - Refactored components and screens folders for better organization
+- Changed Chore child classes to use Chore in constructor
 
 ### Removed
 
 - Greeting.kt
 - Removed userId from Chore class
+- Removed HomeViewModel
 
 ### Fixed
 

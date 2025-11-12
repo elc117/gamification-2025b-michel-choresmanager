@@ -45,7 +45,6 @@ import choresmanager.composeapp.generated.resources.frajola_icon
 import com.altmann.choresmanager.models.chores.Chore
 import com.altmann.choresmanager.ui.screens.addchorepopup.AddChorePopup
 import com.altmann.choresmanager.ui.screens.components.CircleUserIcon
-import com.altmann.choresmanager.ui.screens.home.HomeViewModel
 import com.altmann.choresmanager.utils.CalendarHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -53,8 +52,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun SideBar(viewModel: HomeViewModel) {
-    val chores by viewModel.chores.collectAsState()
+fun SideBar(viewModel: SideBarViewModel) {
+    val chores = viewModel.chores.collectAsState().value
     var addChorePopup by remember { mutableStateOf(false) }
     var lvlUpProgress by remember { mutableStateOf(0.5f) }
 

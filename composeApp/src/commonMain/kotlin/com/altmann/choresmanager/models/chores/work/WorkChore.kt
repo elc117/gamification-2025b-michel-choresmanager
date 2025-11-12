@@ -9,25 +9,13 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 
 class WorkChore(
-    choreId: Int,
-    startTime: LocalTime,
-    endTime: LocalTime,
-    daysOfWeek: List<DayOfWeek>,
-    startDate: LocalDate,
-    endDate: LocalDate,
-    choreException: List<LocalDate>,
-    title: String,
-    description: String,
-    priority: Priority,
-    deleted: Boolean? = false,
-    finished: Boolean? = false,
-    color: Color = Color.Blue,
+    chore : Chore,
 
     val project: String,
     val clientName: String? = null,
     val deadline: LocalDate? = null,
 ) : Chore(
-    choreId, startTime, endTime, daysOfWeek,
-    startDate, endDate, choreException, title, description,
-    priority, deleted, finished, color
+    chore.choreId, chore.startTime, chore.endTime, chore.daysOfWeek,
+    chore.startDate, chore.endDate, chore.choreException, chore.title, chore.description,
+    chore.priority, chore.deleted, chore.finished, chore.color
 )

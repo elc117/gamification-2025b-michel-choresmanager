@@ -7,18 +7,23 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.ui.screens.calendar.CalendarScreen
-import com.altmann.choresmanager.ui.screens.home.HomeViewModel
+import com.altmann.choresmanager.ui.screens.calendar.CalendarViewModel
 import com.altmann.choresmanager.ui.screens.sidebar.SideBar
+import com.altmann.choresmanager.ui.screens.sidebar.SideBarViewModel
+import com.altmann.choresmanager.viewmodels.SharedChoreViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun HomeScreen() {
-    val viewModel = koinViewModel<HomeViewModel>()
+    val calendarViewModel = koinViewModel<CalendarViewModel>()
+    val sideBarViewModel = koinViewModel<SideBarViewModel>()
     Row {
-        SideBar(viewModel)
-        CalendarScreen(viewModel)
+        SideBar(sideBarViewModel)
+        CalendarScreen(calendarViewModel)
     }
 }

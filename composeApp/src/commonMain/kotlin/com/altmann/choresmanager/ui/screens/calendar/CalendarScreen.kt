@@ -23,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.chores.Chore
-import com.altmann.choresmanager.ui.screens.home.HomeViewModel
 import com.altmann.choresmanager.utils.CalendarHelper
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
@@ -31,23 +30,15 @@ import kotlinx.datetime.plus
 
 @Composable
 fun CalendarScreen(
-    viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    calendarVM: CalendarViewModel
 ) {
-    // Selected month (anchor on first day)
-    val anchor by viewModel.anchor.collectAsState()
-    val selectedDate by viewModel.selectedDate.collectAsState()
-    val expanded by viewModel.expandedDay.collectAsState()
-    val (start, end) = remember(anchor) { CalendarHelper.monthGridWindow(anchor) }
-    val chores by viewModel.mappedChores.collectAsState()
-    val enabledChores by viewModel.enabledChores.collectAsState()
+    val uiState by calendarVM.state.collectAsState()
+    val send = calendarVM::onEvent
+    val anchor = uiState.anchor
 
-    LaunchedEffect(anchor, enabledChores) {
-        viewModel.loadingChores()
+    LaunchedEffect(anchor, uiState.enabledChores) {
+        send(CalendarEvent.LoadChores)
     }
-    // used for debbuging
-    print("\n ${anchor}")
-
-
 
     Column(
         Modifier.fillMaxSize()
@@ -56,23 +47,15 @@ fun CalendarScreen(
     ) {
         MonthHeader(
             anchor = anchor,
-            onPrev = viewModel::onPrev,
-            onNext = viewModel::onNext
+            onPrev = { send(CalendarEvent.PrevMonth) }, // fixed mapping
+            onNext = { send(CalendarEvent.NextMonth) }
         )
         Spacer(modifier = Modifier.height(8.dp))
         WeekdayRow()
         Spacer(modifier = Modifier.height(4.dp))
         MonthGrid(
-            start = start,
-            occurencesByDate = chores,
-            selectedDate = selectedDate,
-            expanded = expanded,
-            onSelect = { viewModel.onSelectDate(it) },
-            onDismiss = { viewModel.dismissExpandedDay() },
-            addChore = {
-                viewModel.addChore(it)
-                viewModel.loadingChores()
-            },
+            uiState = uiState,
+            send = send,
             // Days outside the current month get colored grey
             inAnchorMonth = { it.month.ordinal == anchor.month.ordinal && it.year == anchor.year }
         )
@@ -111,16 +94,14 @@ private fun WeekdayRow() {
 
 @Composable
 private fun MonthGrid(
-    start: LocalDate,
-    occurencesByDate: Map<LocalDate, List<Chore>>, // maps day to chore
-    selectedDate: LocalDate,
-    expanded: Boolean,
-    onSelect: (LocalDate) -> Unit,
-    onDismiss: () -> Unit,
-    addChore: (chore: Chore) -> Unit,
+    uiState: CalendarUiState,
+    send: (CalendarEvent) -> Unit,
     inAnchorMonth: (LocalDate) -> Boolean
 ) {
     // 6x7 = 42
+    val (start, _) = remember(uiState.anchor) {
+        CalendarHelper.monthGridWindow(uiState.anchor)
+    }
     val days: List<LocalDate> =
         remember(start) { (0 until 42).map { start.plus(DatePeriod(days = it)) } }
 
@@ -129,16 +110,17 @@ private fun MonthGrid(
             Row(Modifier.fillMaxWidth()) {
                 for (col in 0 until 7) {
                     val date = days[row * 7 + col]
-                    val occ = occurencesByDate[date].orEmpty()
+                    val occ = uiState.choresByDate[date].orEmpty()
                     DayCell(
                         date = date,
                         occurences = occ,
-                        selected = date == selectedDate,
-                        expanded = expanded,
+                        selected = date == uiState.selectedDate,
+                        expanded = uiState.expanded,
                         faded = !inAnchorMonth(date),
-                        onClick = { onSelect(date) },
-                        onDismiss = { onDismiss() },
-                        addChore = addChore,
+                        onClick = { send(CalendarEvent.SelectDate(date)) },
+                        onDismiss = { send(CalendarEvent.DismissExpanded) },
+                        addChore ={ send(CalendarEvent.AddChore(it)) },
+                        send = send,
                         modifier = Modifier.weight(1f).aspectRatio(1f, true).padding(4.dp)
                     )
                 }

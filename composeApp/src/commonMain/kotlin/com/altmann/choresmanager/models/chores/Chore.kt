@@ -1,8 +1,9 @@
 package com.altmann.choresmanager.models.chores
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import com.altmann.choresmanager.models.Priority
-import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
@@ -14,16 +15,24 @@ open class Chore(
     val daysOfWeek: List<DayOfWeek>,
     val startDate: LocalDate,
     val endDate: LocalDate,
-    var choreException : List<LocalDate> = emptyList(),
+    var choreException: List<LocalDate> = emptyList(),
     val title: String,
     val description: String,
     var priority: Priority,
     val deleted: Boolean? = false,
-    val finished: Boolean? = false,
+    var finished: Boolean = false,
     val color: Color = Color.DarkGray
 ) {
-    open fun duration() : Int{
+    open fun duration(): Int {
         return endTime.compareTo(startTime)
+    }
+
+    open fun finishChore() {
+        finished = true
+    }
+
+    fun isException(date: LocalDate): Boolean {
+        return choreException.contains(date)
     }
 }
 

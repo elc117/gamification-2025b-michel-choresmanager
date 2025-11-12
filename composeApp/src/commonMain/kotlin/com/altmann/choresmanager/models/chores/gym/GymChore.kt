@@ -9,25 +9,13 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 
 class GymChore(
-    choreId: Int,
-    startTime: LocalTime,
-    endTime: LocalTime,
-    daysOfWeek: List<DayOfWeek>,
-    startDate: LocalDate,
-    endDate: LocalDate,
-    choreException: List<LocalDate>,
-    title: String,
-    description: String,
-    priority: Priority,
-    deleted: Boolean? = false,
-    finished: Boolean? = false,
-    color: Color = Color.Red,
+    chore: Chore,
 
     val workout: List<Exercise>,
-    val exerciseDay : String // e.g. "Leg Day", "Arm Day"
+    val exerciseDay: String // e.g. "Leg Day", "Arm Day"
 
-    ) : Chore(
-    choreId, startTime, endTime, daysOfWeek,
-    startDate, endDate, choreException, title, description,
-    priority, deleted, finished, color
+) : Chore(
+    chore.choreId, chore.startTime, chore.endTime, chore.daysOfWeek,
+    chore.startDate, chore.endDate, chore.choreException, chore.title, chore.description,
+    chore.priority, chore.deleted, chore.finished, chore.color
 )
