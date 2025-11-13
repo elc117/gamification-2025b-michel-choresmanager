@@ -1,7 +1,5 @@
 package com.altmann.choresmanager.models.chores
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import com.altmann.choresmanager.models.Priority
 import kotlinx.datetime.DayOfWeek
@@ -9,7 +7,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 
 open class Chore(
-    val choreId: Int,
+    val choreId: String,
     val startTime: LocalTime,
     val endTime: LocalTime,
     val daysOfWeek: List<DayOfWeek>,
@@ -24,7 +22,7 @@ open class Chore(
     val color: Color = Color.DarkGray
 ) {
     open fun duration(): Int {
-        return endTime.compareTo(startTime)
+        return endTime.hour - startTime.hour
     }
 
     open fun finishChore() {

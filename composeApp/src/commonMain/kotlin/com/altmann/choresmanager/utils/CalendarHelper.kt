@@ -51,7 +51,6 @@ object CalendarHelper {
             Month.APRIL, Month.JUNE, Month.SEPTEMBER, Month.NOVEMBER -> 30
             Month.FEBRUARY -> if (anchor.year % 4 == 0 && (anchor.year % 100 != 0 || anchor.year % 400 == 0)) 29 else 28
         }
-        print(daysInMonth)
         return daysInMonth
     }
 

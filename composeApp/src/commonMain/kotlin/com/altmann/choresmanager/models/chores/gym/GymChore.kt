@@ -1,12 +1,6 @@
 package com.altmann.choresmanager.models.chores.gym
 
-import androidx.compose.ui.graphics.Color
-import com.altmann.choresmanager.models.Priority
 import com.altmann.choresmanager.models.chores.Chore
-import kotlinx.datetime.DateTimePeriod
-import kotlinx.datetime.DayOfWeek
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalTime
 
 class GymChore(
     chore: Chore,

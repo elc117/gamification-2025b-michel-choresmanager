@@ -10,6 +10,11 @@ class SideBarViewModel(private val choreVM : SharedChoreViewModel) : ViewModel()
 
 
     val chores = choreVM.chores
+    val user = choreVM.user
+
+    fun levelUpUser() {
+        choreVM.levelUpUser()
+    }
 
     fun enableDisableChore(chore: Chore) {
         choreVM.enableDisableChore(chore)

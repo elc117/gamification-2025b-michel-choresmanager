@@ -26,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.Priority
 import com.altmann.choresmanager.models.chores.Chore
@@ -39,6 +38,8 @@ import com.kborowy.colorpicker.KolorPicker
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 @Composable
 fun AddChorePopup(
@@ -63,7 +64,7 @@ fun AddChorePopup(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalUuidApi::class)
 @Composable
 fun PopUpContent(
     date: LocalDate,
@@ -183,7 +184,7 @@ fun PopUpContent(
             onClick = {
                 addChore(
                     Chore(
-                        choreId = 1,
+                        choreId = Uuid.random().toString(),
                         startTime = startTime.value,
                         endTime = endTime.value,
                         daysOfWeek = selectedDays,

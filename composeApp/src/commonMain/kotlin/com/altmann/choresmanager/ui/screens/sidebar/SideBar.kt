@@ -1,5 +1,6 @@
 package com.altmann.choresmanager.ui.screens.sidebar
 
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -40,8 +41,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import choresmanager.composeapp.generated.resources.Res
-import choresmanager.composeapp.generated.resources.frajola_icon
 import com.altmann.choresmanager.models.chores.Chore
 import com.altmann.choresmanager.ui.screens.addchorepopup.AddChorePopup
 import com.altmann.choresmanager.ui.screens.components.CircleUserIcon
@@ -53,24 +52,36 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SideBar(viewModel: SideBarViewModel) {
-    val chores = viewModel.chores.collectAsState().value
+    val chores by viewModel.chores.collectAsState()
+    val user by viewModel.user.collectAsState()
     var addChorePopup by remember { mutableStateOf(false) }
-    var lvlUpProgress by remember { mutableStateOf(0.5f) }
 
-    val useAnimation = true
-    val animatedProgress by animateFloatAsState(
-        targetValue = lvlUpProgress,
-        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
-    )
+    val progressAnim = remember { Animatable(user.progress.coerceIn(0f, 1f)) }
+    var prevLevel by remember {mutableStateOf(user.level )}
 
-    LaunchedEffect(lvlUpProgress) {
-        val scope = CoroutineScope(Dispatchers.Default)
-        scope.launch {
-            if (lvlUpProgress >= 1f) {
-                delay(750)
-                lvlUpProgress = 0f
+    LaunchedEffect(user.level, user.progress) {
+        val finalTarget = user.progress.coerceIn(0f, 1f)
+        val current = progressAnim.value
+        val levelsGained = (user.level - prevLevel).coerceAtLeast(0)
+        val spec = ProgressIndicatorDefaults.ProgressAnimationSpec
+
+        if (levelsGained > 0) {
+            progressAnim.animateTo(1f, animationSpec = spec)
+
+            repeat(levelsGained - 1) {
+                progressAnim.snapTo(0f)
+                progressAnim.animateTo(1f, animationSpec = spec)
             }
+
+            progressAnim.snapTo(0f)
+        } else if (finalTarget < current && current >= 1f) {
+            // Fallback: handle unexpected rollover without a level delta
+            progressAnim.animateTo(1f, animationSpec = spec)
+            progressAnim.snapTo(0f)
         }
+
+        progressAnim.animateTo(finalTarget, animationSpec = spec)
+        prevLevel = user.level
     }
 
     Surface(
@@ -86,7 +97,7 @@ fun SideBar(viewModel: SideBarViewModel) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(contentAlignment = Alignment.Center) {
                     CircleUserIcon(
-                        imageResource = Res.drawable.frajola_icon,
+                        imageResource = null,
                         borderWidth = 2.dp,
                         size = 48.dp,
                         modifier = Modifier.padding(8.dp)
@@ -97,7 +108,7 @@ fun SideBar(viewModel: SideBarViewModel) {
                     )
                     // Progress bar for exp to level up
                     CircularProgressIndicator(
-                        progress = { if (useAnimation) animatedProgress else lvlUpProgress },
+                        progress = { progressAnim.value },
                         modifier = Modifier.size(60.dp),
                         strokeWidth = 5.dp,
                         gapSize = 0.dp,
@@ -115,7 +126,7 @@ fun SideBar(viewModel: SideBarViewModel) {
             TextButton(
                 shape = RoundedCornerShape(4.dp),
                 onClick = {
-                    lvlUpProgress = lvlUpProgress + 0.1f
+
                 }
             ) {
                 Text("Achievements", fontWeight = FontWeight.Bold)

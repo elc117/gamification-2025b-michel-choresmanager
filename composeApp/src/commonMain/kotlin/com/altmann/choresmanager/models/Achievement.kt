@@ -1,11 +1,15 @@
 package com.altmann.choresmanager.models
 
+import com.altmann.choresmanager.utils.CalendarHelper
+import kotlinx.datetime.LocalDate
+
 
 data class Achievement(
     val id: Int,
     val title: String,
     val description: String,
     val difficulty: AchievementDifficulty,
+    var completedDate: LocalDate = CalendarHelper.today(),
     val icon: String // Could be a URL or resource identifier,
 ){
     val exp : Int get() = difficulty.value * 50

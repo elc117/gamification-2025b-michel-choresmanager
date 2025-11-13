@@ -37,6 +37,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added CalendarEvent sealed interface for defining user interactions in CalendarScreen
 - Added CalendarState data class for holding UI state in CalendarScreen
 - Added Chore click in DayCell for finishing chores while in testing
+- Added Achievement class for handling user achievements
+- Added AchievementHelper for achievement creation and login
+- Added leveling up logic to SideBar based on completed chores
+- Added achievement logic to SharedChoreViewModel based on completed chores
 
 ### Changed
 
@@ -51,6 +55,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed CalendarViewModel to HomeViewModel
 - Refactored components and screens folders for better organization
 - Changed Chore child classes to use Chore in constructor
+- Changed User class to have level and experience properties
+- Changed choreId to uuid string for better uniqueness while not using database
 
 ### Removed
 
