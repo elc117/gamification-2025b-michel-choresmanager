@@ -1,7 +1,6 @@
 package com.altmann.choresmanager.utils
 
-import com.altmann.choresmanager.models.Achievement
-import com.altmann.choresmanager.models.AchievementDifficulty
+import com.altmann.choresmanager.models.achievements
 import com.altmann.choresmanager.models.chores.Chore
 
 class AchievementHelper(private val completedAchievements: List<Int>, private val completedChores : List<Chore>, private val createdChores : Int) {
@@ -43,35 +42,3 @@ class AchievementHelper(private val completedAchievements: List<Int>, private va
     }
 
 }
-
-private val achievements : List<Achievement> =
-    listOf<Achievement>(
-        Achievement(
-            id = 0,
-            title = "Your first chore!",
-            description = "Create your first chore.",
-            difficulty = AchievementDifficulty.EASY,
-            icon = "achievement_1"
-        ),
-        Achievement(
-            id = 1,
-            title = "Getting things done",
-            description = "Complete 1 chore.",
-            difficulty = AchievementDifficulty.EASY,
-            icon = "achievement_2"
-        ),
-        Achievement(
-            id = 2,
-            title = "Chore Master",
-            description = "Complete 5 chores.",
-            difficulty = AchievementDifficulty.MEDIUM,
-            icon = "achievement_3"
-        ),
-        Achievement(
-            id = 3,
-            title = "Finally done!",
-            description = "Complete a chore with a duration greater than 4 hours.",
-            difficulty = AchievementDifficulty.HARD,
-            icon = "achievement_4"
-        )
-    )

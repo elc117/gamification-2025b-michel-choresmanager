@@ -1,30 +1,26 @@
 package com.altmann.choresmanager.res.myiconpack
 
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Brush.Companion.radialGradient
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.group
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
-import com.altmann.choresmanager.res.MyIconPack
+import com.altmann.choresmanager.res.MyAchievementsPack
 
-public val MyIconPack.Duration2Achievement: ImageVector
+public val MyAchievementsPack.Duration4Achievement: ImageVector
     get() {
-        if (_duration2Achievement != null) {
-            return _duration2Achievement!!
+        if (_duration4Achievement != null) {
+            return _duration4Achievement!!
         }
-        _duration2Achievement = Builder(name = "Duration2Achievement", defaultWidth = 238.0.dp,
+        _duration4Achievement = Builder(name = "Duration4Achievement", defaultWidth = 238.0.dp,
                 defaultHeight = 238.0.dp, viewportWidth = 238.0f, viewportHeight = 238.0f).apply {
             path(fill = SolidColor(Color(0xFF1E1E1E)), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
@@ -36,7 +32,7 @@ public val MyIconPack.Duration2Achievement: ImageVector
                 close()
             }
             group {
-                path(fill = SolidColor(Color(0xFF40871D)), stroke = null, strokeLineWidth = 0.0f,
+                path(fill = SolidColor(Color(0xFF096972)), stroke = null, strokeLineWidth = 0.0f,
                         strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                         pathFillType = NonZero) {
                     moveTo(238.0f, 0.0f)
@@ -46,53 +42,54 @@ public val MyIconPack.Duration2Achievement: ImageVector
                     verticalLineTo(0.0f)
                     close()
                 }
-                path(fill = linearGradient(0.0f to Color(0xFF6EC841), 1.0f to Color(0xFF195742),
-                        start = Offset(119.0f,-112.8f), end = Offset(119.0f,238.0f)), stroke = null,
+                path(fill = linearGradient(0.0f to Color(0xFF1BB7C5), 1.0f to Color(0xFF0D093F),
+                        start = Offset(119.0f,-125.2f), end = Offset(119.0f,238.0f)), stroke = null,
                         strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                         strokeLineMiter = 4.0f, pathFillType = NonZero) {
-                    moveTo(0.0f, -112.8f)
-                    curveTo(5.01f, -109.31f, 18.04f, -98.16f, 30.03f, -91.84f)
-                    curveTo(42.03f, -85.51f, 60.63f, -79.18f, 71.97f, -74.84f)
-                    curveTo(83.3f, -70.49f, 86.7f, -70.11f, 98.03f, -65.77f)
-                    curveTo(109.37f, -61.42f, 128.63f, -55.76f, 139.97f, -48.77f)
-                    curveTo(151.3f, -41.78f, 156.02f, -30.82f, 166.03f, -23.84f)
-                    curveTo(176.04f, -16.85f, 188.04f, -11.84f, 200.03f, -6.84f)
-                    curveTo(212.03f, -1.83f, 231.67f, 4.03f, 238.0f, 6.2f)
+                    moveTo(0.0f, -125.2f)
+                    curveTo(6.33f, -123.03f, 25.97f, -118.49f, 37.97f, -112.17f)
+                    curveTo(49.96f, -105.84f, 61.96f, -92.9f, 71.97f, -87.23f)
+                    curveTo(81.98f, -81.56f, 88.02f, -82.51f, 98.03f, -78.16f)
+                    curveTo(108.04f, -73.82f, 119.38f, -68.15f, 132.03f, -61.16f)
+                    curveTo(144.69f, -54.18f, 161.31f, -41.9f, 173.97f, -36.23f)
+                    curveTo(186.62f, -30.56f, 197.29f, -32.17f, 207.97f, -27.16f)
+                    curveTo(218.64f, -22.16f, 232.99f, -9.69f, 238.0f, -6.2f)
                     verticalLineTo(238.0f)
                     horizontalLineTo(0.0f)
-                    verticalLineTo(-112.8f)
+                    verticalLineTo(-125.2f)
                     close()
                 }
-                path(fill = linearGradient(0.0f to Color(0xFF6EC841), 1.0f to Color(0xFF195742),
+                path(fill = linearGradient(0.0f to Color(0xFF1BB7C5), 1.0f to Color(0xFF0D093F),
                         start = Offset(119.0f,-59.11f), end = Offset(119.0f,238.0f)), stroke = null,
                         strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                         strokeLineMiter = 4.0f, pathFillType = NonZero) {
                     moveTo(0.0f, -59.11f)
-                    curveTo(7.27f, -55.37f, 27.11f, -46.11f, 43.63f, -36.63f)
-                    curveTo(60.16f, -27.15f, 81.98f, -12.39f, 99.17f, -2.25f)
-                    curveTo(116.36f, 7.89f, 132.22f, 16.71f, 146.77f, 24.2f)
-                    curveTo(161.31f, 31.7f, 171.23f, 34.56f, 186.43f, 42.72f)
-                    curveTo(201.64f, 50.87f, 229.41f, 68.07f, 238.0f, 73.14f)
+                    curveTo(5.01f, -55.3f, 19.36f, -43.21f, 30.03f, -36.25f)
+                    curveTo(40.71f, -29.3f, 52.7f, -22.34f, 64.03f, -17.36f)
+                    curveTo(75.37f, -12.39f, 85.38f, -11.38f, 98.03f, -6.4f)
+                    curveTo(110.69f, -1.43f, 128.63f, 6.19f, 139.97f, 12.49f)
+                    curveTo(151.3f, 18.79f, 154.7f, 23.76f, 166.03f, 31.38f)
+                    curveTo(177.37f, 39.0f, 195.97f, 51.25f, 207.97f, 58.21f)
+                    curveTo(219.96f, 65.17f, 232.99f, 70.65f, 238.0f, 73.14f)
                     verticalLineTo(238.0f)
                     horizontalLineTo(0.0f)
                     verticalLineTo(-59.11f)
                     close()
                 }
-                path(fill = linearGradient(0.0f to Color(0xFF6EC841), 1.0f to Color(0xFF195742),
-                        start = Offset(119.0f,6.97f), end = Offset(119.0f,238.0f)), stroke = null,
+                path(fill = linearGradient(0.0f to Color(0xFF1BB7C5), 1.0f to Color(0xFF0D093F),
+                        start = Offset(119.0f,19.37f), end = Offset(119.0f,238.0f)), stroke = null,
                         strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                         strokeLineMiter = 4.0f, pathFillType = NonZero) {
-                    moveTo(0.0f, 6.97f)
-                    curveTo(6.33f, 9.77f, 25.97f, 16.2f, 37.97f, 23.79f)
-                    curveTo(49.96f, 31.38f, 60.63f, 44.26f, 71.97f, 52.51f)
-                    curveTo(83.3f, 60.76f, 94.63f, 67.69f, 105.97f, 73.29f)
-                    curveTo(117.3f, 78.9f, 129.96f, 80.54f, 139.97f, 86.15f)
-                    curveTo(149.98f, 91.75f, 154.7f, 100.0f, 166.03f, 106.93f)
-                    curveTo(177.37f, 113.86f, 195.97f, 120.13f, 207.97f, 127.72f)
-                    curveTo(219.96f, 135.31f, 232.99f, 148.34f, 238.0f, 152.47f)
+                    moveTo(0.0f, 19.37f)
+                    curveTo(5.95f, 22.75f, 21.82f, 32.23f, 35.7f, 39.65f)
+                    curveTo(49.58f, 47.07f, 70.08f, 55.82f, 83.3f, 63.9f)
+                    curveTo(96.52f, 71.98f, 103.13f, 80.07f, 115.03f, 88.15f)
+                    curveTo(126.93f, 96.23f, 141.48f, 102.99f, 154.7f, 112.4f)
+                    curveTo(167.92f, 121.8f, 180.48f, 135.84f, 194.37f, 144.58f)
+                    curveTo(208.25f, 153.33f, 230.73f, 161.48f, 238.0f, 164.87f)
                     verticalLineTo(238.0f)
                     horizontalLineTo(0.0f)
-                    verticalLineTo(6.97f)
+                    verticalLineTo(19.37f)
                     close()
                 }
                 path(fill = linearGradient(0.0f to Color(0xA0FFFFFF), 1.0f to Color(0x38FFFFFF),
@@ -133,7 +130,7 @@ public val MyIconPack.Duration2Achievement: ImageVector
                     arcTo(12.0f, 12.0f, 0.0f, false, true, 86.0f, 43.25f)
                     close()
                 }
-                path(fill = SolidColor(Color(0xFF00D80E)), stroke = null, strokeLineWidth = 0.0f,
+                path(fill = SolidColor(Color(0xFF00ADD8)), stroke = null, strokeLineWidth = 0.0f,
                         strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                         pathFillType = NonZero) {
                     moveTo(74.0f, 55.19f)
@@ -224,8 +221,8 @@ public val MyIconPack.Duration2Achievement: ImageVector
                     arcTo(2.74f, 2.74f, 0.0f, false, true, 144.28f, 37.0f)
                     close()
                 }
-                path(fill = linearGradient(0.34f to Color(0xFF00D80E), 1.0f to Color(0xFF253400),
-                        start = Offset(121.0f,75.0f), end = Offset(121.0f,114.0f)), stroke = null,
+                path(fill = linearGradient(0.34f to Color(0xFF00ADD8), 1.0f to Color(0xFF000334),
+                        start = Offset(121.5f,75.0f), end = Offset(121.5f,114.0f)), stroke = null,
                         strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                         strokeLineMiter = 4.0f, pathFillType = NonZero) {
                     moveTo(110.34f, 106.57f)
@@ -255,41 +252,33 @@ public val MyIconPack.Duration2Achievement: ImageVector
                     curveTo(108.83f, 101.69f, 109.54f, 101.97f, 110.34f, 101.97f)
                     close()
                 }
-                path(fill = linearGradient(0.34f to Color(0xFF00D80E), 1.0f to Color(0xFF253400),
-                        start = Offset(121.0f,75.0f), end = Offset(121.0f,114.0f)), stroke = null,
+                path(fill = linearGradient(0.34f to Color(0xFF00ADD8), 1.0f to Color(0xFF000334),
+                        start = Offset(121.5f,75.0f), end = Offset(121.5f,114.0f)), stroke = null,
                         strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                         strokeLineMiter = 4.0f, pathFillType = NonZero) {
-                    moveTo(123.4f, 106.0f)
-                    verticalLineTo(101.96f)
-                    lineTo(131.89f, 94.52f)
-                    curveTo(132.53f, 93.95f, 133.07f, 93.42f, 133.52f, 92.94f)
-                    curveTo(133.96f, 92.46f, 134.3f, 91.97f, 134.54f, 91.49f)
-                    curveTo(134.77f, 91.0f, 134.89f, 90.46f, 134.89f, 89.89f)
-                    curveTo(134.89f, 89.24f, 134.75f, 88.69f, 134.47f, 88.24f)
-                    curveTo(134.19f, 87.78f, 133.8f, 87.42f, 133.31f, 87.17f)
-                    curveTo(132.82f, 86.92f, 132.26f, 86.8f, 131.62f, 86.8f)
-                    curveTo(130.98f, 86.8f, 130.41f, 86.93f, 129.93f, 87.19f)
-                    curveTo(129.44f, 87.45f, 129.06f, 87.83f, 128.79f, 88.32f)
-                    curveTo(128.52f, 88.81f, 128.39f, 89.41f, 128.39f, 90.11f)
-                    horizontalLineTo(123.06f)
-                    curveTo(123.06f, 88.53f, 123.42f, 87.16f, 124.13f, 86.01f)
-                    curveTo(124.84f, 84.86f, 125.84f, 83.97f, 127.13f, 83.35f)
-                    curveTo(128.43f, 82.72f, 129.93f, 82.41f, 131.64f, 82.41f)
-                    curveTo(133.41f, 82.41f, 134.94f, 82.7f, 136.24f, 83.3f)
-                    curveTo(137.55f, 83.89f, 138.55f, 84.71f, 139.27f, 85.77f)
-                    curveTo(139.99f, 86.83f, 140.35f, 88.05f, 140.35f, 89.44f)
-                    curveTo(140.35f, 90.33f, 140.17f, 91.21f, 139.81f, 92.08f)
-                    curveTo(139.46f, 92.95f, 138.82f, 93.91f, 137.89f, 94.97f)
-                    curveTo(136.98f, 96.02f, 135.67f, 97.28f, 133.98f, 98.75f)
-                    lineTo(131.2f, 101.32f)
-                    verticalLineTo(101.47f)
-                    horizontalLineTo(140.63f)
+                    moveTo(123.12f, 102.14f)
+                    verticalLineTo(97.75f)
+                    lineTo(132.65f, 82.73f)
+                    horizontalLineTo(136.55f)
+                    verticalLineTo(88.68f)
+                    horizontalLineTo(134.29f)
+                    lineTo(128.71f, 97.52f)
+                    verticalLineTo(97.7f)
+                    horizontalLineTo(142.52f)
+                    verticalLineTo(102.14f)
+                    horizontalLineTo(123.12f)
+                    close()
+                    moveTo(134.36f, 106.0f)
+                    verticalLineTo(100.79f)
+                    lineTo(134.47f, 98.88f)
+                    verticalLineTo(82.73f)
+                    horizontalLineTo(139.73f)
                     verticalLineTo(106.0f)
-                    horizontalLineTo(123.4f)
+                    horizontalLineTo(134.36f)
                     close()
                 }
-                path(fill = linearGradient(0.0f to Color(0xFF253400), 0.59f to Color(0xFF00D80E),
-                        start = Offset(118.38f,211.29f), end = Offset(118.38f,196.9f)), stroke =
+                path(fill = linearGradient(0.07f to Color(0xFF000334), 0.42f to Color(0xFF00BDEC),
+                        start = Offset(118.38f,211.29f), end = Offset(118.38f,190.36f)), stroke =
                         null, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                         strokeLineMiter = 4.0f, pathFillType = NonZero) {
                     moveTo(51.03f, 198.01f)
@@ -325,8 +314,8 @@ public val MyIconPack.Duration2Achievement: ImageVector
                     curveTo(50.6f, 195.71f, 50.91f, 196.79f, 51.03f, 198.01f)
                     close()
                 }
-                path(fill = linearGradient(0.0f to Color(0xFF253400), 0.59f to Color(0xFF00D80E),
-                        start = Offset(118.38f,211.29f), end = Offset(118.38f,196.9f)), stroke =
+                path(fill = linearGradient(0.07f to Color(0xFF000334), 0.42f to Color(0xFF00BDEC),
+                        start = Offset(118.38f,211.29f), end = Offset(118.38f,190.36f)), stroke =
                         null, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                         strokeLineMiter = 4.0f, pathFillType = NonZero) {
                     moveTo(58.7f, 202.29f)
@@ -351,8 +340,8 @@ public val MyIconPack.Duration2Achievement: ImageVector
                     curveTo(58.82f, 201.21f, 58.71f, 201.71f, 58.7f, 202.29f)
                     close()
                 }
-                path(fill = linearGradient(0.0f to Color(0xFF253400), 0.59f to Color(0xFF00D80E),
-                        start = Offset(118.38f,211.29f), end = Offset(118.38f,196.9f)), stroke =
+                path(fill = linearGradient(0.07f to Color(0xFF000334), 0.42f to Color(0xFF00BDEC),
+                        start = Offset(118.38f,211.29f), end = Offset(118.38f,190.36f)), stroke =
                         null, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                         strokeLineMiter = 4.0f, pathFillType = NonZero) {
                     moveTo(78.77f, 211.29f)
@@ -384,8 +373,8 @@ public val MyIconPack.Duration2Achievement: ImageVector
                     curveTo(77.69f, 207.44f, 78.2f, 207.62f, 78.8f, 207.62f)
                     close()
                 }
-                path(fill = linearGradient(0.0f to Color(0xFF253400), 0.59f to Color(0xFF00D80E),
-                        start = Offset(118.38f,211.29f), end = Offset(118.38f,196.9f)), stroke =
+                path(fill = linearGradient(0.07f to Color(0xFF000334), 0.42f to Color(0xFF00BDEC),
+                        start = Offset(118.38f,211.29f), end = Offset(118.38f,190.36f)), stroke =
                         null, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                         strokeLineMiter = 4.0f, pathFillType = NonZero) {
                     moveTo(88.98f, 211.0f)
@@ -407,8 +396,8 @@ public val MyIconPack.Duration2Achievement: ImageVector
                     horizontalLineTo(88.98f)
                     close()
                 }
-                path(fill = linearGradient(0.0f to Color(0xFF253400), 0.59f to Color(0xFF00D80E),
-                        start = Offset(118.38f,211.29f), end = Offset(118.38f,196.9f)), stroke =
+                path(fill = linearGradient(0.07f to Color(0xFF000334), 0.42f to Color(0xFF00BDEC),
+                        start = Offset(118.38f,211.29f), end = Offset(118.38f,190.36f)), stroke =
                         null, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                         strokeLineMiter = 4.0f, pathFillType = NonZero) {
                     moveTo(107.11f, 211.29f)
@@ -445,8 +434,8 @@ public val MyIconPack.Duration2Achievement: ImageVector
                     curveTo(109.62f, 211.09f, 108.44f, 211.29f, 107.11f, 211.29f)
                     close()
                 }
-                path(fill = linearGradient(0.0f to Color(0xFF253400), 0.59f to Color(0xFF00D80E),
-                        start = Offset(118.38f,211.29f), end = Offset(118.38f,196.9f)), stroke =
+                path(fill = linearGradient(0.07f to Color(0xFF000334), 0.42f to Color(0xFF00BDEC),
+                        start = Offset(118.38f,211.29f), end = Offset(118.38f,190.36f)), stroke =
                         null, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                         strokeLineMiter = 4.0f, pathFillType = NonZero) {
                     moveTo(122.86f, 211.0f)
@@ -464,8 +453,8 @@ public val MyIconPack.Duration2Achievement: ImageVector
                     horizontalLineTo(122.86f)
                     close()
                 }
-                path(fill = linearGradient(0.0f to Color(0xFF253400), 0.59f to Color(0xFF00D80E),
-                        start = Offset(118.38f,211.29f), end = Offset(118.38f,196.9f)), stroke =
+                path(fill = linearGradient(0.07f to Color(0xFF000334), 0.42f to Color(0xFF00BDEC),
+                        start = Offset(118.38f,211.29f), end = Offset(118.38f,190.36f)), stroke =
                         null, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                         strokeLineMiter = 4.0f, pathFillType = NonZero) {
                     moveTo(150.93f, 211.29f)
@@ -497,8 +486,8 @@ public val MyIconPack.Duration2Achievement: ImageVector
                     curveTo(149.85f, 207.44f, 150.36f, 207.62f, 150.96f, 207.62f)
                     close()
                 }
-                path(fill = linearGradient(0.0f to Color(0xFF253400), 0.59f to Color(0xFF00D80E),
-                        start = Offset(118.38f,211.29f), end = Offset(118.38f,196.9f)), stroke =
+                path(fill = linearGradient(0.07f to Color(0xFF000334), 0.42f to Color(0xFF00BDEC),
+                        start = Offset(118.38f,211.29f), end = Offset(118.38f,190.36f)), stroke =
                         null, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                         strokeLineMiter = 4.0f, pathFillType = NonZero) {
                     moveTo(170.99f, 204.41f)
@@ -523,8 +512,8 @@ public val MyIconPack.Duration2Achievement: ImageVector
                     curveTo(170.88f, 205.5f, 170.99f, 205.0f, 170.99f, 204.41f)
                     close()
                 }
-                path(fill = linearGradient(0.0f to Color(0xFF253400), 0.59f to Color(0xFF00D80E),
-                        start = Offset(118.38f,211.29f), end = Offset(118.38f,196.9f)), stroke =
+                path(fill = linearGradient(0.07f to Color(0xFF000334), 0.42f to Color(0xFF00BDEC),
+                        start = Offset(118.38f,211.29f), end = Offset(118.38f,190.36f)), stroke =
                         null, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                         strokeLineMiter = 4.0f, pathFillType = NonZero) {
                     moveTo(178.94f, 211.0f)
@@ -546,8 +535,8 @@ public val MyIconPack.Duration2Achievement: ImageVector
                     horizontalLineTo(178.94f)
                     close()
                 }
-                path(fill = linearGradient(0.0f to Color(0xFF253400), 0.59f to Color(0xFF00D80E),
-                        start = Offset(118.38f,211.29f), end = Offset(118.38f,196.9f)), stroke =
+                path(fill = linearGradient(0.07f to Color(0xFF000334), 0.42f to Color(0xFF00BDEC),
+                        start = Offset(118.38f,211.29f), end = Offset(118.38f,190.36f)), stroke =
                         null, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                         strokeLineMiter = 4.0f, pathFillType = NonZero) {
                     moveTo(204.06f, 200.39f)
@@ -584,7 +573,7 @@ public val MyIconPack.Duration2Achievement: ImageVector
                     curveTo(203.27f, 197.69f, 203.93f, 198.88f, 204.06f, 200.39f)
                     close()
                 }
-                path(fill = linearGradient(0.0f to Color(0xFF007207), 0.73f to Color(0xFF00D80E),
+                path(fill = linearGradient(0.0f to Color(0xFF000334), 0.73f to Color(0xFF00ADD8),
                         start = Offset(146.47f,113.94f), end = Offset(162.46f,123.71f)), stroke =
                         null, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                         strokeLineMiter = 4.0f, pathFillType = NonZero) {
@@ -597,7 +586,7 @@ public val MyIconPack.Duration2Achievement: ImageVector
                     lineTo(153.09f, 123.4f)
                     close()
                 }
-                path(fill = linearGradient(0.0f to Color(0xFF007207), 0.73f to Color(0xFF00D80E),
+                path(fill = linearGradient(0.0f to Color(0xFF000334), 0.73f to Color(0xFF00ADD8),
                         start = Offset(146.47f,113.94f), end = Offset(162.46f,123.71f)), stroke =
                         null, strokeLineWidth = 0.0f, strokeLineCap = Butt, strokeLineJoin = Miter,
                         strokeLineMiter = 4.0f, pathFillType = NonZero) {
@@ -613,7 +602,7 @@ public val MyIconPack.Duration2Achievement: ImageVector
             }
         }
         .build()
-        return _duration2Achievement!!
+        return _duration4Achievement!!
     }
 
-private var _duration2Achievement: ImageVector? = null
+private var _duration4Achievement: ImageVector? = null

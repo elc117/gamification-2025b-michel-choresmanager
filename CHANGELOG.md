@@ -41,6 +41,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added AchievementHelper for achievement creation and login
 - Added leveling up logic to SideBar based on completed chores
 - Added achievement logic to SharedChoreViewModel based on completed chores
+- Added achievements resources folder and images
+- Added AchievementScreen for viewing user achievements
+- Added AchievementItem composable for displaying individual achievements
+
 
 ### Changed
 
@@ -57,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed Chore child classes to use Chore in constructor
 - Changed User class to have level and experience properties
 - Changed choreId to uuid string for better uniqueness while not using database
+- Moved achievement creation to Achievement class
 
 ### Removed
 

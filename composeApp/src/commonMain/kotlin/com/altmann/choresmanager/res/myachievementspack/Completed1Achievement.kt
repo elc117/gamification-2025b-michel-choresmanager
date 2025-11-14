@@ -1,25 +1,21 @@
 package com.altmann.choresmanager.res.myiconpack
 
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Brush.Companion.radialGradient
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.group
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
-import com.altmann.choresmanager.res.MyIconPack
+import com.altmann.choresmanager.res.MyAchievementsPack
 
-public val MyIconPack.Completed1Achievement: ImageVector
+public val MyAchievementsPack.Completed1Achievement: ImageVector
     get() {
         if (_completed1Achievement != null) {
             return _completed1Achievement!!

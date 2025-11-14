@@ -18,11 +18,11 @@ import com.altmann.choresmanager.res.myiconpack.Duration4Achievement
 import com.altmann.choresmanager.res.myiconpack.Duration6Achievement
 import kotlin.collections.List as ____KtList
 
-public object MyIconPack
+public object MyAchievementsPack
 
 private var __AllIcons: ____KtList<ImageVector>? = null
 
-public val MyIconPack.AllIcons: ____KtList<ImageVector>
+public val MyAchievementsPack.AllIcons: ____KtList<ImageVector>
   get() {
     if (__AllIcons != null) {
       return __AllIcons!!

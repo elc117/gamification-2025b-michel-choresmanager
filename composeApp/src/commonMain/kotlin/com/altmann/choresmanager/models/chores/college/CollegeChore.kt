@@ -1,6 +1,6 @@
 package com.altmann.choresmanager.models.chores.college
 
-import com.altmann.choresmanager.models.Priority
+import com.altmann.choresmanager.models.chores.Priority
 import com.altmann.choresmanager.models.chores.Chore
 import kotlin.math.floor
 

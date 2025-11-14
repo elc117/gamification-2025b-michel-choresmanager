@@ -1,7 +1,7 @@
 package com.altmann.choresmanager.models.chores
 
 import androidx.compose.ui.graphics.Color
-import com.altmann.choresmanager.models.Priority
+import com.altmann.choresmanager.models.chores.Priority
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime

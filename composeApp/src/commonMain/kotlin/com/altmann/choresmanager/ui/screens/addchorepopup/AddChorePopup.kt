@@ -27,7 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import com.altmann.choresmanager.models.Priority
+import com.altmann.choresmanager.models.chores.Priority
 import com.altmann.choresmanager.models.chores.Chore
 import com.altmann.choresmanager.ui.screens.components.fields.DateTextField
 import com.altmann.choresmanager.ui.screens.components.fields.TimeTextField

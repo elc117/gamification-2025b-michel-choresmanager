@@ -1,4 +1,4 @@
-package com.altmann.choresmanager.models
+package com.altmann.choresmanager.models.chores
 
 enum class Priority(val label : String, val value : Int){
     LOW("Low", 0),
