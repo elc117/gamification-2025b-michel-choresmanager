@@ -1,7 +1,7 @@
 package com.altmann.choresmanager.ui.screens.sidebar
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Checkbox
@@ -37,18 +38,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.chores.Chore
+import com.altmann.choresmanager.res.MyIconPack
+import com.altmann.choresmanager.res.myiconpack.Completed50Achievement
 import com.altmann.choresmanager.ui.screens.addchorepopup.AddChorePopup
 import com.altmann.choresmanager.ui.screens.components.CircleUserIcon
 import com.altmann.choresmanager.utils.CalendarHelper
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @Composable
 fun SideBar(viewModel: SideBarViewModel) {
@@ -57,7 +58,7 @@ fun SideBar(viewModel: SideBarViewModel) {
     var addChorePopup by remember { mutableStateOf(false) }
 
     val progressAnim = remember { Animatable(user.progress.coerceIn(0f, 1f)) }
-    var prevLevel by remember {mutableStateOf(user.level )}
+    var prevLevel by remember { mutableStateOf(user.level) }
 
     LaunchedEffect(user.level, user.progress) {
         val finalTarget = user.progress.coerceIn(0f, 1f)
@@ -123,6 +124,18 @@ fun SideBar(viewModel: SideBarViewModel) {
                     modifier = Modifier.padding(start = 8.dp)
                 )
             }
+
+            val grayscaleMatrix = ColorMatrix().apply {
+                setToSaturation(0f)
+            }
+
+            Image(
+                imageVector = MyIconPack.Completed50Achievement,
+                contentDescription = "Completed 1 chore achievement",
+                modifier = Modifier.clip(RoundedCornerShape(16.dp)),
+                colorFilter = ColorFilter.colorMatrix(grayscaleMatrix)
+            )
+
             TextButton(
                 shape = RoundedCornerShape(4.dp),
                 onClick = {

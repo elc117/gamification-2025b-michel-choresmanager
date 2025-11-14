@@ -59,6 +59,8 @@ kotlin {
             implementation(libs.navigation.compose)
 
             implementation(libs.kolorpicker)
+            implementation("io.coil-kt.coil3:coil-svg:3.3.0")
+            implementation(libs.coil.compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

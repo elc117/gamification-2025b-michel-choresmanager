@@ -22,7 +22,7 @@ koinCompose = "4.1.1"
 koinComposeMultiplatform = "4.1.1"
 navigationCompose = "2.9.1"
 sqldelight = "2.1.0"
-
+coil3 = "3.3.0"
 kolorpicker = "1.0.0"
 
 [libraries]
@@ -49,6 +49,8 @@ sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.re
 sqldelight-desktop = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
 
 kolorpicker = { module = "com.kborowy:kolor-picker", version.ref = "kolorpicker" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
+coil-network = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil3" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
