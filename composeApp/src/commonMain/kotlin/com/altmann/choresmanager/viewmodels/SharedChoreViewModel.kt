@@ -29,7 +29,7 @@ class SharedChoreViewModel : ViewModel() {
     val chores = _chores.asStateFlow()
 
     private val _user = MutableStateFlow(
-        User(userId = 1, name = "Michel", birthday = LocalDate(2004, 9, 5), profileImage = null)
+        User(userId = 1, name = "Your name", birthday = LocalDate(2004, 9, 5), profileImage = null)
     )
     val user = _user.asStateFlow()
 
@@ -49,7 +49,7 @@ class SharedChoreViewModel : ViewModel() {
         _enabledChores.value = _enabledChores.value.plus(chore)
         _user.update { it.copy(createdChores = it.createdChores + 1) }
         remapChores()
-        updateAchievements()
+        updateAchievements(null)
     }
 
     fun enableDisableChore(chore: Chore) {
@@ -77,12 +77,11 @@ class SharedChoreViewModel : ViewModel() {
                 _enabledChores.value =
                     _enabledChores.value.map { if (it.choreId == choreId) chore else it }
             }
+            // Update achievements
+            updateAchievements(chore)
         }
         // Keep enabled list; finished chores will be excluded by mapping predicate
         remapChores()
-
-        // Update achievements
-        updateAchievements()
     }
 
     fun addCompletedChoreToUser(chore: Chore) {
@@ -96,8 +95,8 @@ class SharedChoreViewModel : ViewModel() {
         _user.value.levelUp()
     }
 
-    private fun updateAchievements() {
-        AchievementHelper(user.value.achievements, completedChores = user.value.completedChores, createdChores = user.value.createdChores)
+    private fun updateAchievements(chore : Chore?) {
+        AchievementHelper(user.value.achievements, completedChore = chore,completedChores = user.value.completedChores.size, createdChores = user.value.createdChores)
             .checkForNewAchievements()
             .let { (newAchievements, xp) ->
                 if (newAchievements.isNotEmpty()) {

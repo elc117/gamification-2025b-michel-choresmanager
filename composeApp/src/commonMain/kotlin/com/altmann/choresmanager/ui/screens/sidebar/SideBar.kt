@@ -91,32 +91,40 @@ fun SideBar(viewModel: SideBarViewModel, screen: MutableState<Int>) {
             modifier = Modifier.padding(horizontal = 8.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(contentAlignment = Alignment.Center) {
-                    CircleUserIcon(
-                        imageResource = null,
-                        borderWidth = 2.dp,
-                        size = 48.dp,
-                        modifier = Modifier.padding(8.dp)
-                            .clip(CircleShape)
-                            .clickable {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Box(contentAlignment = Alignment.Center) {
+                        CircleUserIcon(
+                            imageResource = null,
+                            borderWidth = 2.dp,
+                            size = 48.dp,
+                            modifier = Modifier.padding(8.dp)
+                                .clip(CircleShape)
+                                .clickable {
 
-                            }
-                    )
-                    // Progress bar for exp to level up
-                    CircularProgressIndicator(
-                        progress = { progressAnim.value },
-                        modifier = Modifier.size(60.dp),
-                        strokeWidth = 5.dp,
-                        gapSize = 0.dp,
-                        strokeCap = StrokeCap.Butt,
-                        color = MaterialTheme.colorScheme.primary,
-                        trackColor = MaterialTheme.colorScheme.background
+                                }
+                        )
+                        // Progress bar for exp to level up
+                        CircularProgressIndicator(
+                            progress = { progressAnim.value },
+                            modifier = Modifier.size(60.dp),
+                            strokeWidth = 5.dp,
+                            gapSize = 0.dp,
+                            strokeCap = StrokeCap.Butt,
+                            color = MaterialTheme.colorScheme.primary,
+                            trackColor = MaterialTheme.colorScheme.background
+                        )
+                    }
+                    Text(
+                        text = "${user.currentExp} / ${user.lvlUpThreshold}",
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(start = 8.dp)
                     )
                 }
                 Text(
-                    text = "Michel",
+                    text = "Level ${user.level}",
                     style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(start = 8.dp)
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(bottom = 8.dp)
                 )
             }
             TextButton(

@@ -65,7 +65,7 @@ fun CalendarScreen(
 @Composable
 private fun MonthHeader(anchor: LocalDate, onPrev: () -> Unit, onNext: () -> Unit) {
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        TextButton(onClick = onPrev) { Text("◀") }
+        TextButton(onClick = onPrev) { Text("<") }
         Spacer(Modifier.width(8.dp))
         Text(
             text = "${anchor.month.name} - ${anchor.year}",
@@ -73,7 +73,7 @@ private fun MonthHeader(anchor: LocalDate, onPrev: () -> Unit, onNext: () -> Uni
             modifier = Modifier.weight(1f)
         )
         Spacer(Modifier.width(8.dp))
-        TextButton(onClick = onNext) { Text("▶") }
+        TextButton(onClick = onNext) { Text(">") }
     }
 }
 

@@ -41,7 +41,7 @@ fun PriorityPicker(
         }
         DropdownMenu(
             onDismissRequest = { expanded = !expanded },
-            expanded = expanded
+            expanded = expanded,
         ) {
             Priority.entries.forEach { priority ->
                 PriorityItem(

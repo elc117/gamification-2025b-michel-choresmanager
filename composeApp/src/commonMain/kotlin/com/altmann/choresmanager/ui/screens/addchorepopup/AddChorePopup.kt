@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.chores.Priority
 import com.altmann.choresmanager.models.chores.Chore
@@ -171,12 +172,12 @@ fun PopUpContent(
                 expanded = openColorSelection,
                 onDismissRequest = { openColorSelection = false },
                 modifier = Modifier.padding(horizontal = 8.dp),
+                offset = DpOffset(x = 100.dp, y = 0.dp),
                 containerColor = MaterialTheme.colorScheme.background,
             ) {
                 ColorPicker(
                     onColorSelected = {
                         selectedColor.value = it
-                        openColorSelection = false
                     },
                     selectedColor = selectedColor.value
                 )

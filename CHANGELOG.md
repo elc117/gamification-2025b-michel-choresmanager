@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.2.0] - 2025-11-14
 
 ### Added
 
@@ -45,6 +45,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added AchievementScreen for viewing user achievements
 - Added AchievementItem composable for displaying individual achievements
 - Added simple screen navigation logic
+- Completed achievement detection logic in SharedChoreViewModel and AchievementHelper
+- Added level and exp text to SideBar
+- Added slight offset to ColorPicker dropdown menu
 
 ### Changed
 
@@ -63,6 +66,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed choreId to uuid string for better uniqueness while not using database
 - Moved achievement creation to Achievement class
 - Separated ColorPicker implementation by platform
+- Changed AchievementHelper to receive single chore instead of list
+- Changed AchievementHelper to receive number of completed chores
+- Changed Chore duration to be in minutes instead of hours
 
 ### Removed
 

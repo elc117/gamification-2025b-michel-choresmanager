@@ -14,7 +14,7 @@ actual fun ColorPicker(
     selectedColor: Color
 ) {
     KolorPicker(
-        onColorSelected = onColorSelected,
+        onColorSelected = { onColorSelected(it) },
         modifier = Modifier.width(250.dp).height(200.dp),
         initialColor = selectedColor
     )
