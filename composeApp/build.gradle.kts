@@ -1,6 +1,7 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.gradle.jvm.tasks.Jar
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -17,20 +18,21 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     jvm()
-    
-    js {
-        browser()
-        binaries.executable()
+
+    js(IR) {
+        browser {
+            binaries.executable()
+        }
     }
-    
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser()
         binaries.executable()
     }
-    
+
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
@@ -124,6 +126,10 @@ compose.desktop {
             packageName = "com.altmann.choresmanager"
             packageVersion = "1.0.0"
         }
+
+        buildTypes.release.proguard {
+            isEnabled.set(false)
+        }
     }
 }
 
@@ -135,3 +141,12 @@ sqldelight {
 
     }
 }
+
+// Thin JVM jar: make sure it has the correct Main-Class (useful even when we build a fat jar)
+tasks.withType<Jar>().matching { it.name == "jvmJar" }.configureEach {
+    manifest {
+        attributes["Main-Class"] = "com.altmann.choresmanager.MainKt"
+    }
+}
+
+apply(from = "fat-jar.gradle.kts")

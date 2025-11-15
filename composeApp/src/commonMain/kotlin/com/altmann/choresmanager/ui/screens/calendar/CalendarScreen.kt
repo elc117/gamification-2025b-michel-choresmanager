@@ -1,15 +1,19 @@
 package com.altmann.choresmanager.ui.screens.calendar
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -21,6 +25,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.chores.Chore
 import com.altmann.choresmanager.utils.CalendarHelper
@@ -39,32 +45,47 @@ fun CalendarScreen(
     LaunchedEffect(anchor, uiState.enabledChores) {
         send(CalendarEvent.LoadChores)
     }
+    BoxWithConstraints {
+        val maxWidth = this.maxWidth
+        val maxHeight = this.maxHeight
+        var dayCellWidth = (maxWidth / 7) - 8.dp
+        val dayCellHeight = ((maxHeight) / 7) - 2.dp
 
-    Column(
-        Modifier.fillMaxSize()
-            .padding(16.dp)
-            .aspectRatio(1f, true)
-    ) {
-        MonthHeader(
-            anchor = anchor,
-            onPrev = { send(CalendarEvent.PrevMonth) }, // fixed mapping
-            onNext = { send(CalendarEvent.NextMonth) }
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        WeekdayRow()
-        Spacer(modifier = Modifier.height(4.dp))
-        MonthGrid(
-            uiState = uiState,
-            send = send,
-            // Days outside the current month get colored grey
-            inAnchorMonth = { it.month.ordinal == anchor.month.ordinal && it.year == anchor.year }
-        )
+        if (dayCellWidth > dayCellHeight) {
+            dayCellWidth = dayCellHeight
+        }
+
+        Column(
+            Modifier
+                .width(maxWidth)
+                .height(maxHeight)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            MonthHeader(
+                anchor = anchor,
+                onPrev = { send(CalendarEvent.PrevMonth) }, // fixed mapping
+                onNext = { send(CalendarEvent.NextMonth) },
+                modifier = Modifier.width(dayCellWidth*7 + 48.dp).height(dayCellHeight/3)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            WeekdayRow(modifier = Modifier.width(dayCellWidth*7 + 48.dp).height(dayCellHeight/3))
+            Spacer(modifier = Modifier.height(4.dp))
+            MonthGrid(
+                uiState = uiState,
+                send = send,
+                // Days outside the current month get colored grey
+                inAnchorMonth = { it.month.ordinal == anchor.month.ordinal && it.year == anchor.year },
+                modifier = Modifier.width(dayCellWidth*7 + 48.dp),
+                dayCellHeight = dayCellHeight
+            )
+        }
     }
 }
 
 @Composable
-private fun MonthHeader(anchor: LocalDate, onPrev: () -> Unit, onNext: () -> Unit) {
-    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+private fun MonthHeader(anchor: LocalDate, onPrev: () -> Unit, onNext: () -> Unit, modifier: Modifier) {
+    Row(modifier, verticalAlignment = Alignment.CenterVertically) {
         TextButton(onClick = onPrev) { Text("<") }
         Spacer(Modifier.width(8.dp))
         Text(
@@ -78,9 +99,9 @@ private fun MonthHeader(anchor: LocalDate, onPrev: () -> Unit, onNext: () -> Uni
 }
 
 @Composable
-private fun WeekdayRow() {
+private fun WeekdayRow(modifier: Modifier) {
     val labels = listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
-    Row(Modifier.fillMaxWidth()) {
+    Row(modifier) {
         labels.forEach { label ->
             Box(
                 Modifier.weight(1f).padding(vertical = 6.dp),
@@ -96,7 +117,9 @@ private fun WeekdayRow() {
 private fun MonthGrid(
     uiState: CalendarUiState,
     send: (CalendarEvent) -> Unit,
-    inAnchorMonth: (LocalDate) -> Boolean
+    inAnchorMonth: (LocalDate) -> Boolean,
+    modifier: Modifier,
+    dayCellHeight: Dp
 ) {
     // 6x7 = 42
     val (start, _) = remember(uiState.anchor) {
@@ -105,7 +128,7 @@ private fun MonthGrid(
     val days: List<LocalDate> =
         remember(start) { (0 until 42).map { start.plus(DatePeriod(days = it)) } }
 
-    Column(Modifier.fillMaxWidth()) {
+    Column(modifier) {
         for (row in 0 until 6) {
             Row(Modifier.fillMaxWidth()) {
                 for (col in 0 until 7) {
@@ -119,9 +142,9 @@ private fun MonthGrid(
                         faded = !inAnchorMonth(date),
                         onClick = { send(CalendarEvent.SelectDate(date)) },
                         onDismiss = { send(CalendarEvent.DismissExpanded) },
-                        addChore ={ send(CalendarEvent.AddChore(it)) },
+                        addChore = { send(CalendarEvent.AddChore(it)) },
                         send = send,
-                        modifier = Modifier.weight(1f).aspectRatio(1f, true).padding(4.dp)
+                        modifier = Modifier.weight(1f).height(dayCellHeight).padding(4.dp)
                     )
                 }
             }
