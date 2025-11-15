@@ -31,10 +31,10 @@ import com.altmann.choresmanager.models.chores.Priority
 import com.altmann.choresmanager.models.chores.Chore
 import com.altmann.choresmanager.ui.screens.components.fields.DateTextField
 import com.altmann.choresmanager.ui.screens.components.fields.TimeTextField
+import com.altmann.choresmanager.ui.screens.components.pickers.ColorPicker
 import com.altmann.choresmanager.ui.screens.components.pickers.DayOfWeekPicker
 import com.altmann.choresmanager.ui.screens.components.pickers.PriorityPicker
 import com.altmann.choresmanager.utils.DateTimeParser
-import com.kborowy.colorpicker.KolorPicker
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
@@ -78,7 +78,7 @@ fun PopUpContent(
     val endTimeTxt = remember { mutableStateOf(TextFieldValue("")) }
     var selectedDays by remember { mutableStateOf<List<DayOfWeek>>(emptyList()) }
     val selectedPriority = remember { mutableStateOf(Priority.NORMAL) }
-    val selectedColor = remember { mutableStateOf(Color.Gray) }
+    val selectedColor = remember { mutableStateOf(Color.Blue) }
 
     var openColorSelection by remember { mutableStateOf(false) }
 
@@ -173,10 +173,12 @@ fun PopUpContent(
                 modifier = Modifier.padding(horizontal = 8.dp),
                 containerColor = MaterialTheme.colorScheme.background,
             ) {
-                KolorPicker(
-                    onColorSelected = {selectedColor.value = it},
-                    modifier = Modifier.width(250.dp).height(200.dp),
-                    initialColor = selectedColor.value
+                ColorPicker(
+                    onColorSelected = {
+                        selectedColor.value = it
+                        openColorSelection = false
+                    },
+                    selectedColor = selectedColor.value
                 )
             }
         }

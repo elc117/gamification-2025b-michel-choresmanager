@@ -41,6 +41,7 @@ kotlin {
 
             implementation(libs.sqldelight.android)
             implementation(libs.kolorpicker)
+            implementation(libs.kolorpicker)
 
         }
         commonMain.dependencies {
@@ -58,7 +59,6 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.navigation.compose)
 
-            implementation(libs.kolorpicker)
             implementation("io.coil-kt.coil3:coil-svg:3.3.0")
             implementation(libs.coil.compose)
         }
@@ -79,7 +79,6 @@ kotlin {
             implementation(devNpm("copy-webpack-plugin", "9.1.0"))
             implementation(npm("@cashapp/sqldelight-sqljs-worker", "2.1.0"))
             implementation(npm("sql.js", "1.8.0"))
-            implementation(libs.kolorpicker)
 
         }
     }

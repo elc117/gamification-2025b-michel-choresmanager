@@ -62,6 +62,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed User class to have level and experience properties
 - Changed choreId to uuid string for better uniqueness while not using database
 - Moved achievement creation to Achievement class
+- Separated ColorPicker implementation by platform
 
 ### Removed
 
