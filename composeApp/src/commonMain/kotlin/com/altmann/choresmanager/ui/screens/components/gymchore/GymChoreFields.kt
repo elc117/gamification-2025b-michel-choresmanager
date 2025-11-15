@@ -1,29 +1,25 @@
-package com.altmann.choresmanager.ui.screens.addchorepopup.gymchore
+package com.altmann.choresmanager.ui.screens.components.gymchore
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.chores.gym.Exercise
 import com.altmann.choresmanager.ui.screens.addchorepopup.ChorePopupEvent
 import com.altmann.choresmanager.ui.screens.addchorepopup.ChorePopupState
 import com.altmann.choresmanager.ui.screens.addchorepopup.FieldSpacer
+import com.altmann.choresmanager.ui.screens.components.XButton
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -50,7 +46,6 @@ fun GymChoreFields(onEvent: (ChorePopupEvent) -> Unit, state: ChorePopupState) {
             ) {
                 Text("Open exercises")
             }
-
             WorkoutDropdown(
                 open = openExerciseList.value,
                 onDismiss = { openExerciseList.value = false },
@@ -88,7 +83,7 @@ fun WorkoutDropdown(
                     modifier = Modifier.padding(8.dp),
                     shape = RoundedCornerShape(8.dp)
                 ) {
-                    Text("Add Exercise")
+                    Text("New Exercise")
                 }
 
             }
@@ -197,12 +192,12 @@ fun ExerciseItem(
 ) {
     Surface(
         shape = RoundedCornerShape(8.dp),
-        border = BorderStroke(1.dp, Color.Gray),
+        color = MaterialTheme.colorScheme.primaryContainer,
         modifier = modifier
-            .padding(8.dp)
+            .padding(2.dp)
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().padding(8.dp)
+            modifier = Modifier.fillMaxSize().padding(4.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -224,17 +219,8 @@ fun ExerciseItem(
 
                 Spacer(Modifier.width(8.dp))
 
-                TextButton(
-                    onClick = { onExerciseDeleted(exercise) },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Red,
-                        contentColor = Color.Black
-                    ),
-                    modifier = Modifier
-                        .size(36.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                ) {
-                    Text("X", modifier = Modifier.padding(0.dp))
+                XButton {
+                    onExerciseDeleted(exercise)
                 }
 
             }

@@ -72,7 +72,7 @@ class ChorePopupViewModel : ViewModel() {
             }
 
             // GroceryType specific
-            is ChorePopupEvent.ItemsChanged -> {
+            is ChorePopupEvent.GroceryItemsChanged -> {
                 _state.value = _state.value.copy(items = event.items)
             }
 

@@ -15,11 +15,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added DropdownMenu for selecting chore type in AddChorePopup
 - Added CollegeChore type fields to AddChorePopup
 - Added GymChoreFields dropdown menus to AddChorePopup
+- Added GroceryChoreFields dropdown menus to AddChorePopup
+- Added XButton composable for removing items
 
 ### Changed
 
 - Changed CalendarScreen logic to resize based on screen size
 - Changed DayCell to resize based on screen size
+- Changed itemId to string for uuid use
 
 ### Removed
 

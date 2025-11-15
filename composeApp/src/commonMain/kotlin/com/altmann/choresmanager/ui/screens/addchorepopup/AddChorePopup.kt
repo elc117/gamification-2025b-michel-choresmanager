@@ -15,8 +15,8 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.chores.Chore
 import com.altmann.choresmanager.models.chores.Priority
-import com.altmann.choresmanager.models.chores.gym.Exercise
-import com.altmann.choresmanager.ui.screens.addchorepopup.gymchore.GymChoreFields
+import com.altmann.choresmanager.ui.screens.components.grocerychore.GroceryChoreFields
+import com.altmann.choresmanager.ui.screens.components.gymchore.GymChoreFields
 import com.altmann.choresmanager.ui.screens.components.fields.DateTextField
 import com.altmann.choresmanager.ui.screens.components.fields.TimeTextField
 import com.altmann.choresmanager.ui.screens.components.pickers.ChoreTypePicker
@@ -24,10 +24,8 @@ import com.altmann.choresmanager.ui.screens.components.pickers.ColorPicker
 import com.altmann.choresmanager.ui.screens.components.pickers.DayOfWeekPicker
 import com.altmann.choresmanager.ui.screens.components.pickers.PriorityPicker
 import com.altmann.choresmanager.utils.DateTimeParser
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
-import org.koin.compose.viewmodel.koinViewModel
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -232,13 +230,6 @@ fun PopUpContent(
             Text("Add Chore")
         }
     }
-}
-
-
-
-@Composable
-fun GroceryChoreFields(onEvent: (ChorePopupEvent) -> Unit, state: ChorePopupState) {
-    TODO("Not yet implemented")
 }
 
 @Composable
