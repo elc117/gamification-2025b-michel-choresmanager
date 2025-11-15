@@ -44,7 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added achievements resources folder and images
 - Added AchievementScreen for viewing user achievements
 - Added AchievementItem composable for displaying individual achievements
-
+- Added simple screen navigation logic
 
 ### Changed
 

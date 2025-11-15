@@ -28,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,7 +47,7 @@ import com.altmann.choresmanager.ui.screens.components.CircleUserIcon
 import com.altmann.choresmanager.utils.CalendarHelper
 
 @Composable
-fun SideBar(viewModel: SideBarViewModel) {
+fun SideBar(viewModel: SideBarViewModel, screen: MutableState<Int>) {
     val chores by viewModel.chores.collectAsState()
     val user by viewModel.user.collectAsState()
     var addChorePopup by remember { mutableStateOf(false) }
@@ -121,7 +122,11 @@ fun SideBar(viewModel: SideBarViewModel) {
             TextButton(
                 shape = RoundedCornerShape(4.dp),
                 onClick = {
-
+                    screen.value = if (screen.value == 0) {
+                        1
+                    } else {
+                        0
+                    }
                 }
             ) {
                 Text("Achievements", fontWeight = FontWeight.Bold)

@@ -10,6 +10,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.ui.screens.achievements.AchievementsScreen
@@ -24,11 +27,17 @@ import org.koin.compose.viewmodel.koinViewModel
 fun HomeScreen() {
     val calendarViewModel = koinViewModel<CalendarViewModel>()
     val sideBarViewModel = koinViewModel<SideBarViewModel>()
+
+    var screen = remember { mutableStateOf(0) }
+
 //    val achievementsViewModel = koinViewModel<AchievementsViewModel>()
     Row(modifier = Modifier.fillMaxSize()) {
-        SideBar(sideBarViewModel)
-//        CalendarScreen(calendarViewModel)
-        AchievementsScreen(sideBarViewModel.user.value.achievements,
-            modifier = Modifier.weight(1f).fillMaxHeight())
+        SideBar(sideBarViewModel, screen)
+        when (screen.value) {
+            0 -> CalendarScreen(calendarViewModel)
+            1 -> AchievementsScreen(sideBarViewModel.user.value.achievements,
+                modifier = Modifier.weight(1f).fillMaxHeight())
+        }
+
     }
 }
