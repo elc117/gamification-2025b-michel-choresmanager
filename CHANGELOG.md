@@ -7,10 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added ChorePopupState for managing ChorePopup state changes
+- Added ChorePupupEvent for defining user interactions in ChorePopup
+- Added ChorePopupViewModel for handling ChorePopup logic and maintaining state
+- Added DropdownMenu for selecting chore type in AddChorePopup
+- Added CollegeChore type fields to AddChorePopup
+- Added GymChoreFields dropdown menus to AddChorePopup
+
 ### Changed
 
 - Changed CalendarScreen logic to resize based on screen size
 - Changed DayCell to resize based on screen size
+
+### Removed
+
+- Removed WorkChore
 
 ## [0.2.0] - 2025-11-14
 

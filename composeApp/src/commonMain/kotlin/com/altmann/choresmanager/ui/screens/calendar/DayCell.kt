@@ -22,7 +22,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.chores.Chore
 import com.altmann.choresmanager.ui.screens.addchorepopup.AddChorePopup
+import com.altmann.choresmanager.ui.screens.addchorepopup.ChorePopupViewModel
 import kotlinx.datetime.LocalDate
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun DayCell(
@@ -103,6 +105,7 @@ fun DayCell(
                 }
 
             }
+            val viewModel = koinViewModel<ChorePopupViewModel>()
             AddChorePopup(
                 onDismiss = onDismiss,
                 date = date,
@@ -110,7 +113,8 @@ fun DayCell(
                     addChore(it)
                     onDismiss()
                 },
-                visible = selected && expanded
+                visible = selected && expanded,
+                viewModel = viewModel
             )
 
         }

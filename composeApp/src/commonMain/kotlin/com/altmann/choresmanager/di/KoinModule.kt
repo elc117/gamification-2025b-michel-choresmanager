@@ -2,6 +2,7 @@ package com.altmann.choresmanager.di
 
 import com.altmann.choresmanager.database.UserDao
 import com.altmann.choresmanager.local.LocalDatabase
+import com.altmann.choresmanager.ui.screens.addchorepopup.ChorePopupViewModel
 import com.altmann.choresmanager.ui.screens.calendar.CalendarViewModel
 import com.altmann.choresmanager.ui.screens.home.HomeScreen
 import com.altmann.choresmanager.ui.screens.sidebar.SideBarViewModel
@@ -25,6 +26,7 @@ val sharedModule = module {
     }
     viewModelOf(::CalendarViewModel)
     viewModelOf(::SideBarViewModel)
+    viewModelOf(::ChorePopupViewModel)
 
 }
 

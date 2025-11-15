@@ -43,8 +43,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.chores.Chore
 import com.altmann.choresmanager.ui.screens.addchorepopup.AddChorePopup
+import com.altmann.choresmanager.ui.screens.addchorepopup.ChorePopupViewModel
 import com.altmann.choresmanager.ui.screens.components.CircleUserIcon
 import com.altmann.choresmanager.utils.CalendarHelper
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun SideBar(viewModel: SideBarViewModel, screen: MutableState<Int>) {
@@ -152,13 +154,15 @@ fun SideBar(viewModel: SideBarViewModel, screen: MutableState<Int>) {
                     .fillMaxWidth()
                     .size(2.dp)
             )
+            val popUpViewModel = koinViewModel<ChorePopupViewModel>()
             AddChorePopup(
                 onDismiss = {
                     addChorePopup = false
                 },
                 date = CalendarHelper.today(),
                 addChore = { chore -> viewModel.addChore(chore) },
-                visible = addChorePopup
+                visible = addChorePopup,
+                viewModel = popUpViewModel
             )
             TextButton(
                 shape = RoundedCornerShape(4.dp),

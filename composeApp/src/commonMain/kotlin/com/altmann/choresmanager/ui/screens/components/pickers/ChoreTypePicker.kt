@@ -3,6 +3,7 @@ package com.altmann.choresmanager.ui.screens.components.pickers
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
@@ -23,33 +24,33 @@ import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.chores.Priority
 
 @Composable
-fun PriorityPicker(
-    selectedPriority: Priority,
-    onPrioritySelected: (Priority) -> Unit,
+fun ChoreTypePicker(
+    selectedChore: String = "Default",
+    onChoreSelected: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
+    val chores = listOf("Default", "College", "Grocery", "Gym")
     Box {
         TextButton(
             onClick = {
                 expanded = !expanded
             },
             shape = RoundedCornerShape(8.dp),
-            border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
             modifier = Modifier.clip(RoundedCornerShape(8.dp))
         ) {
-            Text("Priority: ${selectedPriority.name}", fontWeight = FontWeight.Bold)
+            Text("ChoreType: $selectedChore", fontWeight = FontWeight.Bold)
         }
         DropdownMenu(
             onDismissRequest = { expanded = !expanded },
             expanded = expanded,
         ) {
-            Priority.entries.forEach { priority ->
-                PriorityItem(
-                    priority = priority,
-                    isSelected = priority == selectedPriority,
-                    onPrioritySelected = {
-                        onPrioritySelected(it)
+            chores.forEach { chore ->
+                ChoreItem(
+                    chore = chore,
+                    isSelected = chore == selectedChore,
+                    onChoreSelected = {
+                        onChoreSelected(it)
                         expanded = false
                     },
                     modifier = Modifier.padding(horizontal = 4.dp)
@@ -60,14 +61,14 @@ fun PriorityPicker(
 }
 
 @Composable
-fun PriorityItem(
-    priority: Priority,
+fun ChoreItem(
+    chore: String,
     isSelected: Boolean,
-    onPrioritySelected: (Priority) -> Unit,
+    onChoreSelected: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     TextButton(
-        onClick = { onPrioritySelected(priority) },
+        onClick = { onChoreSelected(chore) },
         modifier = modifier,
         colors = ButtonDefaults.textButtonColors(
             contentColor = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
@@ -76,10 +77,10 @@ fun PriorityItem(
     ) {
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = priority.name,
+                text = chore,
                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
             )
         }
