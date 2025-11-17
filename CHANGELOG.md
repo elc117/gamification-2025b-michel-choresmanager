@@ -17,12 +17,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added GymChoreFields dropdown menus to AddChorePopup
 - Added GroceryChoreFields dropdown menus to AddChorePopup
 - Added XButton composable for removing items
+- Added cancel button to AddChorePopup
+- Added setSelectedDay to ChorePopupViewModel for setting the day of the week when clicking on a DayCell
 
 ### Changed
 
 - Changed CalendarScreen logic to resize based on screen size
 - Changed DayCell to resize based on screen size
 - Changed itemId to string for uuid use
+
+### Fixed
+
+- Fixed totalHours being a string instead of integer in ChorePopupState
 
 ### Removed
 

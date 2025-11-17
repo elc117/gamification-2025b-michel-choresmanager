@@ -12,6 +12,11 @@ data class ChorePopupState(
     val title: String = "",
     val description: String = "",
     val selectedDays: List<DayOfWeek> = emptyList(),
+    val startTime: LocalTime = LocalTime(12, 0),
+    val endTime: LocalTime = LocalTime(13, 0),
+    val startDate: LocalDate = LocalDate(1970, 1, 1),
+    val endDate: LocalDate = LocalDate(1970, 1, 1),
+    val choreExceptionDates: List<LocalDate> = emptyList(),
     val selectedChoreType: String = "Default",
     val selectedPriority: String = "Normal",
     val selectedColor: Color = Color.Blue,
@@ -19,10 +24,12 @@ data class ChorePopupState(
 
     // Other chore types fields
     // College
+    val totalHoursTxt : String = "",
+
     val subject : String = "",
     val location : String = "",
     val professor : String = "",
-    val totalHours : String = "",
+    val totalHours : Int? = null,
 
     // Gym
     val workout: List<Exercise> = listOf(),

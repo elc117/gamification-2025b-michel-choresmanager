@@ -1,9 +1,11 @@
 package com.altmann.choresmanager.ui.screens.addchorepopup
 
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.datetime.LocalDate
 
 class ChorePopupViewModel : ViewModel() {
     private val _state = MutableStateFlow(ChorePopupState())
@@ -14,6 +16,7 @@ class ChorePopupViewModel : ViewModel() {
             is ChorePopupEvent.OpenPopup -> {
                 _state.value = _state.value.copy(isOpen = true)
             }
+
             is ChorePopupEvent.ClosePopup -> {
                 _state.value = _state.value.copy(isOpen = false)
             }
@@ -21,6 +24,7 @@ class ChorePopupViewModel : ViewModel() {
             is ChorePopupEvent.TitleChanged -> {
                 _state.value = _state.value.copy(title = event.value)
             }
+
             is ChorePopupEvent.DescriptionChanged -> {
                 _state.value = _state.value.copy(description = event.value)
             }
@@ -38,6 +42,7 @@ class ChorePopupViewModel : ViewModel() {
             is ChorePopupEvent.ChoreTypeChanged -> {
                 _state.value = _state.value.copy(selectedChoreType = event.value)
             }
+
             is ChorePopupEvent.PriorityChanged -> {
                 _state.value = _state.value.copy(selectedPriority = event.value)
             }
@@ -45,28 +50,37 @@ class ChorePopupViewModel : ViewModel() {
             is ChorePopupEvent.ColorChanged -> {
                 _state.value = _state.value.copy(selectedColor = event.value)
             }
+
             is ChorePopupEvent.ToggleColorPicker -> {
-                _state.value = _state.value.copy(isColorPickerOpen = !_state.value.isColorPickerOpen)
+                _state.value =
+                    _state.value.copy(isColorPickerOpen = !_state.value.isColorPickerOpen)
             }
 
             // CollegeType specific
             is ChorePopupEvent.SubjectChanged -> {
                 _state.value = _state.value.copy(subject = event.value)
             }
+
             is ChorePopupEvent.LocationChanged -> {
                 _state.value = _state.value.copy(location = event.value)
             }
+
             is ChorePopupEvent.ProfessorChanged -> {
                 _state.value = _state.value.copy(professor = event.value)
             }
+
             is ChorePopupEvent.TotalHoursChanged -> {
-                _state.value = _state.value.copy(totalHours = event.value)
+                _state.value = _state.value.copy(
+                    totalHours = event.value.toIntOrNull(),
+                    totalHoursTxt = event.value
+                )
             }
 
             // GymType specific
             is ChorePopupEvent.WorkoutChanged -> {
                 _state.value = _state.value.copy(workout = event.workout)
             }
+
             is ChorePopupEvent.ExerciseDayChanged -> {
                 _state.value = _state.value.copy(exerciseDay = event.value)
             }
@@ -77,10 +91,23 @@ class ChorePopupViewModel : ViewModel() {
             }
 
             is ChorePopupEvent.AddChore -> {
-                // No-op here; the actual add is handled by the caller using the built Chore
-                // You could also reset the form here if desired
-                _state.value = _state.value.copy(isOpen = false)
+                // No-op here; the actual add is handled by the parent composable/screen
+                // Resets the form
+                resetState()
+            }
+
+            is ChorePopupEvent.Cancel -> {
+                resetState()
             }
         }
     }
+
+    fun setSelectedDay(date: LocalDate) {
+        _state.value = _state.value.copy(selectedDays = listOf(date.dayOfWeek))
+    }
+
+    private fun resetState() {
+        _state.value = ChorePopupState()
+    }
+
 }

@@ -15,6 +15,9 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.chores.Chore
 import com.altmann.choresmanager.models.chores.Priority
+import com.altmann.choresmanager.models.chores.college.CollegeChore
+import com.altmann.choresmanager.models.chores.grocery.GroceryChore
+import com.altmann.choresmanager.models.chores.gym.GymChore
 import com.altmann.choresmanager.ui.screens.components.grocerychore.GroceryChoreFields
 import com.altmann.choresmanager.ui.screens.components.gymchore.GymChoreFields
 import com.altmann.choresmanager.ui.screens.components.fields.DateTextField
@@ -38,6 +41,7 @@ fun AddChorePopup(
     viewModel: ChorePopupViewModel
 ) {
     val state by viewModel.state.collectAsState()
+    viewModel.setSelectedDay(date)
     DropdownMenu(
         expanded = visible,
         onDismissRequest = { onDismiss() },
@@ -49,7 +53,8 @@ fun AddChorePopup(
             date = date,
             state = state,
             onEvent = viewModel::onEvent,
-            onAddChore = addChore
+            onAddChore = addChore,
+            onDismiss = onDismiss
         )
     }
 }
@@ -61,6 +66,7 @@ fun PopUpContent(
     state: ChorePopupState,
     onEvent: (ChorePopupEvent) -> Unit,
     onAddChore: (chore: Chore) -> Unit,
+    onDismiss: () -> Unit
 ) {
     val startDate = remember { mutableStateOf(date) }
     val endDate = remember { mutableStateOf(LocalDate(2024, 6, 1)) }
@@ -206,28 +212,74 @@ fun PopUpContent(
             }
         }
 
-        Button(
-            onClick = {
-                val chore = Chore(
-                    choreId = Uuid.random().toString(),
-                    startTime = startTime.value,
-                    endTime = endTime.value,
-                    daysOfWeek = state.selectedDays,
-                    startDate = startDate.value,
-                    endDate = endDate.value,
-                    choreException = listOf(),
-                    title = state.title,
-                    description = state.description.ifBlank { "" },
-                    priority = Priority.valueOf(state.selectedPriority.uppercase()),
-                    color = state.selectedColor
-                )
-                onEvent(ChorePopupEvent.AddChore(chore))
-                onAddChore(chore)
-            },
-            shape = RoundedCornerShape(8.dp),
-            modifier = Modifier.clip(RoundedCornerShape(8.dp))
-        ) {
-            Text("Add Chore")
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Button(
+                onClick = {
+                    onEvent(ChorePopupEvent.Cancel)
+                    onDismiss()
+                },
+                shape = RoundedCornerShape(8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                ),
+                modifier = Modifier.clip(RoundedCornerShape(8.dp)).weight(1f)
+            ) {
+                Text("Cancel")
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Button(
+                onClick = {
+                    var chore = Chore(
+                        choreId = Uuid.random().toString(),
+                        startTime = startTime.value,
+                        endTime = endTime.value,
+                        daysOfWeek = state.selectedDays,
+                        startDate = startDate.value,
+                        endDate = endDate.value,
+                        choreException = listOf(),
+                        title = state.title,
+                        description = state.description.ifBlank { "" },
+                        priority = Priority.valueOf(state.selectedPriority.uppercase()),
+                        color = state.selectedColor
+                    )
+
+                    when (state.selectedChoreType) {
+                        "Grocery" -> {
+                            chore = GroceryChore(
+                                chore = chore,
+                                items = state.items
+                            )
+                        }
+
+                        "College" -> {
+                            chore = CollegeChore(
+                                chore = chore,
+                                subject = state.subject,
+                                location = state.location,
+                                professor = state.professor,
+                                totalHours = state.totalHours
+                            )
+                        }
+
+                        "Gym" -> {
+                            chore = GymChore(
+                                chore = chore,
+                                workout = state.workout,
+                                exerciseDay = state.exerciseDay
+                            )
+                        }
+                    }
+
+                    onEvent(ChorePopupEvent.AddChore)
+                    onAddChore(chore)
+                    onDismiss()
+                },
+                shape = RoundedCornerShape(8.dp),
+                modifier = Modifier.clip(RoundedCornerShape(8.dp)).weight(1f)
+            ) {
+                Text("Add Chore")
+            }
         }
     }
 }
@@ -267,8 +319,8 @@ fun CollegeChoreFields(onEvent: (ChorePopupEvent) -> Unit, state: ChorePopupStat
             )
             Spacer(modifier = Modifier.width(4.dp))
             TextField(
-                value = state.totalHours,
-                onValueChange = { location -> onEvent(ChorePopupEvent.TotalHoursChanged(location)) },
+                value = state.totalHoursTxt,
+                onValueChange = { onEvent(ChorePopupEvent.TotalHoursChanged(it)) },
                 maxLines = 1,
                 modifier = Modifier.weight(1f),
                 label = { Text("Total hours") },

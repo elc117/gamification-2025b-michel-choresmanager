@@ -111,7 +111,6 @@ fun DayCell(
                 date = date,
                 addChore = {
                     addChore(it)
-                    onDismiss()
                 },
                 visible = selected && expanded,
                 viewModel = viewModel

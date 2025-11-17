@@ -1,5 +1,6 @@
 package com.altmann.choresmanager
 
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
@@ -11,7 +12,10 @@ fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
         title = "ChoresManager",
-        state = WindowState(width = 1200.dp, height = 820.dp)
+        state = WindowState(
+            width = 1200.dp,
+            height = 820.dp,
+        )
     ) {
         App()
     }

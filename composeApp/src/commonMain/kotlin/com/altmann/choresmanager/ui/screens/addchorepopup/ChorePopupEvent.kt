@@ -33,5 +33,6 @@ sealed interface ChorePopupEvent {
     data class GroceryItemsChanged(val items: List<Item>) : ChorePopupEvent
 
     // Final action – UI will still build the Chore object and send it up to the parent
-    data class AddChore(val chore: Chore) : ChorePopupEvent
+    object AddChore : ChorePopupEvent
+    object Cancel : ChorePopupEvent
 }
