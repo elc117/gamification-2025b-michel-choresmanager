@@ -7,10 +7,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
@@ -39,6 +42,7 @@ import com.altmann.choresmanager.ui.screens.components.XButton
 import com.altmann.choresmanager.ui.screens.components.grocerychore.GroceryContent
 import com.altmann.choresmanager.ui.screens.components.grocerychore.GroceryItemCounter
 import com.altmann.choresmanager.ui.screens.components.grocerychore.GroceryList
+import com.altmann.choresmanager.ui.screens.components.gymchore.ExerciseItem
 import com.altmann.choresmanager.ui.screens.components.pickers.DayOfWeekPicker
 import com.altmann.choresmanager.utils.DateTimeParser
 import kotlinx.datetime.LocalDate
@@ -48,6 +52,7 @@ fun ViewChorePopup(
     onDismiss: () -> Unit,
     onFinish: (choreId: String, date: LocalDate) -> Unit,
     onGroceriesUpdated: (chore: Chore) -> Unit,
+    onWorkoutChanged: (chore: Chore) -> Unit,
     date: LocalDate,
     chore: Chore,
     visible: Boolean,
@@ -64,7 +69,8 @@ fun ViewChorePopup(
             chore = chore,
             onDismiss = onDismiss,
             onFinish = onFinish,
-            onGroceriesUpdated = onGroceriesUpdated
+            onGroceriesUpdated = onGroceriesUpdated,
+            onWorkoutChanged = onWorkoutChanged
         )
     }
 }
@@ -75,6 +81,7 @@ private fun ViewChorePopupContent(
     chore: Chore,
     onDismiss: () -> Unit,
     onGroceriesUpdated: (chore: Chore) -> Unit,
+    onWorkoutChanged: (chore: Chore) -> Unit,
     onFinish: (choreId: String, date: LocalDate) -> Unit
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(4.dp)) {
@@ -133,11 +140,11 @@ private fun ViewChorePopupContent(
 
         when (chore::class) {
             CollegeChore::class -> CollegeContent(chore as CollegeChore)
+
             GroceryChore::class -> GroceryContent(
                 items = (chore as GroceryChore).items,
                 max = 300.dp,
-                onGroceryListUpdated = {
-                    updatedItems ->
+                onGroceryListUpdated = { updatedItems ->
                     onGroceriesUpdated(
                         GroceryChore(
                             chore = chore,
@@ -146,7 +153,11 @@ private fun ViewChorePopupContent(
                     )
                 },
             )
-            GymChore::class -> GymContent()
+
+            GymChore::class -> GymContent(chore as GymChore, onExerciseDeleted = { chore ->
+                onWorkoutChanged(chore)
+            })
+
             else -> {}
         }
 
@@ -242,6 +253,33 @@ private fun CollegeContent(
 
 @Composable
 private fun GymContent(
+    chore: GymChore,
+    onExerciseDeleted: (chore: Chore) -> Unit
 ) {
-
+    val scrollState = rememberScrollState()
+    Column(
+        modifier = Modifier.fillMaxWidth()
+            .heightIn(min = 0.dp, max = 300.dp)
+            .verticalScroll(scrollState)
+    ) {
+        Text(
+            text = chore.exerciseDay,
+            modifier = Modifier.padding(4.dp).fillMaxWidth(),
+            fontSize = 18.sp,
+            textAlign = TextAlign.Start
+        )
+        chore.workout.forEach { exercise ->
+            ExerciseItem(
+                exercise = exercise, onExerciseDeleted = { exercise ->
+                    onExerciseDeleted(
+                        GymChore(
+                            chore = chore,
+                            exerciseDay = chore.exerciseDay,
+                            workout = chore.workout.filter { it != exercise }
+                        )
+                    )
+                }
+            )
+        }
+    }
 }

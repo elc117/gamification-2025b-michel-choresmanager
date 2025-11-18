@@ -118,8 +118,12 @@ fun DayCell(
                                 onFinish = { choreId, date ->
                                     send(CalendarEvent.MarkFinished(choreId = choreId, date = date))
                                 },
-                                onGroceriesUpdated = {
-                                    chore ->
+                                onGroceriesUpdated = { chore ->
+                                    send(
+                                        CalendarEvent.UpdateChore(chore = chore)
+                                    )
+                                },
+                                onWorkoutChanged = { chore ->
                                     send(
                                         CalendarEvent.UpdateChore(chore = chore)
                                     )

@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added CollegeChoreContent for viewing CollegeChore details
 - Added GroceryContent for viewing GroceryChore details
 - Added updateChore event to ChorePopupEvent for updating existing chores
+- Added GymChoreContent for viewing GymChore details
 
 ### Changed
 

@@ -1,7 +1,10 @@
 package com.altmann.choresmanager.ui.screens.components.gymchore
 
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.MaterialTheme
@@ -87,20 +90,21 @@ fun WorkoutDropdown(
                 }
 
             }
-            Spacer(modifier = Modifier.height(8.dp))
             if (workout.isEmpty()) {
                 Text("No exercises added", modifier = Modifier.padding(8.dp))
-            } else {
+            }
+            val scrollState = rememberScrollState()
+            Column(modifier = Modifier.height(300.dp).verticalScroll(scrollState)) {
                 workout.forEach { exercise ->
                     ExerciseItem(
                         exercise = exercise, onExerciseDeleted = {
                             onWorkoutUpdated(workout.minus(it))
                         }, modifier = Modifier
                             .fillMaxWidth()
-                            .padding(8.dp)
                     )
                 }
             }
+
             AddExerciseDropdown(
                 onExerciseCreated = {
                     onWorkoutUpdated(workout.plus(it))
