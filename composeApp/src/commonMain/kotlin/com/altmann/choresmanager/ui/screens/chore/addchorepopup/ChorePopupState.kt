@@ -1,4 +1,4 @@
-package com.altmann.choresmanager.ui.screens.addchorepopup
+package com.altmann.choresmanager.ui.screens.chore.addchorepopup
 
 import androidx.compose.ui.graphics.Color
 import com.altmann.choresmanager.models.chores.grocery.Item

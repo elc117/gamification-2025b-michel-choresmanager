@@ -19,12 +19,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added XButton composable for removing items
 - Added cancel button to AddChorePopup
 - Added setSelectedDay to ChorePopupViewModel for setting the day of the week when clicking on a DayCell
+- Added ViewChorePopup for viewing existing chores
+- Added CollegeChoreContent for viewing CollegeChore details
+- Added GroceryContent for viewing GroceryChore details
+- Added updateChore event to ChorePopupEvent for updating existing chores
 
 ### Changed
 
 - Changed CalendarScreen logic to resize based on screen size
 - Changed DayCell to resize based on screen size
 - Changed itemId to string for uuid use
+- Changed GroceryFields to use GroceryContent composable
 
 ### Fixed
 

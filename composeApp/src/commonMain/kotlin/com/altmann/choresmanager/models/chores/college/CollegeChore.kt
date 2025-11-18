@@ -49,6 +49,6 @@ class CollegeChore(
 
     private fun calculateAbsencesAllowed() {
         if (totalHours == null) return
-        absencesAllowed = floor((totalHours * 0.25) / duration()).toInt()
+        absencesAllowed = floor((totalHours * 0.25) / (duration() / 60)).toInt()
     }
 }

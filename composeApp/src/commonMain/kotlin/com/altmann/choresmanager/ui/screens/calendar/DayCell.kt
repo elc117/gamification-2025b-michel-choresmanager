@@ -14,6 +14,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,8 +25,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.chores.Chore
-import com.altmann.choresmanager.ui.screens.addchorepopup.AddChorePopup
-import com.altmann.choresmanager.ui.screens.addchorepopup.ChorePopupViewModel
+import com.altmann.choresmanager.ui.screens.chore.addchorepopup.AddChorePopup
+import com.altmann.choresmanager.ui.screens.chore.addchorepopup.ChorePopupViewModel
+import com.altmann.choresmanager.ui.screens.chore.viewchorepopup.ViewChorePopup
 import kotlinx.datetime.LocalDate
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -73,6 +78,9 @@ fun DayCell(
                     fontWeight = fontWeight
                 )
                 if (occurences.isNotEmpty()) {
+                    var expandedChore by remember {
+                        mutableStateOf(false)
+                    }
                     LazyColumn {
                         items(occurences) { occ ->
                             var modifierBox = Modifier
@@ -85,7 +93,7 @@ fun DayCell(
                             modifierBox = if (selected) {
                                 modifierBox
                                     .clickable(true) {
-                                        send(CalendarEvent.MarkFinished(occ.choreId, date))
+                                        expandedChore = true
                                     }
                             } else {
                                 modifierBox
@@ -100,6 +108,23 @@ fun DayCell(
                                     modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
                                 )
                             }
+                            ViewChorePopup(
+                                onDismiss = {
+                                    expandedChore = false
+                                },
+                                date = date,
+                                visible = expandedChore,
+                                chore = occ,
+                                onFinish = { choreId, date ->
+                                    send(CalendarEvent.MarkFinished(choreId = choreId, date = date))
+                                },
+                                onGroceriesUpdated = {
+                                    chore ->
+                                    send(
+                                        CalendarEvent.UpdateChore(chore = chore)
+                                    )
+                                }
+                            )
                         }
                     }
                 }

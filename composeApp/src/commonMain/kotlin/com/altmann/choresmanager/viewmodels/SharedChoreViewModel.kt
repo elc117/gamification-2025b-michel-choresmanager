@@ -52,6 +52,15 @@ class SharedChoreViewModel : ViewModel() {
         updateAchievements(null)
     }
 
+    fun updateChore(chore: Chore) {
+        _chores.value = _chores.value.map { if (it.choreId == chore.choreId) chore else it }
+        if (_enabledChores.value.any { it.choreId == chore.choreId }) {
+            _enabledChores.value =
+                _enabledChores.value.map { if (it.choreId == chore.choreId) chore else it }
+        }
+        remapChores()
+    }
+
     fun enableDisableChore(chore: Chore) {
         _enabledChores.value =
             if (!_enabledChores.value.contains(chore)) _enabledChores.value.plus(chore)
@@ -107,7 +116,6 @@ class SharedChoreViewModel : ViewModel() {
                     }
                 }
                 _user.update { it.gainExp(xp) }
-                print("Gained $xp XP from achievements: $newAchievements")
             }
     }
 

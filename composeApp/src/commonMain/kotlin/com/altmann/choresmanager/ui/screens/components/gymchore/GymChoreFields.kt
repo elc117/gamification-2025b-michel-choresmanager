@@ -16,9 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.chores.gym.Exercise
-import com.altmann.choresmanager.ui.screens.addchorepopup.ChorePopupEvent
-import com.altmann.choresmanager.ui.screens.addchorepopup.ChorePopupState
-import com.altmann.choresmanager.ui.screens.addchorepopup.FieldSpacer
+import com.altmann.choresmanager.ui.screens.chore.addchorepopup.ChorePopupEvent
+import com.altmann.choresmanager.ui.screens.chore.addchorepopup.ChorePopupState
+import com.altmann.choresmanager.ui.screens.chore.addchorepopup.FieldSpacer
 import com.altmann.choresmanager.ui.screens.components.XButton
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid

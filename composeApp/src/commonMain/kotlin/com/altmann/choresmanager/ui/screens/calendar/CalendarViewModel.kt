@@ -16,8 +16,9 @@ class CalendarViewModel(private val choreVM : SharedChoreViewModel) : ViewModel(
     private val _selectedDate = MutableStateFlow(CalendarHelper.today())
     val selectedDate: StateFlow<LocalDate> = _selectedDate
 
-    private val _expandedDay = MutableStateFlow(false)
-    val expandedDay: StateFlow<Boolean> = _expandedDay
+    private val _expandedAddChore = MutableStateFlow(false)
+    val expandedAddChore: StateFlow<Boolean> = _expandedAddChore
+
 
     val anchor: StateFlow<LocalDate> = choreVM.anchor
     val mappedChores = choreVM.mappedChores
@@ -25,11 +26,11 @@ class CalendarViewModel(private val choreVM : SharedChoreViewModel) : ViewModel(
 
     // Reactive UI state derived from flows; UI collects this
     val state: StateFlow<CalendarUiState> =
-        combine(anchor, selectedDate, expandedDay, mappedChores, enabledChores) { a, sd, ex, map, en ->
+        combine(anchor, selectedDate, expandedAddChore, mappedChores, enabledChores) { a, sd, ex, map, en ->
             CalendarUiState(
                 anchor = a,
                 selectedDate = sd,
-                expanded = ex,
+                expandedAddChore = ex,
                 choresByDate = map,
                 enabledChores = en,
             )
@@ -39,7 +40,7 @@ class CalendarViewModel(private val choreVM : SharedChoreViewModel) : ViewModel(
             initialValue = CalendarUiState(
                 anchor = choreVM.anchor.value,
                 selectedDate = _selectedDate.value,
-                expanded = _expandedDay.value,
+                expandedAddChore = _expandedAddChore.value,
                 choresByDate = choreVM.mappedChores.value,
                 enabledChores = choreVM.enabledChores.value,
             )
@@ -54,6 +55,7 @@ class CalendarViewModel(private val choreVM : SharedChoreViewModel) : ViewModel(
         when (event) {
             is CalendarEvent.SelectDate -> onSelectDate(event.date)
             is CalendarEvent.AddChore -> choreVM.addChore(event.chore)
+            is CalendarEvent.UpdateChore -> choreVM.updateChore(event.chore)
             is CalendarEvent.DismissExpanded -> dismissExpandedDay()
             is CalendarEvent.NextMonth -> choreVM.onNext()
             is CalendarEvent.PrevMonth -> choreVM.onPrev()
@@ -65,13 +67,13 @@ class CalendarViewModel(private val choreVM : SharedChoreViewModel) : ViewModel(
     fun onSelectDate(date: LocalDate) = viewModelScope.launch {
         if (_selectedDate.value != date) {
             _selectedDate.value = date
-            _expandedDay.value = false
+            _expandedAddChore.value = false
         } else {
-            _expandedDay.value = !_expandedDay.value
+            _expandedAddChore.value = !_expandedAddChore.value
         }
     }
 
     fun dismissExpandedDay() {
-        _expandedDay.value = false
+        _expandedAddChore.value = false
     }
 }

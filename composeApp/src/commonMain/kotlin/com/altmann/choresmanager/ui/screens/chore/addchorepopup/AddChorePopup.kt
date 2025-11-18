@@ -1,4 +1,4 @@
-package com.altmann.choresmanager.ui.screens.addchorepopup
+package com.altmann.choresmanager.ui.screens.chore.addchorepopup
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -162,7 +162,8 @@ fun PopUpContent(
 
         DayOfWeekPicker(
             onSelect = { day -> onEvent(ChorePopupEvent.DayToggled(day)) },
-            selectedDays = state.selectedDays
+            selectedDays = state.selectedDays,
+            clickable = true
         )
 
         Row(

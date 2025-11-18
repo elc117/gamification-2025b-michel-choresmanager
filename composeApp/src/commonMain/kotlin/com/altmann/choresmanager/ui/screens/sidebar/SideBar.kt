@@ -42,8 +42,8 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.chores.Chore
-import com.altmann.choresmanager.ui.screens.addchorepopup.AddChorePopup
-import com.altmann.choresmanager.ui.screens.addchorepopup.ChorePopupViewModel
+import com.altmann.choresmanager.ui.screens.chore.addchorepopup.AddChorePopup
+import com.altmann.choresmanager.ui.screens.chore.addchorepopup.ChorePopupViewModel
 import com.altmann.choresmanager.ui.screens.components.CircleUserIcon
 import com.altmann.choresmanager.utils.CalendarHelper
 import org.koin.compose.viewmodel.koinViewModel

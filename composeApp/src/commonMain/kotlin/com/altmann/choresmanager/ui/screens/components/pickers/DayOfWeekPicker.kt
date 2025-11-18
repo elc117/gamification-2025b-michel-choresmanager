@@ -19,7 +19,11 @@ import androidx.compose.ui.unit.dp
 import kotlinx.datetime.DayOfWeek
 
 @Composable
-fun DayOfWeekPicker(onSelect: (DayOfWeek) -> Unit, selectedDays: List<DayOfWeek>) {
+fun DayOfWeekPicker(
+    onSelect: (DayOfWeek) -> Unit = {},
+    selectedDays: List<DayOfWeek>,
+    clickable: Boolean
+) {
     val startingSunday = listOf(
         DayOfWeek.SUNDAY,
         DayOfWeek.MONDAY,
@@ -33,7 +37,12 @@ fun DayOfWeekPicker(onSelect: (DayOfWeek) -> Unit, selectedDays: List<DayOfWeek>
         Row(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
             startingSunday.forEach { day ->
                 Box(Modifier.weight(1f)) {
-                    DayOfWeekItem(day, selectedDays.contains(day), onSelect = onSelect)
+                    DayOfWeekItem(
+                        day,
+                        selectedDays.contains(day),
+                        onSelect = onSelect,
+                        clickable = clickable
+                    )
                 }
             }
         }
@@ -41,9 +50,13 @@ fun DayOfWeekPicker(onSelect: (DayOfWeek) -> Unit, selectedDays: List<DayOfWeek>
 }
 
 
-
 @Composable
-fun DayOfWeekItem(day: DayOfWeek, selected: Boolean, onSelect: (DayOfWeek) -> Unit) {
+fun DayOfWeekItem(
+    day: DayOfWeek,
+    selected: Boolean,
+    onSelect: (DayOfWeek) -> Unit,
+    clickable: Boolean
+) {
     val bg =
         if (selected) MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
         else MaterialTheme.colorScheme.surfaceVariant.copy(
@@ -59,7 +72,7 @@ fun DayOfWeekItem(day: DayOfWeek, selected: Boolean, onSelect: (DayOfWeek) -> Un
         modifier = Modifier
             .padding(4.dp)
             .clip(RoundedCornerShape(8.dp))
-            .clickable { onSelect(day) }
+            .clickable(enabled = clickable) { onSelect(day) }
     ) {
         Box(
             contentAlignment = Alignment.Center,

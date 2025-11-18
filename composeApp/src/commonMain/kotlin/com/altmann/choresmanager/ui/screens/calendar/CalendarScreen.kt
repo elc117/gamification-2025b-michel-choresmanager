@@ -5,15 +5,10 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -25,10 +20,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.altmann.choresmanager.models.chores.Chore
 import com.altmann.choresmanager.utils.CalendarHelper
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
@@ -66,17 +59,19 @@ fun CalendarScreen(
                 anchor = anchor,
                 onPrev = { send(CalendarEvent.PrevMonth) }, // fixed mapping
                 onNext = { send(CalendarEvent.NextMonth) },
-                modifier = Modifier.width(dayCellWidth*7 + 48.dp).height(dayCellHeight/3)
+                modifier = Modifier.width(dayCellWidth * 7 + 48.dp).height(dayCellHeight / 3)
             )
             Spacer(modifier = Modifier.height(8.dp))
-            WeekdayRow(modifier = Modifier.width(dayCellWidth*7 + 48.dp).height(dayCellHeight/3))
+            WeekdayRow(
+                modifier = Modifier.width(dayCellWidth * 7 + 48.dp).height(dayCellHeight / 3)
+            )
             Spacer(modifier = Modifier.height(4.dp))
             MonthGrid(
                 uiState = uiState,
                 send = send,
                 // Days outside the current month get colored grey
                 inAnchorMonth = { it.month.ordinal == anchor.month.ordinal && it.year == anchor.year },
-                modifier = Modifier.width(dayCellWidth*7 + 48.dp),
+                modifier = Modifier.width(dayCellWidth * 7 + 48.dp),
                 dayCellHeight = dayCellHeight
             )
         }
@@ -84,7 +79,12 @@ fun CalendarScreen(
 }
 
 @Composable
-private fun MonthHeader(anchor: LocalDate, onPrev: () -> Unit, onNext: () -> Unit, modifier: Modifier) {
+private fun MonthHeader(
+    anchor: LocalDate,
+    onPrev: () -> Unit,
+    onNext: () -> Unit,
+    modifier: Modifier
+) {
     Row(modifier, verticalAlignment = Alignment.CenterVertically) {
         TextButton(onClick = onPrev) { Text("<") }
         Spacer(Modifier.width(8.dp))
@@ -138,11 +138,15 @@ private fun MonthGrid(
                         date = date,
                         occurences = occ,
                         selected = date == uiState.selectedDate,
-                        expanded = uiState.expanded,
+                        expanded = uiState.expandedAddChore,
                         faded = !inAnchorMonth(date),
-                        onClick = { send(CalendarEvent.SelectDate(date)) },
+                        onClick = {
+                            send(CalendarEvent.SelectDate(date))
+                        },
                         onDismiss = { send(CalendarEvent.DismissExpanded) },
-                        addChore = { send(CalendarEvent.AddChore(it)) },
+                        addChore = {
+                            send(CalendarEvent.AddChore(it))
+                        },
                         send = send,
                         modifier = Modifier.weight(1f).height(dayCellHeight).padding(4.dp)
                     )

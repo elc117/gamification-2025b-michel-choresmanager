@@ -1,5 +1,6 @@
-package com.altmann.choresmanager.ui.screens.addchorepopup
+package com.altmann.choresmanager.ui.screens.chore.addchorepopup
 
+import androidx.compose.ui.graphics.Color
 import com.altmann.choresmanager.models.chores.Chore
 import com.altmann.choresmanager.models.chores.grocery.Item
 import com.altmann.choresmanager.models.chores.gym.Exercise
@@ -16,7 +17,7 @@ sealed interface ChorePopupEvent {
     data class ChoreTypeChanged(val value: String) : ChorePopupEvent
     data class PriorityChanged(val value: String) : ChorePopupEvent
 
-    data class ColorChanged(val value: androidx.compose.ui.graphics.Color) : ChorePopupEvent
+    data class ColorChanged(val value: Color) : ChorePopupEvent
     object ToggleColorPicker : ChorePopupEvent
 
     // CollegeType specific

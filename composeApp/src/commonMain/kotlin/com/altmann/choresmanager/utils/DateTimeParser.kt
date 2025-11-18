@@ -14,9 +14,9 @@ class DateTimeParser {
             return time
         }
 
-        fun parseTimeToText(time: Pair<Int, Int>): String {
-            val hours = time.first / 60
-            val minutes = time.second % 60
+        fun parseTimeToText(time: LocalTime): String {
+            val hours = time.hour
+            val minutes = time.minute
             val hoursTxt = hours.toString().padStart(2, '0')
             val minutesTxt = minutes.toString().padStart(2, '0')
             return ("$hoursTxt:$minutesTxt")

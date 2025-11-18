@@ -1,6 +1,10 @@
 package com.altmann.choresmanager.models.chores
 
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
 import com.altmann.choresmanager.models.chores.Priority
 import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.DayOfWeek
@@ -23,6 +27,7 @@ open class Chore(
     var finished: Boolean = false,
     val color: Color = Color.DarkGray
 ) {
+
     open fun duration(): Int {
         return (endTime.hour * 60 + endTime.minute) - (startTime.hour * 60 + startTime.minute)
     }
