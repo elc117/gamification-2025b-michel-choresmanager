@@ -41,6 +41,8 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import choresmanager.composeapp.generated.resources.Res
+import choresmanager.composeapp.generated.resources.frajola_icon
 import com.altmann.choresmanager.models.chores.Chore
 import com.altmann.choresmanager.ui.screens.chore.addchorepopup.AddChorePopup
 import com.altmann.choresmanager.ui.screens.chore.addchorepopup.ChorePopupViewModel
@@ -96,7 +98,7 @@ fun SideBar(viewModel: SideBarViewModel, screen: MutableState<Int>) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Box(contentAlignment = Alignment.Center) {
                         CircleUserIcon(
-                            imageResource = null,
+                            imageResource = Res.drawable.frajola_icon,
                             borderWidth = 2.dp,
                             size = 48.dp,
                             modifier = Modifier.padding(8.dp)

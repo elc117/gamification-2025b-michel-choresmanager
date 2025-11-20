@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -25,6 +26,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.chores.Chore
+import com.altmann.choresmanager.theming.AppTheme
+import com.altmann.choresmanager.theming.MyTheme
 import com.altmann.choresmanager.ui.screens.chore.addchorepopup.AddChorePopup
 import com.altmann.choresmanager.ui.screens.chore.addchorepopup.ChorePopupViewModel
 import com.altmann.choresmanager.ui.screens.chore.viewchorepopup.ViewChorePopup
@@ -35,15 +38,15 @@ import kotlin.math.exp
 
 @Composable
 fun DayCell(
-    date: LocalDate,
-    occurences: List<Chore>,
-    selected: Boolean,
-    expanded: Boolean,
+    date: LocalDate = LocalDate(2024, 1, 1),
+    occurences: List<Chore> = listOf(),
+    selected: Boolean = false,
+    expanded: Boolean = false,
     faded: Boolean,
-    onClick: () -> Unit,
-    onDismiss: () -> Unit,
-    addChore: (chore: Chore) -> Unit,
-    send: (CalendarEvent) -> Unit,
+    onClick: () -> Unit = {},
+    onDismiss: () -> Unit = {},
+    addChore: (chore: Chore) -> Unit = {},
+    send: (CalendarEvent) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val bg = when {

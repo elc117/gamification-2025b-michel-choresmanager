@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added DarkMode button to ThemeSelectorScreen
 - Added ApplyTheme button to ThemeSelectorScreen
 - Added ColorHelper for color utils functions
+- Added small calendar as preview to ThemeSelectorScreen
 
 ### Changed
 
@@ -51,6 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fixed totalHours being a string instead of integer in ChorePopupState
 - Fixed ViewChorePopup showing latest added chore instead of selected chore
+- Returned my cat picture as user profile image
 
 ### Removed
 

@@ -3,6 +3,7 @@ package com.altmann.choresmanager.ui.screens.themeselector
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,10 +29,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import com.altmann.choresmanager.theming.AppTheme
 import com.altmann.choresmanager.theming.MyTheme
+import com.altmann.choresmanager.theming.ThemeProvider
+import com.altmann.choresmanager.ui.screens.calendar.CalendarScreen
+import com.altmann.choresmanager.ui.screens.calendar.DayCell
 import com.altmann.choresmanager.ui.screens.components.pickers.HslColorPicker
+import com.altmann.choresmanager.utils.CalendarHelper
 import com.altmann.choresmanager.utils.ColorHelper.generateColorsFromPrimary
+import kotlinx.datetime.DatePeriod
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.plus
 
 @Composable
 fun ThemeSelectorScreen() {
@@ -148,6 +157,38 @@ fun ColorPreviewBox(previewTheme: AppTheme, modifier: Modifier = Modifier) {
                     modifier = Modifier.padding(top = 4.dp).fillMaxWidth(),
                     textAlign = TextAlign.Center
                 )
+            }
+        }
+        ThemeProvider(mutableStateOf(previewTheme)) {
+            BoxWithConstraints() {
+                val width = (maxWidth / 2) / 7
+                val height = (maxHeight / 1.5f) / 6
+                var selected by remember {
+                    mutableStateOf(Pair(0, 0))
+                }
+                val (start, _) = remember {
+                    CalendarHelper.monthGridWindow(CalendarHelper.today())
+                }
+                val days: List<LocalDate> =
+                    remember(start) { (0 until 42).map { start.plus(DatePeriod(days = it)) } }
+                Column {
+                    for (i in 0 until 6) {
+                        Row(modifier = Modifier.padding(2.dp)) {
+                            for (j in 0 until 7) {
+                                val day = days[i * 7 + j]
+                                Box(modifier = Modifier.padding(2.dp)) {
+                                    DayCell(
+                                        faded = day.month != CalendarHelper.today().month,
+                                        date = day,
+                                        selected = selected.first == i && selected.second == j,
+                                        onClick = {selected = Pair(i, j)},
+                                        modifier = Modifier.width(width).height(height)
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         Row {
