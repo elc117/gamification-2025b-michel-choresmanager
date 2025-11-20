@@ -132,14 +132,37 @@ fun SideBar(viewModel: SideBarViewModel, screen: MutableState<Int>) {
             TextButton(
                 shape = RoundedCornerShape(4.dp),
                 onClick = {
-                    screen.value = if (screen.value == 0) {
+                    screen.value = if (screen.value != 1) {
                         1
                     } else {
                         0
                     }
                 }
             ) {
-                Text("Achievements", fontWeight = FontWeight.Bold)
+                val text = if (screen.value == 1) {
+                    "Calendar"
+                } else {
+                    "Achievements"
+                }
+                Text(text, fontWeight = FontWeight.Bold)
+            }
+            Spacer(Modifier.height(2.dp))
+            TextButton(
+                shape = RoundedCornerShape(4.dp),
+                onClick = {
+                    screen.value = if (screen.value != 2) {
+                        2
+                    } else {
+                        0
+                    }
+                }
+            ) {
+                val text = if (screen.value == 2) {
+                    "Calendar"
+                } else {
+                    "Change Colors"
+                }
+                Text(text, fontWeight = FontWeight.Bold)
             }
             Spacer(Modifier.height(8.dp))
             Text(

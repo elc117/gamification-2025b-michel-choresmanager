@@ -24,6 +24,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added GroceryContent for viewing GroceryChore details
 - Added updateChore event to ChorePopupEvent for updating existing chores
 - Added GymChoreContent for viewing GymChore details
+- Added GradientSlider component for making gradient color selection easier
+- Added HslColorPicker component for selecting colors in HSL format
+- Added ThemeSelectorScreen for making themes inside the app
+- Added AppTheme data class for defining app themes
+- Added MyTheme object for managing app themes
+- Added ThemeProvider for providing themes to the app
 
 ### Changed
 

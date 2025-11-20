@@ -20,6 +20,7 @@ import com.altmann.choresmanager.ui.screens.calendar.CalendarScreen
 import com.altmann.choresmanager.ui.screens.calendar.CalendarViewModel
 import com.altmann.choresmanager.ui.screens.sidebar.SideBar
 import com.altmann.choresmanager.ui.screens.sidebar.SideBarViewModel
+import com.altmann.choresmanager.ui.screens.themeselector.ThemeSelectorScreen
 import com.altmann.choresmanager.viewmodels.SharedChoreViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -37,6 +38,7 @@ fun HomeScreen() {
             0 -> CalendarScreen(calendarViewModel)
             1 -> AchievementsScreen(sideBarViewModel.user.value.achievements,
                 modifier = Modifier.weight(1f).fillMaxHeight())
+            2 -> ThemeSelectorScreen()
         }
 
     }
