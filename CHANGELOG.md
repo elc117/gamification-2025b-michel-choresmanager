@@ -30,6 +30,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added AppTheme data class for defining app themes
 - Added MyTheme object for managing app themes
 - Added ThemeProvider for providing themes to the app
+- Added ThemeController for setting themes in the app
+- Added MaterialKolor dependency for creating color palettes
+- Added Preview to ThemeSelectorScreen
+- Added DarkMode button to ThemeSelectorScreen
+- Added ApplyTheme button to ThemeSelectorScreen
+- Added ColorHelper for color utils functions
 
 ### Changed
 
@@ -37,14 +43,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed DayCell to resize based on screen size
 - Changed itemId to string for uuid use
 - Changed GroceryFields to use GroceryContent composable
+- Changed CalendarBackground to use current theme background color
+- Changed HomeScreen to use current theme background color
+- Changed ChoreTitleText to use white or black text based on selected background
 
 ### Fixed
 
 - Fixed totalHours being a string instead of integer in ChorePopupState
+- Fixed ViewChorePopup showing latest added chore instead of selected chore
 
 ### Removed
 
 - Removed WorkChore
+- Removed Border from AddChorePopup
+- Removed Border from unselected DayCells
+- Removed default colors from AppTheme class
 
 ## [0.2.0] - 2025-11-14
 

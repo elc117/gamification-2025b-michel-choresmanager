@@ -18,15 +18,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.ui.screens.components.GradientSlider
+import com.altmann.choresmanager.utils.ColorHelper.toHSL
 
 @Composable
 fun HslColorPicker(
     onColorChanged : (Color) -> Unit,
+    initialColor: Color = MaterialTheme.colorScheme.primary,
     modifier: Modifier = Modifier
 ) {
-    var hue by remember { mutableStateOf(0f) }
-    var saturation by remember { mutableStateOf(1f) }
-    var lightness by remember { mutableStateOf(0.5f) }
+    val initialHsl = initialColor.toHSL()
+    var hue by remember { mutableStateOf(initialHsl[0]) }
+    var saturation by remember { mutableStateOf(initialHsl[1]) }
+    var lightness by remember { mutableStateOf(initialHsl[2]) }
 
     val colorsGradient = listOf(
         Color.hsl(0f, saturation, lightness),

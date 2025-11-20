@@ -7,7 +7,14 @@ val LocalAppTheme = staticCompositionLocalOf<AppTheme> {
     error("No theme provided")
 }
 
+val LocalThemeController = staticCompositionLocalOf<ThemeController> {
+    error("ThemeController not provided")
+}
+
 object MyTheme {
-    val colors: AppTheme
+    val theme: AppTheme
         @Composable get() = LocalAppTheme.current
+
+    val controller: ThemeController
+        @Composable get() = LocalThemeController.current
 }

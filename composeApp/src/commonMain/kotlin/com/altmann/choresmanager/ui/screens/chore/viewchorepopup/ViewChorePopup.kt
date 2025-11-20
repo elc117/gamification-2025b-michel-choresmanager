@@ -186,8 +186,8 @@ private fun ViewChorePopupContent(
                 },
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    contentColor = MaterialTheme.colorScheme.onSecondary,
                 ),
                 modifier = Modifier.clip(RoundedCornerShape(8.dp)).weight(1f)
             ) {
@@ -199,6 +199,10 @@ private fun ViewChorePopupContent(
                     onFinish(chore.choreId, date)
                 },
                 shape = RoundedCornerShape(8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                ),
                 modifier = Modifier.clip(RoundedCornerShape(8.dp)).weight(1f)
             ) {
                 Text("Finish")

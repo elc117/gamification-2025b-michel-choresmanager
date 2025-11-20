@@ -32,7 +32,7 @@ fun HomeScreen() {
     var screen = remember { mutableStateOf(0) }
 
 //    val achievementsViewModel = koinViewModel<AchievementsViewModel>()
-    Row(modifier = Modifier.fillMaxSize()) {
+    Row(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         SideBar(sideBarViewModel, screen)
         when (screen.value) {
             0 -> CalendarScreen(calendarViewModel)

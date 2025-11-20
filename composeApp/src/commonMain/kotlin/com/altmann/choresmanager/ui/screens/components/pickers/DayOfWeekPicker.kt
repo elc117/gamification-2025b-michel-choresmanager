@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.DayOfWeek
 
@@ -58,13 +59,11 @@ fun DayOfWeekItem(
     clickable: Boolean
 ) {
     val bg =
-        if (selected) MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
-        else MaterialTheme.colorScheme.surfaceVariant.copy(
-            alpha = 0.4f
-        )
+        if (selected) MaterialTheme.colorScheme.primaryContainer
+        else MaterialTheme.colorScheme.secondaryContainer
     val border =
         if (selected) MaterialTheme.colorScheme.primary
-        else MaterialTheme.colorScheme.onSurfaceVariant
+        else Color.Transparent
     Surface(
         shape = RoundedCornerShape(8.dp),
         color = bg,

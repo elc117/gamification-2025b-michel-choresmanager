@@ -28,8 +28,10 @@ import com.altmann.choresmanager.models.chores.Chore
 import com.altmann.choresmanager.ui.screens.chore.addchorepopup.AddChorePopup
 import com.altmann.choresmanager.ui.screens.chore.addchorepopup.ChorePopupViewModel
 import com.altmann.choresmanager.ui.screens.chore.viewchorepopup.ViewChorePopup
+import com.altmann.choresmanager.utils.ColorHelper.readableOn
 import kotlinx.datetime.LocalDate
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.math.exp
 
 @Composable
 fun DayCell(
@@ -48,11 +50,16 @@ fun DayCell(
         selected -> MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
         else -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
     }
-    val border = if (selected) MaterialTheme.colorScheme.primary else Color.LightGray
+    val border = if (selected) MaterialTheme.colorScheme.primary else Color.Transparent
     val textColor = if (faded) Color.Gray else MaterialTheme.colorScheme.onSurface
     val elevation = if (selected) 2.dp else 0.dp
     val fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium
-
+    var isChoreExpanded by remember {
+        mutableStateOf(false)
+    }
+    var expandedChore: Chore? by remember {
+        mutableStateOf(null)
+    }
 
     Surface(
         shape = RoundedCornerShape(8.dp),
@@ -78,9 +85,6 @@ fun DayCell(
                     fontWeight = fontWeight
                 )
                 if (occurences.isNotEmpty()) {
-                    var expandedChore by remember {
-                        mutableStateOf(false)
-                    }
                     LazyColumn {
                         items(occurences) { occ ->
                             var modifierBox = Modifier
@@ -93,7 +97,8 @@ fun DayCell(
                             modifierBox = if (selected) {
                                 modifierBox
                                     .clickable(true) {
-                                        expandedChore = true
+                                        expandedChore = occ
+                                        isChoreExpanded = true
                                     }
                             } else {
                                 modifierBox
@@ -104,35 +109,36 @@ fun DayCell(
                                 Text(
                                     text = occ.title,
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onPrimary,
+                                    color = readableOn(occ.color),
                                     modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
                                 )
                             }
-                            ViewChorePopup(
-                                onDismiss = {
-                                    expandedChore = false
-                                },
-                                date = date,
-                                visible = expandedChore,
-                                chore = occ,
-                                onFinish = { choreId, date ->
-                                    send(CalendarEvent.MarkFinished(choreId = choreId, date = date))
-                                },
-                                onGroceriesUpdated = { chore ->
-                                    send(
-                                        CalendarEvent.UpdateChore(chore = chore)
-                                    )
-                                },
-                                onWorkoutChanged = { chore ->
-                                    send(
-                                        CalendarEvent.UpdateChore(chore = chore)
-                                    )
-                                }
-                            )
                         }
                     }
                 }
-
+            }
+            if (expandedChore != null) {
+                ViewChorePopup(
+                    onDismiss = {
+                        isChoreExpanded = false
+                    },
+                    date = date,
+                    visible = isChoreExpanded,
+                    chore = expandedChore!!,
+                    onFinish = { choreId, date ->
+                        send(CalendarEvent.MarkFinished(choreId = choreId, date = date))
+                    },
+                    onGroceriesUpdated = { chore ->
+                        send(
+                            CalendarEvent.UpdateChore(chore = chore)
+                        )
+                    },
+                    onWorkoutChanged = { chore ->
+                        send(
+                            CalendarEvent.UpdateChore(chore = chore)
+                        )
+                    }
+                )
             }
             val viewModel = koinViewModel<ChorePopupViewModel>()
             AddChorePopup(

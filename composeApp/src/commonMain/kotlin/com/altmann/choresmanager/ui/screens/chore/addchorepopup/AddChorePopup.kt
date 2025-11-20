@@ -47,7 +47,6 @@ fun AddChorePopup(
         onDismissRequest = { onDismiss() },
         modifier = Modifier.width(300.dp).padding(horizontal = 8.dp),
         containerColor = MaterialTheme.colorScheme.background,
-        border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.primary),
     ) {
         PopUpContent(
             date = date,
@@ -222,7 +221,7 @@ fun PopUpContent(
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                 ),
                 modifier = Modifier.clip(RoundedCornerShape(8.dp)).weight(1f)
             ) {

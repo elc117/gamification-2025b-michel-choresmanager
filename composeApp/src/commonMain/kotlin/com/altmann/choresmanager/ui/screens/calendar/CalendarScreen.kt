@@ -1,5 +1,6 @@
 package com.altmann.choresmanager.ui.screens.calendar
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -52,6 +53,7 @@ fun CalendarScreen(
             Modifier
                 .width(maxWidth)
                 .height(maxHeight)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -91,6 +93,7 @@ private fun MonthHeader(
         Text(
             text = "${anchor.month.name} - ${anchor.year}",
             style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.weight(1f)
         )
         Spacer(Modifier.width(8.dp))
