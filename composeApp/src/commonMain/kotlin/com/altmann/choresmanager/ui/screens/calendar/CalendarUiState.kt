@@ -5,7 +5,7 @@ import com.altmann.choresmanager.utils.CalendarHelper
 import kotlinx.datetime.LocalDate
 
 data class CalendarUiState(
-    val anchor: LocalDate = LocalDate(1970,1,1),
+    val anchor: LocalDate = LocalDate(1970, 1, 1),
     val selectedDate : LocalDate = CalendarHelper.today(),
     val expandedAddChore : Boolean = false,
     val expandedChore : Boolean = false,

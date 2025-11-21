@@ -12,4 +12,6 @@ sealed interface CalendarEvent {
     object LoadChores : CalendarEvent
     object PrevMonth : CalendarEvent
     object NextMonth : CalendarEvent
+    object PrevWeek : CalendarEvent
+    object NextWeek : CalendarEvent
 }

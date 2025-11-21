@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.chores.Chore
@@ -37,7 +38,9 @@ fun AddChorePopup(
     onDismiss: () -> Unit,
     date: LocalDate,
     addChore: (chore: Chore) -> Unit,
+    startTime : LocalTime? = null,
     visible: Boolean,
+    offset: DpOffset = DpOffset(0.dp, 0.dp),
     viewModel: ChorePopupViewModel
 ) {
     val state by viewModel.state.collectAsState()
@@ -45,12 +48,14 @@ fun AddChorePopup(
     DropdownMenu(
         expanded = visible,
         onDismissRequest = { onDismiss() },
+        offset = offset,
         modifier = Modifier.width(300.dp).padding(horizontal = 8.dp),
         containerColor = MaterialTheme.colorScheme.background,
     ) {
         PopUpContent(
             date = date,
             state = state,
+            prevStartTime = startTime,
             onEvent = viewModel::onEvent,
             onAddChore = addChore,
             onDismiss = onDismiss
@@ -63,19 +68,20 @@ fun AddChorePopup(
 fun PopUpContent(
     date: LocalDate,
     state: ChorePopupState,
+    prevStartTime: LocalTime?,
     onEvent: (ChorePopupEvent) -> Unit,
     onAddChore: (chore: Chore) -> Unit,
     onDismiss: () -> Unit
 ) {
     val startDate = remember { mutableStateOf(date) }
     val endDate = remember { mutableStateOf(LocalDate(2024, 6, 1)) }
-    val startTime = remember { mutableStateOf(LocalTime(12, 0)) }
+    val startTime = remember { mutableStateOf(prevStartTime?: LocalTime(12, 0)) }
     val endTime = remember { mutableStateOf(LocalTime(14, 0)) }
 
     val startDateTxt =
         remember { mutableStateOf(TextFieldValue(DateTimeParser.parseDateToText(date))) }
     val endDateTxt = remember { mutableStateOf(TextFieldValue("")) }
-    val startTimeTxt = remember { mutableStateOf(TextFieldValue("")) }
+    val startTimeTxt = remember { mutableStateOf(TextFieldValue(if (prevStartTime != null) DateTimeParser.parseTimeToText(prevStartTime) else "")) }
     val endTimeTxt = remember { mutableStateOf(TextFieldValue("")) }
 
 

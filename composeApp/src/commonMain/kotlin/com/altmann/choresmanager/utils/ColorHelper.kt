@@ -16,9 +16,9 @@ object ColorHelper {
         color: Color,
         isDark: Boolean = false
     ): AppTheme {
-        // Build a Material 3 ColorScheme from the seed color using your helper
+
         val scheme = dynamicColorScheme(color, isDark)
-        // Map the roles your AppTheme uses
+
         return AppTheme(
             primary = scheme.primary,
             onPrimary = scheme.onPrimary,

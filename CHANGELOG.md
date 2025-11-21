@@ -37,6 +37,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added ApplyTheme button to ThemeSelectorScreen
 - Added ColorHelper for color utils functions
 - Added small calendar as preview to ThemeSelectorScreen
+- Added WeeklyCalendar composable for showing the week chores
+- Added weekAnchor to CalendarViewModel for managing the week shown in WeeklyCalendar
+- Added onNextWeek and onPreviousWeek events to CalendarEvent for changing week in WeeklyCalendar
+- Added Chore visualization by timeframe in WeeklyCalendar
+- Added minutesToTime function to DateTimeParser for converting minutes to LocalTime rounding to 15 minute intervals
+- Added logic for creating time slots in WeeklyCalendar
+- Added chore creation logic to create chores in specific time slots in WeeklyCalendar
+- Added scrollable time column to WeeklyCalendar (desktop specific)
 
 ### Changed
 
@@ -47,6 +55,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed CalendarBackground to use current theme background color
 - Changed HomeScreen to use current theme background color
 - Changed ChoreTitleText to use white or black text based on selected background
+- Moved Calendars Headers to new CalendarScreen
+- Changed CalendarScreen to hold MonthlyCalendar and WeeklyCalendar
 
 ### Fixed
 

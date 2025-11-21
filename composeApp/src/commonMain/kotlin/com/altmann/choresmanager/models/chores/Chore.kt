@@ -29,7 +29,7 @@ open class Chore(
 ) {
 
     open fun duration(): Int {
-        return (endTime.hour * 60 + endTime.minute) - (startTime.hour * 60 + startTime.minute)
+        return abs(endTime.hour * 60 + endTime.minute) - (startTime.hour * 60 + startTime.minute)
     }
 
     open fun finishChore() {

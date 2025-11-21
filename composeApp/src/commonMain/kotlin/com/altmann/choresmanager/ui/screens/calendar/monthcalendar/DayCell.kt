@@ -1,4 +1,4 @@
-package com.altmann.choresmanager.ui.screens.calendar
+package com.altmann.choresmanager.ui.screens.calendar.monthcalendar
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -26,15 +25,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.chores.Chore
-import com.altmann.choresmanager.theming.AppTheme
-import com.altmann.choresmanager.theming.MyTheme
+import com.altmann.choresmanager.ui.screens.calendar.CalendarEvent
 import com.altmann.choresmanager.ui.screens.chore.addchorepopup.AddChorePopup
 import com.altmann.choresmanager.ui.screens.chore.addchorepopup.ChorePopupViewModel
 import com.altmann.choresmanager.ui.screens.chore.viewchorepopup.ViewChorePopup
 import com.altmann.choresmanager.utils.ColorHelper.readableOn
 import kotlinx.datetime.LocalDate
 import org.koin.compose.viewmodel.koinViewModel
-import kotlin.math.exp
 
 @Composable
 fun DayCell(

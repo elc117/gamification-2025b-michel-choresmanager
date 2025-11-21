@@ -10,7 +10,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.minus
+import kotlinx.datetime.plus
 
 class CalendarViewModel(private val choreVM : SharedChoreViewModel) : ViewModel() {
     private val _selectedDate = MutableStateFlow(CalendarHelper.today())
@@ -19,6 +22,10 @@ class CalendarViewModel(private val choreVM : SharedChoreViewModel) : ViewModel(
     private val _expandedAddChore = MutableStateFlow(false)
     val expandedAddChore: StateFlow<Boolean> = _expandedAddChore
 
+    private val _weekAnchor = MutableStateFlow(
+        CalendarHelper.previousOrSameSunday(CalendarHelper.today())
+    )
+    val weekAnchor: StateFlow<LocalDate> = _weekAnchor
 
     val anchor: StateFlow<LocalDate> = choreVM.anchor
     val mappedChores = choreVM.mappedChores
@@ -26,7 +33,13 @@ class CalendarViewModel(private val choreVM : SharedChoreViewModel) : ViewModel(
 
     // Reactive UI state derived from flows; UI collects this
     val state: StateFlow<CalendarUiState> =
-        combine(anchor, selectedDate, expandedAddChore, mappedChores, enabledChores) { a, sd, ex, map, en ->
+        combine(
+            anchor,
+            selectedDate,
+            expandedAddChore,
+            mappedChores,
+            enabledChores
+        ) { a, sd, ex, map, en ->
             CalendarUiState(
                 anchor = a,
                 selectedDate = sd,
@@ -36,7 +49,7 @@ class CalendarViewModel(private val choreVM : SharedChoreViewModel) : ViewModel(
             )
         }.stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
+            started = SharingStarted.Companion.WhileSubscribed(5_000),
             initialValue = CalendarUiState(
                 anchor = choreVM.anchor.value,
                 selectedDate = _selectedDate.value,
@@ -59,9 +72,19 @@ class CalendarViewModel(private val choreVM : SharedChoreViewModel) : ViewModel(
             is CalendarEvent.DismissExpanded -> dismissExpandedDay()
             is CalendarEvent.NextMonth -> choreVM.onNext()
             is CalendarEvent.PrevMonth -> choreVM.onPrev()
+            is CalendarEvent.NextWeek -> onNextWeek()
+            is CalendarEvent.PrevWeek -> onPrevWeek()
             is CalendarEvent.LoadChores -> choreVM.remapChores()
             is CalendarEvent.MarkFinished -> choreVM.markChoreFinished(event.choreId, event.date)
         }
+    }
+
+    fun onNextWeek() = viewModelScope.launch {
+        _weekAnchor.value = _weekAnchor.value.plus(DatePeriod(days = 7))
+    }
+
+    fun onPrevWeek() = viewModelScope.launch {
+        _weekAnchor.value = _weekAnchor.value.minus(DatePeriod(days = 7))
     }
 
     fun onSelectDate(date: LocalDate) = viewModelScope.launch {

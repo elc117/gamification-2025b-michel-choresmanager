@@ -14,7 +14,7 @@ fun main() = application {
         title = "ChoresManager",
         state = WindowState(
             width = 1200.dp,
-            height = 820.dp,
+            height = 1000.dp,
         )
     ) {
         App()

@@ -3,6 +3,7 @@ package com.altmann.choresmanager.utils
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.number
+import kotlin.math.roundToInt
 
 class DateTimeParser {
     companion object {
@@ -42,6 +43,19 @@ class DateTimeParser {
             val monthTxt = date.month.number.toString().padStart(2, '0')
             val yearTxt = date.year.toString().padStart(4, '0')
             return ("$dayTxt/$monthTxt/$yearTxt")
+        }
+
+        private fun normalizeTo15Minutes(totalMinutes: Int) : Int {
+            val rounded = (totalMinutes.toDouble() / 15.0).roundToInt() * 15
+            val wrapped = ((rounded % 1440) + 1440) % 1440 // wrap around 24 hours
+            return wrapped
+        }
+
+        fun minutesToTime(minutes : Int) : LocalTime {
+            val normalized = normalizeTo15Minutes(minutes)
+            val hour = normalized / 60
+            val minute = normalized % 60
+            return LocalTime(hour, minute)
         }
     }
 }

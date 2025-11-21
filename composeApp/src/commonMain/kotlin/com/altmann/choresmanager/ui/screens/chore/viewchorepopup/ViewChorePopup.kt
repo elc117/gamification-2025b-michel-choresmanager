@@ -197,6 +197,7 @@ private fun ViewChorePopupContent(
             Button(
                 onClick = {
                     onFinish(chore.choreId, date)
+                    onDismiss()
                 },
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(

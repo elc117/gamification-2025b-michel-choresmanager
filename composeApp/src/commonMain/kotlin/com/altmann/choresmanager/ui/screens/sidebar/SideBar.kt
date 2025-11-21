@@ -179,24 +179,27 @@ fun SideBar(viewModel: SideBarViewModel, screen: MutableState<Int>) {
                     .fillMaxWidth()
                     .size(2.dp)
             )
-            val popUpViewModel = koinViewModel<ChorePopupViewModel>()
-            AddChorePopup(
-                onDismiss = {
-                    addChorePopup = false
-                },
-                date = CalendarHelper.today(),
-                addChore = { chore -> viewModel.addChore(chore) },
-                visible = addChorePopup,
-                viewModel = popUpViewModel
-            )
-            TextButton(
-                shape = RoundedCornerShape(4.dp),
-                onClick = {
-                    addChorePopup = true
+            Box{
+                val popUpViewModel = koinViewModel<ChorePopupViewModel>()
+                AddChorePopup(
+                    onDismiss = {
+                        addChorePopup = false
+                    },
+                    date = CalendarHelper.today(),
+                    addChore = { chore -> viewModel.addChore(chore) },
+                    visible = addChorePopup,
+                    viewModel = popUpViewModel
+                )
+                TextButton(
+                    shape = RoundedCornerShape(4.dp),
+                    onClick = {
+                        addChorePopup = true
+                    }
+                ) {
+                    Text("Add Chore", fontWeight = FontWeight.Bold)
                 }
-            ) {
-                Text("Add Chore", fontWeight = FontWeight.Bold)
             }
+
             LazyColumn {
                 items(chores) { chore ->
                     ChoreItem(chore = chore, onSelect = {

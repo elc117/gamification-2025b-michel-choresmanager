@@ -29,12 +29,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.times
 import com.altmann.choresmanager.theming.AppTheme
 import com.altmann.choresmanager.theming.MyTheme
 import com.altmann.choresmanager.theming.ThemeProvider
-import com.altmann.choresmanager.ui.screens.calendar.CalendarScreen
-import com.altmann.choresmanager.ui.screens.calendar.DayCell
+import com.altmann.choresmanager.ui.screens.calendar.monthcalendar.DayCell
 import com.altmann.choresmanager.ui.screens.components.pickers.HslColorPicker
 import com.altmann.choresmanager.utils.CalendarHelper
 import com.altmann.choresmanager.utils.ColorHelper.generateColorsFromPrimary
