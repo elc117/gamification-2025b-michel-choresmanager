@@ -66,7 +66,6 @@ fun WeeklyCalendar(
     val scrollState = rememberScrollState(0)
     LaunchedEffect(anchor, uiState.enabledChores) {
         send(CalendarEvent.LoadChores)
-        print(uiState.choresByDate)
     }
     Column(modifier = Modifier.fillMaxSize()) {
         WeekDayRow()
@@ -160,11 +159,16 @@ private fun WeekDayColumn(
     if (selected) 2.dp else 0.dp
     val fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium
     var expanded by remember(date) { mutableStateOf(false) }
-    var expandedChore: Chore? by remember {
-        mutableStateOf(null)
-    }
-    var isChoreExpanded by remember {
+
+    var isChoreExpanded by remember(date) {
         mutableStateOf(false)
+    }
+    var expandedChoreId by remember(date) {
+        mutableStateOf<String?>(null)
+    }
+
+    val expandedChore = remember(chores, expandedChoreId) {
+        chores.firstOrNull { it.choreId == expandedChoreId }
     }
 
     val slot = 15 // minutes
@@ -245,8 +249,7 @@ private fun WeekDayColumn(
                             isChoreExpanded = isChoreExpanded && expandedChore == chore,
                             onClick = {
                                 isChoreExpanded = true
-                                expandedChore = chore
-                                print("AAAAAA $isChoreExpanded : $expandedChore")
+                                expandedChoreId = chore.choreId
                             })
                     }
                 }

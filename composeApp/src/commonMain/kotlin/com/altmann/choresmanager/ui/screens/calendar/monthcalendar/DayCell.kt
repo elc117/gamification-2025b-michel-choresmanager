@@ -54,11 +54,16 @@ fun DayCell(
     val textColor = if (faded) Color.Gray else MaterialTheme.colorScheme.onSurface
     val elevation = if (selected) 2.dp else 0.dp
     val fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium
-    var isChoreExpanded by remember {
+
+    var isChoreExpanded by remember(date) {
         mutableStateOf(false)
     }
-    var expandedChore: Chore? by remember {
-        mutableStateOf(null)
+    var expandedChoreId by remember(date) {
+        mutableStateOf<String?>(null)
+    }
+
+    val expandedChore = remember(occurences, expandedChoreId) {
+        occurences.firstOrNull { it.choreId == expandedChoreId }
     }
 
     Surface(
@@ -94,14 +99,11 @@ fun DayCell(
                                 )
                                 .clip(RoundedCornerShape(8.dp))
                             // If selected chore is clickable, to prevent accidental clicks when trying to focus on day
-                            modifierBox = if (selected) {
-                                modifierBox
-                                    .clickable(true) {
-                                        expandedChore = occ
+                            if (selected) {
+                                modifierBox = modifierBox.clickable(true) {
+                                        expandedChoreId = occ.choreId
                                         isChoreExpanded = true
                                     }
-                            } else {
-                                modifierBox
                             }
                             Box(
                                 modifier = modifierBox
@@ -121,10 +123,11 @@ fun DayCell(
                 ViewChorePopup(
                     onDismiss = {
                         isChoreExpanded = false
+                        expandedChoreId = null
                     },
                     date = date,
                     visible = isChoreExpanded,
-                    chore = expandedChore!!,
+                    chore = expandedChore,
                     onFinish = { choreId, date ->
                         send(CalendarEvent.MarkFinished(choreId = choreId, date = date))
                     },

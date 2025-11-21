@@ -38,6 +38,7 @@ fun GroceryContent(
     onGroceryListUpdated: (List<Item>) -> Unit
 ) {
     val itemName = remember { mutableStateOf("") }
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp)
@@ -53,9 +54,11 @@ fun GroceryContent(
                 onGroceryListUpdated(
                     items + Item(
                         itemId = Uuid.random().toString(),
-                        name = itemName.value, quantity = 1
+                        name = itemName.value,
+                        quantity = 1
                     )
                 )
+                itemName.value = ""
             },
             shape = RoundedCornerShape(8.dp),
             modifier = Modifier.weight(0.6f).padding(start = 4.dp)
@@ -92,19 +95,21 @@ fun GroceryList(
                     GroceryItemCounter(
                         value = item.quantity,
                         onValueChange = { newQuantity ->
-                            if (newQuantity != 0) {
+                            if (newQuantity > 0) {
                                 onGroceryListUpdated(
                                     items.map {
                                         if (it.itemId == item.itemId) {
-                                            Item(
-                                                itemId = it.itemId,
-                                                name = it.name,
+                                            it.copy(
                                                 quantity = newQuantity
                                             )
                                         } else {
                                             it
                                         }
                                     }
+                                )
+                            } else {
+                                onGroceryListUpdated(
+                                    items.filter { it.itemId != item.itemId }
                                 )
                             }
                         })
@@ -125,8 +130,7 @@ fun GroceryItemCounter(
     onValueChange: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val count = remember { mutableStateOf(value) }
-    Row(verticalAlignment = Alignment.CenterVertically) {
+    Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier) {
         Text(
             text = "$value",
             style = MaterialTheme.typography.bodyLarge
@@ -134,8 +138,7 @@ fun GroceryItemCounter(
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             TextButton(
                 onClick = {
-                    count.value += 1
-                    onValueChange(count.value)
+                    onValueChange(value + 1)
                 },
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier.size(36.dp)
@@ -144,9 +147,8 @@ fun GroceryItemCounter(
             }
             TextButton(
                 onClick = {
-                    if (count.value > 0) {
-                        count.value -= 1
-                        onValueChange(count.value)
+                    if (value > 0) {
+                        onValueChange(value - 1)
                     }
                 },
                 shape = RoundedCornerShape(8.dp),

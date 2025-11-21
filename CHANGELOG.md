@@ -63,6 +63,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed totalHours being a string instead of integer in ChorePopupState
 - Fixed ViewChorePopup showing latest added chore instead of selected chore
 - Returned my cat picture as user profile image
+- Fixed Item and Exercise not being data classes
+- Fixed ViewChorePopup not updating when removing items from GroceryChore in MonthlyCalendar
+- Fixed ViewChorePopup closing when removing items from GroceryChore in WeeklyCalendar
 
 ### Removed
 
