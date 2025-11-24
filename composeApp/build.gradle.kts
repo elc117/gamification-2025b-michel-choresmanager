@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -66,6 +67,7 @@ kotlin {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.client.negotiation)
+            implementation(libs.kotlinx.serialization)
 
             implementation("io.coil-kt.coil3:coil-svg:3.3.0")
             implementation(libs.material.kolor)

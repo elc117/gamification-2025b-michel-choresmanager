@@ -49,6 +49,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added ktor dependency for network implementation
 - Added basic structure for future network calls
 - Added basic test for network calls
+- Added user registration function to UserRepository
+- Added user authentication function to UserRepository
 
 ### Changed
 

@@ -1,4 +1,4 @@
-package com.altmann.choresmanager.models
+package com.altmann.choresmanager.network.model
 
 import kotlinx.serialization.Serializable
 

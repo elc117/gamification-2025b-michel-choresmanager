@@ -2,6 +2,7 @@ package com.altmann.choresmanager.ui.screens.calendar
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.altmann.choresmanager.network.model.UserRequest
 import com.altmann.choresmanager.network.ApiResult
 import com.altmann.choresmanager.repository.UserRepository
 import com.altmann.choresmanager.utils.CalendarHelper
@@ -35,10 +36,15 @@ class CalendarViewModel(private val choreVM : SharedChoreViewModel) : ViewModel(
 
     var text = MutableStateFlow("")
 
+    val user = UserRequest(
+        name = "Vinicius",
+        email = "vine@gmail.com",
+        password = "12345"
+    )
     fun testApi() = viewModelScope.launch {
-        val result = UserRepository().getBase()
+        val result = UserRepository().authenticateUser(user.email, user.password)
         when (result) {
-            is ApiResult.Success -> text.value = result.data
+            is ApiResult.Success -> text.value = "Success! ${result.data.toString()}"
             is ApiResult.Error -> text.value = "Error: ${result.message}"
         }
     }

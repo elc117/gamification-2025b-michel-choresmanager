@@ -7,6 +7,10 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.client.statement.HttpResponse
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
+import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
@@ -35,13 +39,24 @@ class ApiClient {
 
     suspend inline fun <reified T> get(url: String): ApiResult<T> =
         safeRequest {
-            http.get(url).body<T>()
+            val response: HttpResponse = http.get(url)
+            if (response.status.isSuccess()) {
+                response.body<T>()
+            } else {
+                throw Exception("Request failed with status: ${response.status} : ${response.body<String>()}")
+            }
         }
 
     suspend inline fun <reified T, reified R> post(url: String, body: R): ApiResult<T> =
         safeRequest {
-            http.post(url) {
+            val response : HttpResponse = http.post(url) {
+                contentType(ContentType.Application.Json)
                 setBody(body)
-            }.body<T>()
+            }
+            if (response.status.isSuccess()) {
+                response.body<T>()
+            } else {
+                throw Exception("Request failed with status: ${response.status} : ${response.body<String>()}")
+            }
         }
 }
