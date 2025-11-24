@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.Color
 import com.altmann.choresmanager.theming.AppTheme
 import com.altmann.choresmanager.theming.ThemeProvider
 import com.altmann.choresmanager.ui.screens.home.HomeScreen
+import com.altmann.choresmanager.ui.screens.login.LoginScreen
 import com.altmann.choresmanager.utils.ColorHelper.generateColorsFromPrimary
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -20,6 +21,7 @@ fun App() {
         )
     }
     ThemeProvider(themeState) {
-        HomeScreen()
+        LoginScreen()
+//        HomeScreen()
     }
 }
