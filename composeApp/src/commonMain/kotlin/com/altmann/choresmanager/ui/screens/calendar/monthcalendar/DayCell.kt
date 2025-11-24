@@ -59,7 +59,7 @@ fun DayCell(
         mutableStateOf(false)
     }
     var expandedChoreId by remember(date) {
-        mutableStateOf<String?>(null)
+        mutableStateOf<Int?>(null)
     }
 
     val expandedChore = remember(occurences, expandedChoreId) {

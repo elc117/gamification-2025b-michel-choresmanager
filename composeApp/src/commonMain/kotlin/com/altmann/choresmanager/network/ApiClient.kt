@@ -1,5 +1,6 @@
 package com.altmann.choresmanager.network
 
+import com.altmann.choresmanager.network.serializers.ColorSerializer
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.HttpTimeout
@@ -13,6 +14,12 @@ import io.ktor.http.contentType
 import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.contextual
+
+private val appSerializersModule = SerializersModule {
+    contextual(ColorSerializer)
+}
 
 class ApiClient {
     companion object {
@@ -26,6 +33,7 @@ class ApiClient {
                     prettyPrint = true
                     ignoreUnknownKeys = true
                     isLenient = true
+                    serializersModule = appSerializersModule
                 }
             )
         }

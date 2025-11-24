@@ -1,5 +1,6 @@
 package com.altmann.choresmanager.di
 
+import com.altmann.choresmanager.repository.ChoreRepository
 import com.altmann.choresmanager.repository.UserRepository
 import com.altmann.choresmanager.ui.screens.calendar.CalendarViewModel
 import com.altmann.choresmanager.ui.screens.chore.addchorepopup.ChorePopupViewModel
@@ -16,11 +17,14 @@ import org.koin.dsl.module
 expect val targetModule: Module
 
 val sharedModule = module {
-    single<SharedChoreViewModel> {
-        SharedChoreViewModel()
-    }
     single<UserRepository> {
         UserRepository()
+    }
+    single<ChoreRepository> {
+        ChoreRepository()
+    }
+    single<SharedChoreViewModel> {
+        SharedChoreViewModel(ChoreRepository())
     }
     viewModelOf(::CalendarViewModel)
     viewModelOf(::SideBarViewModel)

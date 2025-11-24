@@ -235,7 +235,7 @@ fun PopUpContent(
             Button(
                 onClick = {
                     var chore = Chore(
-                        choreId = Uuid.random().toString(),
+                        choreId = null,
                         startTime = startTime.value,
                         endTime = endTime.value,
                         daysOfWeek = state.selectedDays,

@@ -36,6 +36,11 @@ class CalendarViewModel(private val choreVM : SharedChoreViewModel) : ViewModel(
 
     var text = MutableStateFlow("")
 
+    init {
+        choreVM.getChores()
+        choreVM.remapChores()
+    }
+
     val user = UserRequest(
         name = "Vinicius",
         email = "vine@gmail.com",
@@ -77,11 +82,6 @@ class CalendarViewModel(private val choreVM : SharedChoreViewModel) : ViewModel(
             )
         )
 
-    init {
-        // Kick off any initial mapping
-        onEvent(CalendarEvent.LoadChores)
-    }
-
     fun onEvent(event: CalendarEvent) {
         when (event) {
             is CalendarEvent.SelectDate -> onSelectDate(event.date)
@@ -92,7 +92,9 @@ class CalendarViewModel(private val choreVM : SharedChoreViewModel) : ViewModel(
             is CalendarEvent.PrevMonth -> choreVM.onPrev()
             is CalendarEvent.NextWeek -> onNextWeek()
             is CalendarEvent.PrevWeek -> onPrevWeek()
-            is CalendarEvent.LoadChores -> choreVM.remapChores()
+            is CalendarEvent.LoadChores -> {
+                choreVM.remapChores()
+            }
             is CalendarEvent.MarkFinished -> choreVM.markChoreFinished(event.choreId, event.date)
         }
     }

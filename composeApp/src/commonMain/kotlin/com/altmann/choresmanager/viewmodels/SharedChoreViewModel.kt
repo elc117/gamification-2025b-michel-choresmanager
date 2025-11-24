@@ -4,9 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.altmann.choresmanager.models.user.User
 import com.altmann.choresmanager.models.chores.Chore
+import com.altmann.choresmanager.network.ApiResult
+import com.altmann.choresmanager.repository.ChoreRepository
 import com.altmann.choresmanager.repository.UserRepository
 import com.altmann.choresmanager.utils.AchievementHelper
 import com.altmann.choresmanager.utils.CalendarHelper
+import com.altmann.choresmanager.utils.ResponseToChore
+import io.ktor.util.Hash.combine
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,10 +19,11 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalTime
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 
-class SharedChoreViewModel : ViewModel() {
+class SharedChoreViewModel(private val choreRepository: ChoreRepository) : ViewModel() {
     private val _anchor =
         MutableStateFlow(CalendarHelper.today().let { LocalDate(it.year, it.month, 1) })
     val anchor = _anchor.asStateFlow()
@@ -30,7 +35,13 @@ class SharedChoreViewModel : ViewModel() {
     val chores = _chores.asStateFlow()
 
     private val _user = MutableStateFlow(
-        User(userId = 1, name = "Your name",email = "default@email.com", birthday = LocalDate(2004, 9, 5), profileImage = null)
+        User(
+            userId = 1,
+            name = "Your name",
+            email = "default@email.com",
+            birthday = LocalDate(2004, 9, 5),
+            profileImage = null
+        )
     )
     val user = _user.asStateFlow()
 
@@ -39,11 +50,10 @@ class SharedChoreViewModel : ViewModel() {
 
     init {
         // Auto-remap whenever anchor or enabled list changes
-        viewModelScope.launch(Dispatchers.Default) {
-            combine(anchor, enabledChores) { _, _ -> } // values are read inside remap
-                .collect { remapChores() }
-        }
-
+//        viewModelScope.launch(Dispatchers.Default) {
+//            combine(anchor, enabledChores) { _, _ -> } // values are read inside remap
+//                .collect { remapChores() }
+//        }
     }
 
     fun updateUser(newUser: User) {
@@ -54,7 +64,6 @@ class SharedChoreViewModel : ViewModel() {
         _chores.value = _chores.value.plus(chore)
         _enabledChores.value = _enabledChores.value.plus(chore)
         _user.update { it.copy(createdChores = it.createdChores + 1) }
-        remapChores()
         updateAchievements(null)
     }
 
@@ -64,21 +73,19 @@ class SharedChoreViewModel : ViewModel() {
             _enabledChores.value =
                 _enabledChores.value.map { if (it.choreId == chore.choreId) chore else it }
         }
-        remapChores()
     }
 
     fun enableDisableChore(chore: Chore) {
         _enabledChores.value =
             if (!_enabledChores.value.contains(chore)) _enabledChores.value.plus(chore)
             else _enabledChores.value.minus(chore)
-        remapChores()
     }
 
     fun onNext() = _anchor.update { it.plus(DatePeriod(months = 1)) }
 
     fun onPrev() = _anchor.update { it.minus(DatePeriod(months = 1)) }
 
-    fun markChoreFinished(choreId: String, date: LocalDate) {
+    fun markChoreFinished(choreId: Int, date: LocalDate) {
         _chores.value.find { it.choreId == choreId }?.let { chore ->
             if (date == chore.endDate) {
                 chore.finishChore()
@@ -95,7 +102,6 @@ class SharedChoreViewModel : ViewModel() {
             // Update achievements
             updateAchievements(chore)
         }
-        // Keep enabled list; finished chores will be excluded by mapping predicate
         remapChores()
     }
 
@@ -159,9 +165,12 @@ class SharedChoreViewModel : ViewModel() {
         val previous = anchor.value.minus(DatePeriod(months = 1))
         val next = anchor.value.plus(DatePeriod(months = 1))
 
-        val map = listOf(previous, anchor.value, next)
-            // get the entries: Sequence<Entry<LocalDate, List<Chore>>>
-            .flatMap { month -> generateChoreMap(month, enabledChores.value).entries }
+        val map = listOf(previous, anchor.value, next).flatMap { month ->
+            generateChoreMap(
+                month,
+                enabledChores.value
+            ).entries
+        }
             // for each Entry(date, choreList), create a list of Pair(date, chore)
             .flatMap { (date, choreList) -> choreList.map { chore -> date to chore } }
             // group into Map<LocalDate, List<Chore>>
@@ -169,6 +178,26 @@ class SharedChoreViewModel : ViewModel() {
 
         if (_mappedChores.value != map) {
             _mappedChores.update { if (map.entries == it.entries) it else map }
+        }
+        _mappedChores.value.forEach {
+            print("${it.key} -> ${it.value}\n")
+        }
+    }
+
+    fun getChores() = viewModelScope.launch {
+        val result = choreRepository.getChores(user.value.userId)
+        when (result) {
+            is ApiResult.Success -> {
+                val fetchedChores = result.data
+                _chores.value = fetchedChores.map { fetchedChore ->
+                    ResponseToChore.toChore(fetchedChore)
+                }
+                _enabledChores.value = _chores.value.filter { !it.deleted!! && !it.finished }
+            }
+
+            is ApiResult.Error -> {
+                print(result.message)
+            }
         }
     }
 

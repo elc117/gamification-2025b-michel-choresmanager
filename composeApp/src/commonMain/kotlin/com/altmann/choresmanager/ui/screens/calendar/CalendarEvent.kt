@@ -8,7 +8,7 @@ sealed interface CalendarEvent {
     object DismissExpanded : CalendarEvent
     data class AddChore(val chore: Chore) : CalendarEvent
     data class UpdateChore(val chore: Chore) : CalendarEvent
-    data class MarkFinished(val choreId : String, val date : LocalDate) : CalendarEvent
+    data class MarkFinished(val choreId : Int, val date : LocalDate) : CalendarEvent
     object LoadChores : CalendarEvent
     object PrevMonth : CalendarEvent
     object NextMonth : CalendarEvent

@@ -3,10 +3,8 @@ package com.altmann.choresmanager.repository
 import com.altmann.choresmanager.network.model.UserRequest
 import com.altmann.choresmanager.network.ApiClient
 import com.altmann.choresmanager.network.ApiResult
-import com.altmann.choresmanager.network.IUserRepository
+import com.altmann.choresmanager.repository.IUserRepository
 import com.altmann.choresmanager.network.model.UserResponse
-import io.ktor.client.HttpClient
-import io.ktor.client.request.get
 
 class UserRepository(
     private val api: ApiClient = ApiClient()

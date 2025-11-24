@@ -1,19 +1,13 @@
 package com.altmann.choresmanager.models.chores
 
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.TextUnit
-import com.altmann.choresmanager.models.chores.Priority
-import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 import kotlin.math.abs
 
 open class Chore(
-    val choreId: String,
+    val choreId: Int?,
     val startTime: LocalTime,
     val endTime: LocalTime,
     val daysOfWeek: List<DayOfWeek>,
@@ -21,7 +15,7 @@ open class Chore(
     val endDate: LocalDate,
     var choreException: List<LocalDate> = emptyList(),
     val title: String,
-    val description: String,
+    val description: String?,
     var priority: Priority,
     val deleted: Boolean? = false,
     var finished: Boolean = false,

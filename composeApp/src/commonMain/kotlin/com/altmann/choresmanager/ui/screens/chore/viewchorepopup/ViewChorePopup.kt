@@ -38,7 +38,7 @@ import kotlinx.datetime.LocalDate
 @Composable
 fun ViewChorePopup(
     onDismiss: () -> Unit,
-    onFinish: (choreId: String, date: LocalDate) -> Unit,
+    onFinish: (choreId: Int, date: LocalDate) -> Unit,
     onGroceriesUpdated: (chore: Chore) -> Unit,
     onWorkoutChanged: (chore: Chore) -> Unit,
     date: LocalDate,
@@ -70,7 +70,7 @@ private fun ViewChorePopupContent(
     onDismiss: () -> Unit,
     onGroceriesUpdated: (chore: Chore) -> Unit,
     onWorkoutChanged: (chore: Chore) -> Unit,
-    onFinish: (choreId: String, date: LocalDate) -> Unit
+    onFinish: (choreId: Int, date: LocalDate) -> Unit
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(4.dp)) {
 
@@ -83,7 +83,7 @@ private fun ViewChorePopupContent(
             modifier = Modifier.padding(4.dp),
             textAlign = TextAlign.Center
         )
-        if (chore.description.isNotEmpty()) {
+        if (chore.description.isNullOrEmpty().not()) {
             Text(
                 text = "Description: ${chore.description}",
                 style = MaterialTheme.typography.bodyMedium,
@@ -184,7 +184,7 @@ private fun ViewChorePopupContent(
             Spacer(modifier = Modifier.width(8.dp))
             Button(
                 onClick = {
-                    onFinish(chore.choreId, date)
+                    onFinish(chore.choreId!!, date)
                     onDismiss()
                 },
                 shape = RoundedCornerShape(8.dp),

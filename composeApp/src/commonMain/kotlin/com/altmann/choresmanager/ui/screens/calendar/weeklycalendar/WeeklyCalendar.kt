@@ -193,7 +193,7 @@ private fun WeekDayColumn(
         mutableStateOf(false)
     }
     var expandedChoreId by remember(date) {
-        mutableStateOf<String?>(null)
+        mutableStateOf<Int?>(null)
     }
 
     val expandedChore = remember(chores, expandedChoreId) {

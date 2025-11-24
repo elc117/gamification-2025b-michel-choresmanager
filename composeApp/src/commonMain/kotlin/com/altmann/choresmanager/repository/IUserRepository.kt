@@ -1,7 +1,7 @@
-package com.altmann.choresmanager.network
+package com.altmann.choresmanager.repository
 
+import com.altmann.choresmanager.network.ApiResult
 import com.altmann.choresmanager.network.model.UserRequest
-import com.altmann.choresmanager.models.user.User
 import com.altmann.choresmanager.network.model.UserResponse
 
 interface IUserRepository {
