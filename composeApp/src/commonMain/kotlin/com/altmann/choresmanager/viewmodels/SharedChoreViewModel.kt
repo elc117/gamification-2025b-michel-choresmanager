@@ -2,8 +2,9 @@ package com.altmann.choresmanager.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.altmann.choresmanager.models.User
+import com.altmann.choresmanager.models.user.User
 import com.altmann.choresmanager.models.chores.Chore
+import com.altmann.choresmanager.repository.UserRepository
 import com.altmann.choresmanager.utils.AchievementHelper
 import com.altmann.choresmanager.utils.CalendarHelper
 import kotlinx.coroutines.Dispatchers
@@ -42,6 +43,7 @@ class SharedChoreViewModel : ViewModel() {
             combine(anchor, enabledChores) { _, _ -> } // values are read inside remap
                 .collect { remapChores() }
         }
+
     }
 
     fun addChore(chore: Chore) {
@@ -73,7 +75,7 @@ class SharedChoreViewModel : ViewModel() {
     fun onPrev() = _anchor.update { it.minus(DatePeriod(months = 1)) }
 
     fun markChoreFinished(choreId: String, date: LocalDate) {
-        _chores.value.find { it.choreId == choreId}?.let { chore ->
+        _chores.value.find { it.choreId == choreId }?.let { chore ->
             if (date == chore.endDate) {
                 chore.finishChore()
                 _chores.value = _chores.value.map { if (it.choreId == choreId) chore else it }
@@ -104,8 +106,13 @@ class SharedChoreViewModel : ViewModel() {
         _user.value.levelUp()
     }
 
-    private fun updateAchievements(chore : Chore?) {
-        AchievementHelper(user.value.achievements, completedChore = chore,completedChores = user.value.completedChores.size, createdChores = user.value.createdChores)
+    private fun updateAchievements(chore: Chore?) {
+        AchievementHelper(
+            user.value.achievements,
+            completedChore = chore,
+            completedChores = user.value.completedChores.size,
+            createdChores = user.value.createdChores
+        )
             .checkForNewAchievements()
             .let { (newAchievements, xp) ->
                 if (newAchievements.isNotEmpty()) {

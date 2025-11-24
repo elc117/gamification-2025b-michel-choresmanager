@@ -5,6 +5,7 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,7 +23,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -47,13 +47,17 @@ import com.altmann.choresmanager.ui.screens.calendar.CalendarViewModel
 import com.altmann.choresmanager.ui.screens.chore.addchorepopup.AddChorePopup
 import com.altmann.choresmanager.ui.screens.chore.addchorepopup.ChorePopupViewModel
 import com.altmann.choresmanager.ui.screens.chore.viewchorepopup.ViewChorePopup
-import com.altmann.choresmanager.utils.CalendarHelper
 import com.altmann.choresmanager.utils.ColorHelper
 import com.altmann.choresmanager.utils.DateTimeParser
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.plus
 import org.koin.compose.viewmodel.koinViewModel
+
+val SLOT = 15 // minutes
+val SLOT_HEIGHT_DP = 16.dp // in dp
+val SLOTS_PER_DAY = 24 * 60 / SLOT
+val COLUMN_HEIGHT = SLOTS_PER_DAY * SLOT_HEIGHT_DP
 
 @Composable
 fun WeeklyCalendar(
@@ -74,6 +78,10 @@ fun WeeklyCalendar(
                 .fillMaxWidth()
                 .weight(1f)
         ) {
+            TimeFrames(
+                modifier = Modifier,
+                scrollState = scrollState
+            )
             Box(
                 modifier = Modifier
                     .weight(1f)
@@ -83,7 +91,7 @@ fun WeeklyCalendar(
                 WeekList(
                     anchor = anchor.value,
                     state = uiState,
-                    modifier = Modifier.padding(8.dp),
+                    modifier = Modifier.padding(start = 0.dp, bottom = 8.dp, end = 8.dp),
                     send = send
                 )
             }
@@ -96,9 +104,30 @@ fun WeeklyCalendar(
 expect fun ScrollBar(scrollState: ScrollState)
 
 @Composable
+private fun TimeFrames(modifier: Modifier = Modifier, scrollState: ScrollState) {
+    Box(modifier.height(COLUMN_HEIGHT + 16.dp).padding(top = 16.dp), contentAlignment = Alignment.Center) {
+        Column(
+            horizontalAlignment = Alignment.End,
+            modifier = Modifier.verticalScroll(scrollState)
+        ) {
+            for (hour in 0..23) {
+                Text(
+                    text = hour.toString().padStart(2, '0'),
+                    style = MaterialTheme.typography.bodySmall,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.height(SLOT_HEIGHT_DP * (60 / SLOT)).padding(start =4.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
 private fun WeekDayRow() {
     val days = listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
-    Row(modifier = Modifier.fillMaxWidth().padding(start = 12.dp, end = 16.dp)) {
+    Row(modifier = Modifier.fillMaxWidth().padding(start = 24.dp, end = 16.dp)) {
         for (day in days) {
             Text(
                 day,
@@ -171,10 +200,7 @@ private fun WeekDayColumn(
         chores.firstOrNull { it.choreId == expandedChoreId }
     }
 
-    val slot = 15 // minutes
-    val slotHeightDp = 10.dp // in dp
-    val slotsPerDay = 24 * 60 / slot
-    val columnHeight = slotsPerDay * slotHeightDp
+
     var clickedMinutes by remember(date) { mutableStateOf(0) }
     var clicked by remember(date) { mutableStateOf(1) }
 
@@ -189,14 +215,14 @@ private fun WeekDayColumn(
 
     Surface(
         shape = RoundedCornerShape(8.dp),
-        modifier = modifier.clip(RoundedCornerShape(8.dp)).height(columnHeight + 15.dp)
+        modifier = modifier.clip(RoundedCornerShape(8.dp)).height(COLUMN_HEIGHT + 15.dp)
             .padding(2.dp),
         tonalElevation = 4.dp,
         color = bg,
         border = BorderStroke(1.dp, border)
     ) {
         Box(
-            Modifier.height(columnHeight + 15.dp)
+            Modifier.height(COLUMN_HEIGHT + 15.dp)
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -211,15 +237,15 @@ private fun WeekDayColumn(
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .height(columnHeight)
+                        .height(COLUMN_HEIGHT)
                         .pointerInput(selected, date) {
                             detectTapGestures { offset ->
                                 val density = this
-                                val slotHeightPx = with(density) { slotHeightDp.toPx() }
+                                val slotHeightPx = with(density) { SLOT_HEIGHT_DP.toPx() }
                                 val totalMinutes = 24 * 60
 
                                 val newClickedMinutes =
-                                    ((offset.y / slotHeightPx) * slot).toInt()
+                                    ((offset.y / slotHeightPx) * SLOT).toInt()
                                         .coerceIn(0, totalMinutes - 1)
                                 clickedMinutes = newClickedMinutes
 
@@ -232,11 +258,11 @@ private fun WeekDayColumn(
                         val startMinutes = chore.startTime.hour * 60 + chore.startTime.minute
                         val duration = chore.duration()
 
-                        val startSlots = startMinutes / slot.toFloat()
-                        val durationSlots = duration / slot.toFloat()
+                        val startSlots = startMinutes / SLOT.toFloat()
+                        val durationSlots = duration / SLOT.toFloat()
 
-                        val yOffset = startSlots * slotHeightDp.value
-                        val height = durationSlots * slotHeightDp.value
+                        val yOffset = startSlots * SLOT_HEIGHT_DP.value
+                        val height = durationSlots * SLOT_HEIGHT_DP.value
                         ChoreItem(
                             yOffset.toInt(),
                             height.toInt(),

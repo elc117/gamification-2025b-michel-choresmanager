@@ -2,6 +2,8 @@ package com.altmann.choresmanager.ui.screens.calendar
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.altmann.choresmanager.network.ApiResult
+import com.altmann.choresmanager.repository.UserRepository
 import com.altmann.choresmanager.utils.CalendarHelper
 import com.altmann.choresmanager.viewmodels.SharedChoreViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,6 +32,16 @@ class CalendarViewModel(private val choreVM : SharedChoreViewModel) : ViewModel(
     val anchor: StateFlow<LocalDate> = choreVM.anchor
     val mappedChores = choreVM.mappedChores
     val enabledChores = choreVM.enabledChores
+
+    var text = MutableStateFlow("")
+
+    fun testApi() = viewModelScope.launch {
+        val result = UserRepository().getBase()
+        when (result) {
+            is ApiResult.Success -> text.value = result.data
+            is ApiResult.Error -> text.value = "Error: ${result.message}"
+        }
+    }
 
     // Reactive UI state derived from flows; UI collects this
     val state: StateFlow<CalendarUiState> =

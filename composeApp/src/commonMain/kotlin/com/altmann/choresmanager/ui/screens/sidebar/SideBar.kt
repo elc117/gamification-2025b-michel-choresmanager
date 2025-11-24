@@ -98,7 +98,7 @@ fun SideBar(viewModel: SideBarViewModel, screen: MutableState<Int>) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Box(contentAlignment = Alignment.Center) {
                         CircleUserIcon(
-                            imageResource = Res.drawable.frajola_icon,
+                            imageResource = null,
                             borderWidth = 2.dp,
                             size = 48.dp,
                             modifier = Modifier.padding(8.dp)

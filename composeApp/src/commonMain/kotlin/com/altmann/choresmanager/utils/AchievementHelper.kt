@@ -1,7 +1,6 @@
 package com.altmann.choresmanager.utils
 
-import com.altmann.choresmanager.models.Achievement
-import com.altmann.choresmanager.models.achievements
+import com.altmann.choresmanager.models.user.achievements
 import com.altmann.choresmanager.models.chores.Chore
 
 class AchievementHelper(

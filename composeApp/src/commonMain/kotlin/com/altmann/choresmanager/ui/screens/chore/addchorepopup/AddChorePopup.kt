@@ -1,6 +1,5 @@
 package com.altmann.choresmanager.ui.screens.chore.addchorepopup
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -11,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.chores.Chore
@@ -19,8 +17,8 @@ import com.altmann.choresmanager.models.chores.Priority
 import com.altmann.choresmanager.models.chores.college.CollegeChore
 import com.altmann.choresmanager.models.chores.grocery.GroceryChore
 import com.altmann.choresmanager.models.chores.gym.GymChore
-import com.altmann.choresmanager.ui.screens.components.grocerychore.GroceryChoreFields
-import com.altmann.choresmanager.ui.screens.components.gymchore.GymChoreFields
+import com.altmann.choresmanager.ui.screens.chore.grocerychore.GroceryChoreFields
+import com.altmann.choresmanager.ui.screens.chore.gymchore.GymChoreFields
 import com.altmann.choresmanager.ui.screens.components.fields.DateTextField
 import com.altmann.choresmanager.ui.screens.components.fields.TimeTextField
 import com.altmann.choresmanager.ui.screens.components.pickers.ChoreTypePicker

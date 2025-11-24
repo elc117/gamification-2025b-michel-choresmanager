@@ -13,7 +13,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun App() {
     val initialTheme =
-        generateColorsFromPrimary(color = Color.hsl(258f, 0.3f, 0.46f), isDark = false)
+        generateColorsFromPrimary(color = Color.hsl(258f, 0.3f, 0.46f), isDark = true)
     val themeState = remember {
         mutableStateOf(
             initialTheme

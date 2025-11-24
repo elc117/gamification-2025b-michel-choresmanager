@@ -1,4 +1,4 @@
-package com.altmann.choresmanager.models
+package com.altmann.choresmanager.models.user
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.altmann.choresmanager.res.MyAchievementsPack

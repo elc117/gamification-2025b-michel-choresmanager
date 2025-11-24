@@ -1,6 +1,5 @@
-package com.altmann.choresmanager.ui.screens.components.gymchore
+package com.altmann.choresmanager.ui.screens.chore.gymchore
 
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -79,14 +78,25 @@ fun WorkoutDropdown(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("Exercises", modifier = Modifier.padding(8.dp))
                 Spacer(modifier = Modifier.weight(1f))
-                Button(
-                    onClick = {
-                        addExerciseMenu.value = !addExerciseMenu.value
-                    },
-                    modifier = Modifier.padding(8.dp),
-                    shape = RoundedCornerShape(8.dp)
-                ) {
-                    Text("New Exercise")
+                Box {
+                    Button(
+                        onClick = {
+                            addExerciseMenu.value = !addExerciseMenu.value
+                        },
+                        modifier = Modifier.padding(8.dp),
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Text("New Exercise")
+                    }
+                    AddExerciseDropdown(
+                        onExerciseCreated = {
+                            onWorkoutUpdated(workout.plus(it))
+                        },
+                        open = addExerciseMenu.value,
+                        onDismiss = {
+                            addExerciseMenu.value = false
+                        }
+                    )
                 }
 
             }
@@ -104,16 +114,6 @@ fun WorkoutDropdown(
                     )
                 }
             }
-
-            AddExerciseDropdown(
-                onExerciseCreated = {
-                    onWorkoutUpdated(workout.plus(it))
-                },
-                open = addExerciseMenu.value,
-                onDismiss = {
-                    addExerciseMenu.value = false
-                }
-            )
         }
     }
 }

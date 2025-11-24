@@ -36,8 +36,7 @@ fun CalendarScreen(
     val send = calendarVM::onEvent
 
     val anchor = if (monthly) uiState.anchor else calendarVM.weekAnchor.collectAsState().value
-
-
+    
     LaunchedEffect(anchor, uiState.enabledChores) {
         send(CalendarEvent.LoadChores)
     }
@@ -46,6 +45,7 @@ fun CalendarScreen(
         MonthHeader(
             anchor = anchor,
             onPrev = {
+                calendarVM.testApi()
                 if (monthly) {
                     send(CalendarEvent.PrevMonth)
                 } else send(CalendarEvent.PrevWeek)

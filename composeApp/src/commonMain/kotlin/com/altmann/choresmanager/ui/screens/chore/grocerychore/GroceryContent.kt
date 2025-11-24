@@ -1,4 +1,4 @@
-package com.altmann.choresmanager.ui.screens.components.grocerychore
+package com.altmann.choresmanager.ui.screens.chore.grocerychore
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

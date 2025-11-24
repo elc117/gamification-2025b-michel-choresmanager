@@ -1,4 +1,4 @@
-package com.altmann.choresmanager.models
+package com.altmann.choresmanager.models.user
 
 import com.altmann.choresmanager.models.chores.Chore
 import kotlinx.datetime.LocalDate

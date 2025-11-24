@@ -1,6 +1,7 @@
 package com.altmann.choresmanager.ui.screens.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,15 +25,17 @@ fun HomeScreen() {
 
     var screen = remember { mutableStateOf(0) }
 
-//    val achievementsViewModel = koinViewModel<AchievementsViewModel>()
-    Row(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
-        SideBar(sideBarViewModel, screen)
-        when (screen.value) {
-            0 -> CalendarScreen(calendarViewModel)
-            1 -> AchievementsScreen(sideBarViewModel.user.value.achievements,
-                modifier = Modifier.weight(1f).fillMaxHeight())
-            2 -> ThemeSelectorScreen()
-        }
+    Column(modifier = Modifier.fillMaxSize()) {
+        //    val achievementsViewModel = koinViewModel<AchievementsViewModel>()
+        Row(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
+            SideBar(sideBarViewModel, screen)
+            when (screen.value) {
+                0 -> CalendarScreen(calendarViewModel)
+                1 -> AchievementsScreen(sideBarViewModel.user.value.achievements,
+                    modifier = Modifier.weight(1f).fillMaxHeight())
+                2 -> ThemeSelectorScreen()
+            }
 
+        }
     }
 }

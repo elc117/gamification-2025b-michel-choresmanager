@@ -45,6 +45,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added logic for creating time slots in WeeklyCalendar
 - Added chore creation logic to create chores in specific time slots in WeeklyCalendar
 - Added scrollable time column to WeeklyCalendar (desktop specific)
+- Added list of time slots to the left of WeeklyCalendar
+- Added ktor dependency for network implementation
+- Added basic structure for future network calls
+- Added basic test for network calls
 
 ### Changed
 
@@ -73,6 +77,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed Border from AddChorePopup
 - Removed Border from unselected DayCells
 - Removed default colors from AppTheme class
+- Removed everything related to sqldelight as database implementation
 
 ## [0.2.0] - 2025-11-14
 

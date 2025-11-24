@@ -2,6 +2,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.gradle.jvm.tasks.Jar
+import org.gradle.kotlin.dsl.implementation
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -9,7 +10,6 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
-    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {
@@ -24,6 +24,7 @@ kotlin {
     js(IR) {
         browser {
             binaries.executable()
+
         }
     }
 
@@ -41,9 +42,10 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
 
-            implementation(libs.sqldelight.android)
             implementation(libs.kolorpicker)
             implementation(libs.kolorpicker)
+
+            implementation(libs.ktor.client.okhttp)
 
         }
         commonMain.dependencies {
@@ -61,6 +63,10 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.navigation.compose)
 
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.negotiation)
+
             implementation("io.coil-kt.coil3:coil-svg:3.3.0")
             implementation(libs.material.kolor)
             implementation(libs.coil.compose)
@@ -73,16 +79,18 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.kotlinx.coroutinesSwing)
 
-            implementation(libs.sqldelight.desktop)
+            implementation(libs.ktor.client.desktop)
             implementation(libs.kolorpicker)
 
         }
         jsMain.dependencies {
-            implementation("app.cash.sqldelight:web-worker-driver:2.1.0")
-            implementation(devNpm("copy-webpack-plugin", "9.1.0"))
-            implementation(npm("@cashapp/sqldelight-sqljs-worker", "2.1.0"))
-            implementation(npm("sql.js", "1.8.0"))
-
+            implementation(libs.ktor.client.js)
+        }
+        webMain.dependencies {
+            implementation(libs.ktor.client.js)
+        }
+        wasmJsMain.dependencies {
+            implementation(libs.ktor.client.wasm)
         }
     }
 }
@@ -132,15 +140,6 @@ compose.desktop {
         buildTypes.release.proguard {
             isEnabled.set(false)
         }
-    }
-}
-
-sqldelight {
-    databases {
-        create("ChoresDatabase") {
-            packageName.set("com.altmann")
-        }
-
     }
 }
 
