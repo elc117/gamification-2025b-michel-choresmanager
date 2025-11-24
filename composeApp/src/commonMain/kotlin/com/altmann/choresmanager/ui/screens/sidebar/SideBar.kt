@@ -40,6 +40,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import choresmanager.composeapp.generated.resources.Res
 import choresmanager.composeapp.generated.resources.frajola_icon
@@ -96,40 +97,54 @@ fun SideBar(viewModel: SideBarViewModel, screen: MutableState<Int>) {
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Box(contentAlignment = Alignment.Center) {
-                        CircleUserIcon(
-                            imageResource = null,
-                            borderWidth = 2.dp,
-                            size = 48.dp,
-                            modifier = Modifier.padding(8.dp)
-                                .clip(CircleShape)
-                                .clickable {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            CircleUserIcon(
+                                imageResource = null,
+                                borderWidth = 2.dp,
+                                size = 48.dp,
+                                modifier = Modifier.padding(8.dp)
+                                    .clip(CircleShape)
+                                    .clickable {
 
-                                }
-                        )
-                        // Progress bar for exp to level up
-                        CircularProgressIndicator(
-                            progress = { progressAnim.value },
-                            modifier = Modifier.size(60.dp),
-                            strokeWidth = 5.dp,
-                            gapSize = 0.dp,
-                            strokeCap = StrokeCap.Butt,
-                            color = MaterialTheme.colorScheme.primary,
-                            trackColor = MaterialTheme.colorScheme.background
-                        )
+                                    }
+                            )
+                            // Progress bar for exp to level up
+                            CircularProgressIndicator(
+                                progress = { progressAnim.value },
+                                modifier = Modifier.size(60.dp),
+                                strokeWidth = 5.dp,
+                                gapSize = 0.dp,
+                                strokeCap = StrokeCap.Butt,
+                                color = MaterialTheme.colorScheme.primary,
+                                trackColor = MaterialTheme.colorScheme.background
+                            )
+                        }
+                        Column {
+                            Text(
+                                text = user.name,
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.padding(start = 8.dp)
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(
+                                text = "Level: ${user.level}",
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(start = 8.dp)
+                            )
+                        }
                     }
                     Text(
                         text = "${user.currentExp} / ${user.lvlUpThreshold}",
+                        modifier = Modifier.fillMaxWidth().padding(start = 8.dp),
                         style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.padding(start = 8.dp)
+                        textAlign = TextAlign.Start
                     )
                 }
-                Text(
-                    text = "Level ${user.level}",
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
             }
             TextButton(
                 shape = RoundedCornerShape(4.dp),
@@ -179,7 +194,7 @@ fun SideBar(viewModel: SideBarViewModel, screen: MutableState<Int>) {
                     .fillMaxWidth()
                     .size(2.dp)
             )
-            Box{
+            Box {
                 val popUpViewModel = koinViewModel<ChorePopupViewModel>()
                 AddChorePopup(
                     onDismiss = {

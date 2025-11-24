@@ -6,14 +6,15 @@ import kotlinx.datetime.LocalDate
 data class User(
     val userId: Int,
     val name: String,
-    val birthday: LocalDate,
-    val profileImage: List<Byte>?,
+    val email : String,
+    val birthday: LocalDate?,
+    val profileImage: String? = null,
     var currentExp: Int = 10,
-    var lvlUpThreshold : Int = 100,
     val achievements: List<Int> = emptyList(),
-    val completedChores: List<Chore> = emptyList(),
-    val createdChores: Int = 0,
-    var level: Int = 1
+    var lvlUpThreshold : Int = 100,
+    var level: Int = 1,
+    val completedChores: Int = 0,
+    val createdChores: Int = 0
     ) {
 
     fun gainExp(amount : Int) : User {

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.LocalTextStyle
@@ -21,6 +22,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,10 +37,15 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    loginViewModel: LoginViewModel,
+    screenState: MutableState<Int>
+) {
 
     var login by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val message = loginViewModel.loginMessage.collectAsState()
+    val failed = loginViewModel.loginError.collectAsState()
 
     Box(
         modifier = Modifier
@@ -45,22 +53,28 @@ fun LoginScreen() {
             .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center
     ) {
-        Text("Welcome to Chores Manager!", style = LocalTextStyle.current.merge(TextStyle(
-            color = MaterialTheme.colorScheme.onBackground,
-            fontSize = MaterialTheme.typography.headlineLarge.fontSize
-        )), modifier = Modifier
-            .align(Alignment.TopCenter)
-            .padding(top = 64.dp)
+        Text(
+            "Welcome to Chores Manager!", style = LocalTextStyle.current.merge(
+                TextStyle(
+                    color = MaterialTheme.colorScheme.onBackground,
+                    fontSize = MaterialTheme.typography.headlineLarge.fontSize
+                )
+            ), modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(top = 64.dp)
         )
         Column {
 
-            Text("Log in!", modifier = Modifier
-                .padding(bottom = 16.dp)
-                .align(Alignment.CenterHorizontally),
-                style = LocalTextStyle.current.merge(TextStyle(
-                    color = MaterialTheme.colorScheme.onBackground,
-                    fontSize = MaterialTheme.typography.headlineMedium.fontSize
-                ))
+            Text(
+                "Log in!", modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .align(Alignment.CenterHorizontally),
+                style = LocalTextStyle.current.merge(
+                    TextStyle(
+                        color = MaterialTheme.colorScheme.onBackground,
+                        fontSize = MaterialTheme.typography.headlineMedium.fontSize
+                    )
+                )
             )
             Spacer(modifier = Modifier.height(16.dp))
             Surface(
@@ -100,12 +114,38 @@ fun LoginScreen() {
                         }
                         Spacer(modifier = Modifier.width(16.dp))
                         Button(
-                            onClick = {},
+                            onClick = {
+                                loginViewModel.authenticate(login, password)
+                            },
                             shape = RoundedCornerShape(8.dp),
                             modifier = Modifier.weight(1f)
                         ) {
                             Text("Login")
                         }
+                    }
+                    when (message.value) {
+                        "Success" -> {
+                            screenState.value = 1 // Navigate to HomeScreen
+                        }
+
+                        "Loading" -> {
+                            // Show loading indicator (not implemented here)
+                        }
+                    }
+                    if (failed.value) {
+                        AlertDialog(
+                            onDismissRequest = { loginViewModel.reset() },
+                            title = { Text("Login Failed") },
+                            text = { Text(message.value) },
+                            confirmButton = {
+                                Button(
+                                    onClick = { loginViewModel.reset()},
+                                    shape = RoundedCornerShape(8.dp)
+                                ) {
+                                    Text("OK")
+                                }
+                            }
+                        )
                     }
                 }
             }

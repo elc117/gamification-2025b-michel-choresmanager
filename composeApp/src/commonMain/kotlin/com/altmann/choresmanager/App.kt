@@ -7,8 +7,10 @@ import com.altmann.choresmanager.theming.AppTheme
 import com.altmann.choresmanager.theming.ThemeProvider
 import com.altmann.choresmanager.ui.screens.home.HomeScreen
 import com.altmann.choresmanager.ui.screens.login.LoginScreen
+import com.altmann.choresmanager.ui.screens.login.LoginViewModel
 import com.altmann.choresmanager.utils.ColorHelper.generateColorsFromPrimary
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 @Preview
@@ -20,8 +22,18 @@ fun App() {
             initialTheme
         )
     }
+
+    val screenState = remember {
+        mutableStateOf(0)
+    }
+
+    val loginViewModel = koinViewModel<LoginViewModel>()
     ThemeProvider(themeState) {
-        LoginScreen()
-//        HomeScreen()
+        when (screenState.value){
+            0 -> {LoginScreen(loginViewModel, screenState)}
+            1 -> {HomeScreen()}
+            else -> {}
+
+        }
     }
 }

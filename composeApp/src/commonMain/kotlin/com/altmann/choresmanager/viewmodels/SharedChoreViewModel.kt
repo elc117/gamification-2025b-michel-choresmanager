@@ -30,7 +30,7 @@ class SharedChoreViewModel : ViewModel() {
     val chores = _chores.asStateFlow()
 
     private val _user = MutableStateFlow(
-        User(userId = 1, name = "Your name", birthday = LocalDate(2004, 9, 5), profileImage = null)
+        User(userId = 1, name = "Your name",email = "default@email.com", birthday = LocalDate(2004, 9, 5), profileImage = null)
     )
     val user = _user.asStateFlow()
 
@@ -44,6 +44,10 @@ class SharedChoreViewModel : ViewModel() {
                 .collect { remapChores() }
         }
 
+    }
+
+    fun updateUser(newUser: User) {
+        _user.value = newUser
     }
 
     fun addChore(chore: Chore) {
@@ -97,7 +101,7 @@ class SharedChoreViewModel : ViewModel() {
 
     fun addCompletedChoreToUser(chore: Chore) {
         _user.value = _user.value.copy(
-            completedChores = _user.value.completedChores.plus(chore)
+            completedChores = _user.value.completedChores + 1
         )
         _user.update { it.gainExp(10) }// Gain 10 XP per completed chore
     }
@@ -110,7 +114,7 @@ class SharedChoreViewModel : ViewModel() {
         AchievementHelper(
             user.value.achievements,
             completedChore = chore,
-            completedChores = user.value.completedChores.size,
+            completedChores = user.value.completedChores,
             createdChores = user.value.createdChores
         )
             .checkForNewAchievements()

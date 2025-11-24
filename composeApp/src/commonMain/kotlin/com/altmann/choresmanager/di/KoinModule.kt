@@ -1,7 +1,9 @@
 package com.altmann.choresmanager.di
 
+import com.altmann.choresmanager.repository.UserRepository
 import com.altmann.choresmanager.ui.screens.calendar.CalendarViewModel
 import com.altmann.choresmanager.ui.screens.chore.addchorepopup.ChorePopupViewModel
+import com.altmann.choresmanager.ui.screens.login.LoginViewModel
 import com.altmann.choresmanager.ui.screens.sidebar.SideBarViewModel
 import com.altmann.choresmanager.viewmodels.SharedChoreViewModel
 import org.koin.core.KoinApplication
@@ -17,9 +19,13 @@ val sharedModule = module {
     single<SharedChoreViewModel> {
         SharedChoreViewModel()
     }
+    single<UserRepository> {
+        UserRepository()
+    }
     viewModelOf(::CalendarViewModel)
     viewModelOf(::SideBarViewModel)
     viewModelOf(::ChorePopupViewModel)
+    viewModelOf(::LoginViewModel)
 
 }
 
