@@ -45,7 +45,6 @@ fun CalendarScreen(
         MonthHeader(
             anchor = anchor,
             onPrev = {
-                calendarVM.testApi()
                 if (monthly) {
                     send(CalendarEvent.PrevMonth)
                 } else send(CalendarEvent.PrevWeek)

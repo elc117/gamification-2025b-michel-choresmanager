@@ -41,19 +41,6 @@ class CalendarViewModel(private val choreVM : SharedChoreViewModel) : ViewModel(
         choreVM.remapChores()
     }
 
-    val user = UserRequest(
-        name = "Vinicius",
-        email = "vine@gmail.com",
-        password = "12345"
-    )
-    fun testApi() = viewModelScope.launch {
-        val result = UserRepository().authenticateUser(user.email, user.password)
-        when (result) {
-            is ApiResult.Success -> text.value = "Success! ${result.data.toString()}"
-            is ApiResult.Error -> text.value = "Error: ${result.message}"
-        }
-    }
-
     // Reactive UI state derived from flows; UI collects this
     val state: StateFlow<CalendarUiState> =
         combine(
