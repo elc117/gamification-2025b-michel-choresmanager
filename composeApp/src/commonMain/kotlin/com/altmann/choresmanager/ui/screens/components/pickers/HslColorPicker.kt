@@ -24,6 +24,7 @@ import com.altmann.choresmanager.utils.ColorHelper.toHSL
 fun HslColorPicker(
     onColorChanged : (Color) -> Unit,
     initialColor: Color = MaterialTheme.colorScheme.primary,
+    active : Boolean = true,
     modifier: Modifier = Modifier
 ) {
     val initialHsl = initialColor.toHSL()
@@ -57,6 +58,7 @@ fun HslColorPicker(
                 hue = it
                 onColorChanged(Color.hsl(hue, saturation, lightness))
             },
+            active = active,
             gradient = colorsGradient,
             range = 0f..360f,
             inactiveTrackColor = Color.Transparent,
@@ -67,6 +69,7 @@ fun HslColorPicker(
                 saturation = it
                 onColorChanged(Color.hsl(hue, saturation, lightness))
             },
+            active = active,
             value = saturation,
             gradient = saturationGradient,
             inactiveTrackColor = Color.Transparent,
@@ -77,6 +80,7 @@ fun HslColorPicker(
                 lightness = it
                 onColorChanged(Color.hsl(hue, saturation, lightness))
             },
+            active = active,
             value = lightness,
             gradient = lightnessGradient,
             inactiveTrackColor = Color.Transparent,

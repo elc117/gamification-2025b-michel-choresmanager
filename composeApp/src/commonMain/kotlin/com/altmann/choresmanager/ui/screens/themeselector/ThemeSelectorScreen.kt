@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -41,7 +42,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.plus
 
 @Composable
-fun ThemeSelectorScreen() {
+fun ThemeSelectorScreen(level : Int) {
     Column(
         modifier = Modifier.padding(bottom = 16.dp, start = 8.dp, top = 16.dp).fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
@@ -54,6 +55,8 @@ fun ThemeSelectorScreen() {
         var isDark by remember {
             mutableStateOf(dark)
         }
+        val enabled = level >= 5
+        print(level.toString())
         val previewTheme = generateColorsFromPrimary(color, isDark)
 
         MyTheme.controller.themeState.value = generateColorsFromPrimary(newColor.value, isDark)
@@ -82,13 +85,23 @@ fun ThemeSelectorScreen() {
                     modifier = Modifier.padding(12.dp),
                     shape = RoundedCornerShape(8.dp)
                 ) {
-                    HslColorPicker(
-                        modifier = Modifier.padding(8.dp),
-                        initialColor = color,
-                        onColorChanged = { colorPicked ->
-                            color = colorPicked
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        if (level <= 5) {
+                            Text(
+                                text = "Unlock at level 5!",
+                                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.padding(8.dp)
+                            )
                         }
-                    )
+                        HslColorPicker(
+                            modifier = Modifier.padding(8.dp),
+                            initialColor = color,
+                            onColorChanged = { colorPicked ->
+                                color = colorPicked
+                            }
+                        )
+                    }
                 }
                 Button(
                     modifier = Modifier.width(250.dp),
@@ -97,6 +110,7 @@ fun ThemeSelectorScreen() {
                         containerColor = MaterialTheme.colorScheme.primary,
                         contentColor = MaterialTheme.colorScheme.onPrimary
                     ),
+                    enabled = enabled,
                     onClick = {
                         newColor.value = color
                     }

@@ -58,6 +58,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Used Chore Responses for sending chore data to network
 - Successfully sending and receiving default, grocery and college chores from the api
 - Added ResponseToChore object for mapping responses to Chore objects and vice versa
+- Added min user level for applying theme selection
 
 ### Changed
 

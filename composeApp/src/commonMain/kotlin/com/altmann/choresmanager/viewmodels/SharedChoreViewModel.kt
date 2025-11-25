@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.altmann.choresmanager.models.user.User
 import com.altmann.choresmanager.models.chores.Chore
+import com.altmann.choresmanager.models.chores.college.CollegeChore
 import com.altmann.choresmanager.network.ApiResult
 import com.altmann.choresmanager.network.model.response.ChoreResponseBase
 import com.altmann.choresmanager.repository.ChoreRepository
@@ -103,9 +104,12 @@ class SharedChoreViewModel(private val choreRepository: ChoreRepository) : ViewM
                 _chores.value = _chores.value.map { if (it.choreId == choreId) chore else it }
                 _enabledChores.value = _enabledChores.value.filter { it.choreId != choreId }
                 // Update user completed chores
-                addCompletedChoreToUser(chore)
+                addCompletedChoreToUser()
             } else {
                 chore.choreException = chore.choreException.plus(date)
+                if (chore::class == CollegeChore::class){
+                    (chore as CollegeChore).addAbsence()
+                }
                 _chores.value = _chores.value.map { if (it.choreId == choreId) chore else it }
                 _enabledChores.value =
                     _enabledChores.value.map { if (it.choreId == choreId) chore else it }
@@ -116,7 +120,7 @@ class SharedChoreViewModel(private val choreRepository: ChoreRepository) : ViewM
         remapChores()
     }
 
-    fun addCompletedChoreToUser(chore: Chore) {
+    fun addCompletedChoreToUser() {
         _user.value = _user.value.copy(
             completedChores = _user.value.completedChores + 1
         )

@@ -28,6 +28,7 @@ fun GradientSlider(
     value: Float = 0f,
     onValueChange: (Float) -> Unit,
     modifier: Modifier = Modifier,
+    active : Boolean = true,
     gradient : List<Color> = listOf(),
     range : ClosedFloatingPointRange<Float> = 0f..1f,
     inactiveTrackColor : Color
@@ -51,6 +52,7 @@ fun GradientSlider(
             onValueChange = {
                 onValueChange(it)
             },
+            enabled = active,
             valueRange = range,
             colors = SliderDefaults.colors(
                 thumbColor = Color.White,

@@ -22,6 +22,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun HomeScreen() {
     val calendarViewModel = koinViewModel<CalendarViewModel>()
     val sideBarViewModel = koinViewModel<SideBarViewModel>()
+    val sharedChoreViewModel = koinViewModel<SideBarViewModel>()
 
     var screen = remember { mutableStateOf(0) }
 
@@ -33,7 +34,7 @@ fun HomeScreen() {
                 0 -> CalendarScreen(calendarViewModel)
                 1 -> AchievementsScreen(sideBarViewModel.user.value.achievements,
                     modifier = Modifier.weight(1f).fillMaxHeight())
-                2 -> ThemeSelectorScreen()
+                2 -> ThemeSelectorScreen(sharedChoreViewModel.user.value.level)
             }
 
         }
