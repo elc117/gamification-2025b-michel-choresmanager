@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.altmann.choresmanager.models.user.User
 import com.altmann.choresmanager.models.chores.Chore
 import com.altmann.choresmanager.network.ApiResult
+import com.altmann.choresmanager.network.model.response.ChoreResponseBase
 import com.altmann.choresmanager.repository.ChoreRepository
 import com.altmann.choresmanager.repository.UserRepository
 import com.altmann.choresmanager.utils.AchievementHelper
@@ -60,11 +61,21 @@ class SharedChoreViewModel(private val choreRepository: ChoreRepository) : ViewM
         _user.value = newUser
     }
 
-    fun addChore(chore: Chore) {
-        _chores.value = _chores.value.plus(chore)
-        _enabledChores.value = _enabledChores.value.plus(chore)
-        _user.update { it.copy(createdChores = it.createdChores + 1) }
-        updateAchievements(null)
+    fun addChore(chore: Chore) = viewModelScope.launch {
+        val result = choreRepository.addChore(user.value.userId, chore)
+        when (result) {
+            is ApiResult.Success -> {
+                val addedChore = ResponseToChore.toChore(result.data)
+                _chores.value = _chores.value.plus(addedChore)
+                _enabledChores.value = _enabledChores.value.plus(addedChore)
+                _user.update { it.copy(createdChores = it.createdChores + 1) }
+                updateAchievements(null)
+            }
+
+            is ApiResult.Error -> {
+                print(result.message)
+            }
+        }
     }
 
     fun updateChore(chore: Chore) {

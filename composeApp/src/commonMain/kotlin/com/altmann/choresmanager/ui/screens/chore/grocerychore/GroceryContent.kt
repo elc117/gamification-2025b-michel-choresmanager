@@ -1,5 +1,6 @@
 package com.altmann.choresmanager.ui.screens.chore.grocerychore
 
+import com.altmann.choresmanager.models.chores.grocery.Item
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.altmann.choresmanager.models.chores.grocery.Item
 import com.altmann.choresmanager.ui.screens.components.XButton
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid

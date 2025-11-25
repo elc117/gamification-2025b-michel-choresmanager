@@ -1,5 +1,6 @@
 package com.altmann.choresmanager.ui.screens.chore.grocerychore
 
+import com.altmann.choresmanager.models.chores.grocery.Item
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.altmann.choresmanager.models.chores.grocery.Item
 import com.altmann.choresmanager.ui.screens.chore.addchorepopup.ChorePopupEvent
 import com.altmann.choresmanager.ui.screens.chore.addchorepopup.ChorePopupState
 import kotlin.uuid.ExperimentalUuidApi

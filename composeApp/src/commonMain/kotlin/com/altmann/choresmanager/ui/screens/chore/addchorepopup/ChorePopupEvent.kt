@@ -1,12 +1,9 @@
 package com.altmann.choresmanager.ui.screens.chore.addchorepopup
 
-import androidx.compose.ui.graphics.Color
-import com.altmann.choresmanager.models.chores.Chore
 import com.altmann.choresmanager.models.chores.grocery.Item
+import androidx.compose.ui.graphics.Color
 import com.altmann.choresmanager.models.chores.gym.Exercise
 import kotlinx.datetime.DayOfWeek
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalTime
 
 sealed interface ChorePopupEvent {
     object OpenPopup : ChorePopupEvent

@@ -1,8 +1,8 @@
-package api.model.response
+package com.altmann.choresmanager.network.model.response
 
+import com.altmann.choresmanager.models.chores.grocery.Item
 import androidx.compose.ui.graphics.Color
 import com.altmann.choresmanager.models.chores.Priority
-import com.altmann.choresmanager.models.chores.grocery.Item
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
@@ -13,7 +13,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 @SerialName("GROCERY")
 class GroceryChoreResponse (
-    override val choreId: Int,
+    override val choreId: Int?,
     @Contextual
     override val startTime: LocalTime,
     @Contextual
@@ -25,15 +25,12 @@ class GroceryChoreResponse (
     override val endDate: LocalDate,
     override var choreException: List<@Contextual LocalDate> = emptyList(),
     override val title: String,
-    override val description: String?,
+    override val description: String? = null,
     override var priority: Priority,
     override val deleted: Boolean? = false,
     override var finished: Boolean = false,
     @Contextual
-    override val finishedDate: LocalDate?,
-    @Contextual
     override val color: Color,
-    override val userId: Int,
 
     val items: List<Item>
 ) : ChoreResponseBase

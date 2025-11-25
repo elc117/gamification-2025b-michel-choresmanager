@@ -51,6 +51,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added basic test for network calls
 - Added user registration function to UserRepository
 - Added user authentication function to UserRepository
+- Added ApiResult for error handling for network calls
+- Added Chore Responses for receiving chore data from network
+- Added User Responses for receiving user data from network
+- Added AddChore Requests for sending chore data to network
+- Used Chore Responses for sending chore data to network
+- Successfully sending and receiving default, grocery and college chores from the api
+- Added ResponseToChore object for mapping responses to Chore objects and vice versa
 
 ### Changed
 
@@ -63,6 +70,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed ChoreTitleText to use white or black text based on selected background
 - Moved Calendars Headers to new CalendarScreen
 - Changed CalendarScreen to hold MonthlyCalendar and WeeklyCalendar
+- Removed default value from grocery Item for sending it to the api
 
 ### Fixed
 

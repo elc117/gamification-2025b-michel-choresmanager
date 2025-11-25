@@ -14,10 +14,11 @@ import io.ktor.http.contentType
 import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.internal.writeJson
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.contextual
 
-private val appSerializersModule = SerializersModule {
+val appSerializersModule = SerializersModule {
     contextual(ColorSerializer)
 }
 
@@ -57,10 +58,18 @@ class ApiClient {
 
     suspend inline fun <reified T, reified R> post(url: String, body: R): ApiResult<T> =
         safeRequest {
-            val response : HttpResponse = http.post(url) {
+            val response: HttpResponse = http.post(url) {
                 contentType(ContentType.Application.Json)
                 setBody(body)
             }
+            val json = Json {
+                prettyPrint = true
+                ignoreUnknownKeys = true
+                isLenient = true
+                serializersModule = appSerializersModule
+            }
+            val jsonString = json.encodeToString(body)
+            print(jsonString)
             if (response.status.isSuccess()) {
                 response.body<T>()
             } else {
