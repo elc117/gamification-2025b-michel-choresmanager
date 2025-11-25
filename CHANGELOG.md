@@ -63,6 +63,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added error handling to LoginScreen
 - Added snackbar to show signup success message
 - Added loading indicator to LoginScreen
+- Added snackbar to show achievements unlocked messages
+- Added achievement unlocked snackbar to HomeScreen
 
 ### Changed
 
@@ -85,6 +87,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed Item and Exercise not being data classes
 - Fixed ViewChorePopup not updating when removing items from GroceryChore in MonthlyCalendar
 - Fixed ViewChorePopup closing when removing items from GroceryChore in WeeklyCalendar
+- Fixed ThemeSelector not hiding the unlock text during level 5
 
 ### Removed
 

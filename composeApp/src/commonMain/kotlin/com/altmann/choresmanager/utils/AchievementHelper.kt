@@ -2,6 +2,7 @@ package com.altmann.choresmanager.utils
 
 import com.altmann.choresmanager.models.user.achievements
 import com.altmann.choresmanager.models.chores.Chore
+import com.altmann.choresmanager.models.user.Achievement
 
 class AchievementHelper(
     private val completedAchievements: List<Int>,
@@ -9,11 +10,11 @@ class AchievementHelper(
     private val completedChores: Int,
     private val createdChores: Int
 ) {
-    private val newAchievements = mutableListOf<Int>()
+    private val newAchievements = mutableListOf<Achievement>()
     private var expGained = 0
 
     // Returns a Pair of (List of new achievement IDs, total EXP gained)
-    fun checkForNewAchievements(): Pair<List<Int>, Int> {
+    fun checkForNewAchievements(): Pair<List<Achievement>, Int> {
         for (achievement in achievements) {
             // Skip if already completed
             if (achievement.id in completedAchievements) continue
@@ -113,7 +114,7 @@ class AchievementHelper(
     }
 
     fun add(id: Int) {
-        newAchievements.add(id)
+        newAchievements.add(achievements[id])
         expGained = expGained + achievements[id].exp
     }
 

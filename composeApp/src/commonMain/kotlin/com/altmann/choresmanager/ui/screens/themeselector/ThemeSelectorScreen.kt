@@ -86,7 +86,7 @@ fun ThemeSelectorScreen(level : Int) {
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        if (level <= 5) {
+                        if (level < 5) {
                             Text(
                                 text = "Unlock at level 5!",
                                 color = MaterialTheme.colorScheme.onPrimaryContainer,

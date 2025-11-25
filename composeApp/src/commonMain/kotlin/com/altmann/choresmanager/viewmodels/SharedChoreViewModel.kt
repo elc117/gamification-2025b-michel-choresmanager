@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.altmann.choresmanager.models.user.User
 import com.altmann.choresmanager.models.chores.Chore
 import com.altmann.choresmanager.models.chores.college.CollegeChore
+import com.altmann.choresmanager.models.user.Achievement
 import com.altmann.choresmanager.network.ApiResult
 import com.altmann.choresmanager.network.model.response.ChoreResponseBase
 import com.altmann.choresmanager.repository.ChoreRepository
@@ -35,6 +36,9 @@ class SharedChoreViewModel(private val choreRepository: ChoreRepository) : ViewM
 
     private val _chores = MutableStateFlow<List<Chore>>(emptyList())
     val chores = _chores.asStateFlow()
+
+    private val _newAchievements = MutableStateFlow<List<Achievement>>(emptyList())
+    val newAchievements = _newAchievements.asStateFlow()
 
     private val _user = MutableStateFlow(
         User(
@@ -70,7 +74,7 @@ class SharedChoreViewModel(private val choreRepository: ChoreRepository) : ViewM
                 _chores.value = _chores.value.plus(addedChore)
                 _enabledChores.value = _enabledChores.value.plus(addedChore)
                 _user.update { it.copy(createdChores = it.createdChores + 1) }
-                updateAchievements(null)
+                updateAchievements(chore)
             }
 
             is ApiResult.Error -> {
@@ -107,7 +111,7 @@ class SharedChoreViewModel(private val choreRepository: ChoreRepository) : ViewM
                 addCompletedChoreToUser()
             } else {
                 chore.choreException = chore.choreException.plus(date)
-                if (chore::class == CollegeChore::class){
+                if (chore::class == CollegeChore::class) {
                     (chore as CollegeChore).addAbsence()
                 }
                 _chores.value = _chores.value.map { if (it.choreId == choreId) chore else it }
@@ -118,6 +122,10 @@ class SharedChoreViewModel(private val choreRepository: ChoreRepository) : ViewM
             updateAchievements(chore)
         }
         remapChores()
+    }
+
+    fun clearNewAchievements() {
+        _newAchievements.value = emptyList()
     }
 
     fun addCompletedChoreToUser() {
@@ -137,15 +145,15 @@ class SharedChoreViewModel(private val choreRepository: ChoreRepository) : ViewM
             completedChore = chore,
             completedChores = user.value.completedChores,
             createdChores = user.value.createdChores
-        )
-            .checkForNewAchievements()
+        ).checkForNewAchievements()
             .let { (newAchievements, xp) ->
                 if (newAchievements.isNotEmpty()) {
                     _user.update { currentUser ->
                         currentUser.copy(
-                            achievements = currentUser.achievements.plus(newAchievements)
+                            achievements = currentUser.achievements.plus(newAchievements.map { it.id })
                         )
                     }
+                    _newAchievements.value = newAchievements
                 }
                 _user.update { it.gainExp(xp) }
             }
