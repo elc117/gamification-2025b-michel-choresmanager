@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.altmann.choresmanager.models.user.User
 import com.altmann.choresmanager.network.ApiResult
+import com.altmann.choresmanager.network.model.UserRequest
 import com.altmann.choresmanager.repository.UserRepository
 import com.altmann.choresmanager.viewmodels.SharedChoreViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,10 +19,30 @@ class LoginViewModel(
     private val _loginMessage = MutableStateFlow("")
     val loginMessage = _loginMessage.asStateFlow()
 
-    private val _loginError = MutableStateFlow(false)
-    val loginError = _loginError.asStateFlow()
+    private val _error = MutableStateFlow(false)
+    val error = _error.asStateFlow()
+
+    private val _signupMessage = MutableStateFlow("")
+    val signupMessage = _signupMessage.asStateFlow()
+
+    fun register(name: String, email: String, password: String) = viewModelScope.launch {
+        _signupMessage.value = "Loading"
+        val userRequest = UserRequest(name = name, email = email, password = password)
+        val result = repository.registerUser(userRequest)
+        when (result) {
+            is ApiResult.Success -> {
+                _signupMessage.value = "Success"
+            }
+
+            is ApiResult.Error -> {
+                _signupMessage.value = "Error: ${result.message}"
+                _error.value = true
+            }
+        }
+    }
 
     fun authenticate(email: String, password: String) = viewModelScope.launch {
+            _loginMessage.value = "Loading"
             val result = repository.authenticateUser(email, password)
             when (result) {
                 is ApiResult.Success -> {
@@ -46,14 +67,15 @@ class LoginViewModel(
 
                 is ApiResult.Error -> {
                     _loginMessage.value = "Error: ${result.message}"
-                    _loginError.value = true
+                    _error.value = true
                 }
             }
         }
 
     fun reset() {
         _loginMessage.value = ""
-        _loginError.value = false
+        _signupMessage.value = ""
+        _error.value = false
     }
 
 }
