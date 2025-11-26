@@ -62,14 +62,6 @@ class ApiClient {
                 contentType(ContentType.Application.Json)
                 setBody(body)
             }
-            val json = Json {
-                prettyPrint = true
-                ignoreUnknownKeys = true
-                isLenient = true
-                serializersModule = appSerializersModule
-            }
-            val jsonString = json.encodeToString(body)
-            print(jsonString)
             if (response.status.isSuccess()) {
                 response.body<T>()
             } else {

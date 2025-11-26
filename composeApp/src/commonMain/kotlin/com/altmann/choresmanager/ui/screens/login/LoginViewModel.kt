@@ -47,7 +47,7 @@ class LoginViewModel(
             when (result) {
                 is ApiResult.Success -> {
                     val userResponse = result.data
-                    sharedChoreViewModel.updateUser(
+                    sharedChoreViewModel.loginUser(
                         User(
                             userId = userResponse.id,
                             name = userResponse.name,
@@ -59,7 +59,9 @@ class LoginViewModel(
                             lvlUpThreshold = userResponse.levelUpThreshold,
                             level = userResponse.level,
                             completedChores = userResponse.completedChores,
-                            createdChores = userResponse.createdChores
+                            createdChores = userResponse.createdChores,
+                            color = userResponse.color,
+                            isDarkTheme = userResponse.isDarkTheme
                         )
                     )
                     _loginMessage.value = "Success"

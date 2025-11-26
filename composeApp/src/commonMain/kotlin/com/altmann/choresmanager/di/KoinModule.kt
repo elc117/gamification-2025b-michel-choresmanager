@@ -24,7 +24,7 @@ val sharedModule = module {
         ChoreRepository()
     }
     single<SharedChoreViewModel> {
-        SharedChoreViewModel(ChoreRepository())
+        SharedChoreViewModel(ChoreRepository(), UserRepository())
     }
     viewModelOf(::CalendarViewModel)
     viewModelOf(::SideBarViewModel)

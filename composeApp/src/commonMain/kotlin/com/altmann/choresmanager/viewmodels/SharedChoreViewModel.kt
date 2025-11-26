@@ -1,5 +1,6 @@
 package com.altmann.choresmanager.viewmodels
 
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.altmann.choresmanager.models.user.User
@@ -7,26 +8,23 @@ import com.altmann.choresmanager.models.chores.Chore
 import com.altmann.choresmanager.models.chores.college.CollegeChore
 import com.altmann.choresmanager.models.user.Achievement
 import com.altmann.choresmanager.network.ApiResult
-import com.altmann.choresmanager.network.model.response.ChoreResponseBase
+import com.altmann.choresmanager.network.model.response.UserResponse
 import com.altmann.choresmanager.repository.ChoreRepository
 import com.altmann.choresmanager.repository.UserRepository
 import com.altmann.choresmanager.utils.AchievementHelper
 import com.altmann.choresmanager.utils.CalendarHelper
 import com.altmann.choresmanager.utils.ResponseToChore
-import io.ktor.util.Hash.combine
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalTime
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 
-class SharedChoreViewModel(private val choreRepository: ChoreRepository) : ViewModel() {
+class SharedChoreViewModel(private val choreRepository: ChoreRepository, private val userRepository: UserRepository) : ViewModel() {
     private val _anchor =
         MutableStateFlow(CalendarHelper.today().let { LocalDate(it.year, it.month, 1) })
     val anchor = _anchor.asStateFlow()
@@ -46,7 +44,8 @@ class SharedChoreViewModel(private val choreRepository: ChoreRepository) : ViewM
             name = "Your name",
             email = "default@email.com",
             birthday = LocalDate(2004, 9, 5),
-            profileImage = null
+            profileImage = null,
+            color = Color.Magenta
         )
     )
     val user = _user.asStateFlow()
@@ -62,8 +61,46 @@ class SharedChoreViewModel(private val choreRepository: ChoreRepository) : ViewM
 //        }
     }
 
-    fun updateUser(newUser: User) {
+    fun loginUser(newUser: User) {
         _user.value = newUser
+    }
+
+    fun updateTheme(isDarkTheme: Boolean) {
+        _user.update { it.copy(isDarkTheme = isDarkTheme) }
+        updateUser(user.value)
+    }
+
+    fun updateColor(newColor: Color) {
+        _user.update { it.copy(color = newColor) }
+        updateUser(user.value)
+    }
+
+    fun updateUser(user : User) = viewModelScope.launch {
+        val updatedUser = UserResponse(
+            id = user.userId,
+            name = user.name,
+            email = user.email,
+            birthdate = user.birthday,
+            profileImage = user.profileImage,
+            currentExp = user.currentExp,
+            achievements = user.achievements,
+            levelUpThreshold = user.lvlUpThreshold,
+            level = user.level,
+            completedChores = user.completedChores,
+            createdChores = user.createdChores,
+            color = user.color,
+            isDarkTheme = user.isDarkTheme
+        )
+        val result = userRepository.updateUser(updatedUser)
+        when (result) {
+            is ApiResult.Success -> {
+                print("User updated successfully")
+            }
+
+            is ApiResult.Error -> {
+                print(result.message)
+            }
+        }
     }
 
     fun addChore(chore: Chore) = viewModelScope.launch {
@@ -201,9 +238,6 @@ class SharedChoreViewModel(private val choreRepository: ChoreRepository) : ViewM
 
         if (_mappedChores.value != map) {
             _mappedChores.update { if (map.entries == it.entries) it else map }
-        }
-        _mappedChores.value.forEach {
-            print("${it.key} -> ${it.value}\n")
         }
     }
 

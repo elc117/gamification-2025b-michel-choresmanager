@@ -65,6 +65,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added loading indicator to LoginScreen
 - Added snackbar to show achievements unlocked messages
 - Added achievement unlocked snackbar to HomeScreen
+- Added updateUser call to repository
+- Added user theme persistence by updating user theme in api
 
 ### Changed
 

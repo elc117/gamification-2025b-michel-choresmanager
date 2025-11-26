@@ -36,7 +36,9 @@ import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import com.altmann.choresmanager.theming.MyTheme
 import com.altmann.choresmanager.ui.screens.components.fields.ValidatedTextField
+import com.altmann.choresmanager.utils.ColorHelper.generateColorsFromPrimary
 import kotlinx.coroutines.launch
 
 @Composable

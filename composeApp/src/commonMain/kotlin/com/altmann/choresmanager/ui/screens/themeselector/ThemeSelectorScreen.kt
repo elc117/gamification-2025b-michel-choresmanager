@@ -22,6 +22,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,29 +39,30 @@ import com.altmann.choresmanager.ui.screens.calendar.monthcalendar.DayCell
 import com.altmann.choresmanager.ui.screens.components.pickers.HslColorPicker
 import com.altmann.choresmanager.utils.CalendarHelper
 import com.altmann.choresmanager.utils.ColorHelper.generateColorsFromPrimary
+import com.altmann.choresmanager.viewmodels.SharedChoreViewModel
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.plus
 
 @Composable
-fun ThemeSelectorScreen(level : Int) {
+fun ThemeSelectorScreen(sharedChoreViewModel: SharedChoreViewModel) {
     Column(
         modifier = Modifier.padding(bottom = 16.dp, start = 8.dp, top = 16.dp).fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val initialColor = MaterialTheme.colorScheme.primary
-        val newColor = remember { mutableStateOf(initialColor) }
+        val user = sharedChoreViewModel.user.collectAsState()
         var color by remember { mutableStateOf(initialColor) }
         val dark = MyTheme.theme.isDark
         var isDark by remember {
             mutableStateOf(dark)
         }
-        val enabled = level >= 5
-        print(level.toString())
+        val enabled = user.value.level >= 5
         val previewTheme = generateColorsFromPrimary(color, isDark)
 
-        MyTheme.controller.themeState.value = generateColorsFromPrimary(newColor.value, isDark)
+        sharedChoreViewModel.updateTheme(isDark)
+
         Text(
             "Theme Selector", color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.fillMaxWidth(),
@@ -86,7 +89,7 @@ fun ThemeSelectorScreen(level : Int) {
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        if (level < 5) {
+                        if (!enabled) {
                             Text(
                                 text = "Unlock at level 5!",
                                 color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -112,7 +115,7 @@ fun ThemeSelectorScreen(level : Int) {
                     ),
                     enabled = enabled,
                     onClick = {
-                        newColor.value = color
+                        sharedChoreViewModel.updateColor(color)
                     }
                 ) {
                     Text("Apply Theme")
@@ -193,7 +196,7 @@ fun ColorPreviewBox(previewTheme: AppTheme, modifier: Modifier = Modifier) {
                                         faded = day.month != CalendarHelper.today().month,
                                         date = day,
                                         selected = selected.first == i && selected.second == j,
-                                        onClick = {selected = Pair(i, j)},
+                                        onClick = { selected = Pair(i, j) },
                                         modifier = Modifier.width(width).height(height)
                                     )
                                 }

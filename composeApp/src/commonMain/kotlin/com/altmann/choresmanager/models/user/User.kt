@@ -1,7 +1,10 @@
 package com.altmann.choresmanager.models.user
 
+import androidx.compose.ui.graphics.Color
 import com.altmann.choresmanager.models.chores.Chore
 import kotlinx.datetime.LocalDate
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.Serializable
 
 data class User(
     val userId: Int,
@@ -14,7 +17,9 @@ data class User(
     var lvlUpThreshold : Int = 100,
     var level: Int = 1,
     val completedChores: Int = 0,
-    val createdChores: Int = 0
+    val createdChores: Int = 0,
+    val color : Color? = Color.hsl(258f, 0.3f, 0.46f),
+    val isDarkTheme : Boolean = true
     ) {
 
     fun gainExp(amount : Int) : User {

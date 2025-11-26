@@ -1,5 +1,6 @@
-package com.altmann.choresmanager.network.model
+package com.altmann.choresmanager.network.model.response
 
+import androidx.compose.ui.graphics.Color
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
@@ -18,4 +19,7 @@ data class UserResponse (
     val level : Int,
     val completedChores : Int,
     val createdChores : Int,
+    @Contextual
+    val color : Color?,
+    val isDarkTheme : Boolean
 )

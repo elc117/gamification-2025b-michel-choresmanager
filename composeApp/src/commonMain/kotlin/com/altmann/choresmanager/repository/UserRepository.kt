@@ -3,8 +3,7 @@ package com.altmann.choresmanager.repository
 import com.altmann.choresmanager.network.model.UserRequest
 import com.altmann.choresmanager.network.ApiClient
 import com.altmann.choresmanager.network.ApiResult
-import com.altmann.choresmanager.repository.IUserRepository
-import com.altmann.choresmanager.network.model.UserResponse
+import com.altmann.choresmanager.network.model.response.UserResponse
 
 class UserRepository(
     private val api: ApiClient = ApiClient()
@@ -20,13 +19,17 @@ class UserRepository(
         return api.post(URL, user)
     }
 
+    override suspend fun updateUser(user: UserResponse): ApiResult<Unit> {
+        return api.post("$URL/${user.id}", user)
+    }
+
     override suspend fun authenticateUser(
         email: String,
         password: String
     ): ApiResult<UserResponse> {
         return api.get("$URL/authenticate?email=$email&password=$password")
     }
-//        api.http.post(ApiClient.BASE_URL, password)
+
 
     override suspend fun removeUser(userId: Int): ApiResult<Boolean> {
         TODO("Not yet implemented")

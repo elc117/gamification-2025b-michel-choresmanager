@@ -35,6 +35,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.altmann.choresmanager.models.user.Achievement
+import com.altmann.choresmanager.theming.MyTheme
 import com.altmann.choresmanager.ui.screens.achievements.AchievementItem
 import com.altmann.choresmanager.ui.screens.achievements.AchievementsScreen
 import com.altmann.choresmanager.ui.screens.calendar.CalendarScreen
@@ -42,6 +43,7 @@ import com.altmann.choresmanager.ui.screens.calendar.CalendarViewModel
 import com.altmann.choresmanager.ui.screens.sidebar.SideBar
 import com.altmann.choresmanager.ui.screens.sidebar.SideBarViewModel
 import com.altmann.choresmanager.ui.screens.themeselector.ThemeSelectorScreen
+import com.altmann.choresmanager.utils.ColorHelper.generateColorsFromPrimary
 import com.altmann.choresmanager.viewmodels.SharedChoreViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -56,15 +58,27 @@ fun HomeScreen() {
     var screen = remember { mutableStateOf(0) }
     val snackBarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    val user = sharedChoreViewModel.user.collectAsState()
     val newAchievements = sharedChoreViewModel.newAchievements.collectAsState()
 
-    print(newAchievements.value.toString())
+    LaunchedEffect(user.value) {
+        sharedChoreViewModel.updateUser(user.value)
+    }
 
-    if (newAchievements.value.isNotEmpty()) {
-        scope.launch {
-            snackBarHostState.showSnackbar("Achievement Unlocked!")
-            delay(4000)
-            sharedChoreViewModel.clearNewAchievements()
+    MyTheme.controller.setPrimary(
+        generateColorsFromPrimary(
+            user.value.color!!,
+            user.value.isDarkTheme
+        )
+    )
+
+    LaunchedEffect(newAchievements.value) {
+        if (newAchievements.value.isNotEmpty()) {
+            scope.launch {
+                snackBarHostState.showSnackbar("Achievement Unlocked!")
+                delay(4000)
+                sharedChoreViewModel.clearNewAchievements()
+            }
         }
     }
 
@@ -93,7 +107,7 @@ fun HomeScreen() {
                         modifier = Modifier.weight(1f).fillMaxHeight()
                     )
 
-                    2 -> ThemeSelectorScreen(sharedChoreViewModel.user.value.level)
+                    2 -> ThemeSelectorScreen(sharedChoreViewModel)
                 }
 
             }
@@ -102,15 +116,22 @@ fun HomeScreen() {
 }
 
 @Composable
-fun AchievementSnackBarContent(newAchievements : List<Achievement>) {
-    Column(horizontalAlignment = Alignment.Start, modifier = Modifier.background(Color.Transparent)) {
+fun AchievementSnackBarContent(newAchievements: List<Achievement>) {
+    Column(
+        horizontalAlignment = Alignment.Start,
+        modifier = Modifier.background(Color.Transparent)
+    ) {
         Surface(
             shadowElevation = 4.dp,
             shape = RoundedCornerShape(8.dp),
             tonalElevation = 6.dp,
             modifier = Modifier.padding(4.dp).width(300.dp).height(32.dp)
         ) {
-            Text("Achievements Unlocked!", modifier = Modifier.fillMaxSize(), textAlign = TextAlign.Center)
+            Text(
+                "Achievements Unlocked!",
+                modifier = Modifier.fillMaxSize(),
+                textAlign = TextAlign.Center
+            )
         }
         Spacer(modifier = Modifier.height(8.dp))
         newAchievements.forEach { achievement ->
