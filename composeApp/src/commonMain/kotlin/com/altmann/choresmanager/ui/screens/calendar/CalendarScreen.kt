@@ -86,7 +86,7 @@ private fun MonthHeader(
             modifier = Modifier.weight(1f)
         )
         Spacer(Modifier.width(8.dp))
-        TextButton(onClick = onSwitch) { Text("↻") }
+        TextButton(onClick = onSwitch) { Text("Switch View") }
         TextButton(onClick = onNext) { Text(">") }
     }
 }

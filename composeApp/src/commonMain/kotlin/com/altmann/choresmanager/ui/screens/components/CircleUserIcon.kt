@@ -54,6 +54,7 @@ fun CircleUserIcon(
 fun CircleUserIcon(
     imageResource: DrawableResource?,
     size: Dp = 48.dp,
+    fallback : String,
     borderWidth: Dp = 0.dp,
     borderColor: Color = MaterialTheme.colorScheme.primary,
     fallbackBackgroundColor: Color = MaterialTheme.colorScheme.surfaceContainer,
@@ -82,7 +83,7 @@ fun CircleUserIcon(
         } else {
             // Fallback to initials or icon
             Text(
-                text = "?",
+                text = fallback.take(2).uppercase(),
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

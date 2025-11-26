@@ -1,0 +1,75 @@
+ @startuml
+class com.altmann.choresmanager.models.chores.Priority$Companion {
++ void fromValue(Int)
+}
+
+enum com.altmann.choresmanager.models.chores.Priority {
++  LOW
++  NORMAL
++  HIGH
++ <<Create>> Priority(String,Int)
+}
+
+
+class com.altmann.choresmanager.models.chores.gym.Exercise {
++ <<Create>> Exercise(String,String,Int?,Int?)
+}
+
+class com.altmann.choresmanager.models.chores.grocery.GroceryChore {
++ <<Create>> GroceryChore(Chore,List<Item>)
+}
+
+class com.altmann.choresmanager.models.user.Achievement {
++ Int exp
++ <<Create>> Achievement(Int,String,String,AchievementDifficulty,LocalDate,ImageVector)
+}
+
+
+enum com.altmann.choresmanager.models.user.AchievementDifficulty {
++  EASY
++  MEDIUM
++  HARD
++  LEGENDARY
++ <<Create>> AchievementDifficulty(String,Int)
+}
+
+
+class com.altmann.choresmanager.models.user.User {
++ Float progress
++ <<Create>> User(Int,String,String,LocalDate?,String?,Int,List<Int>,Int,Int,Int,Int,Color?,Boolean)
++ User gainExp(Int)
++ User levelUp()
+- User rolloverIfNeeded()
+}
+
+
+class com.altmann.choresmanager.models.chores.gym.GymChore {
++ <<Create>> GymChore(Chore,List<Exercise>,String)
+}
+
+class com.altmann.choresmanager.models.chores.Chore {
++ <<Create>> Chore(Int?,LocalTime,LocalTime,List<DayOfWeek>,LocalDate,LocalDate,List<LocalDate>,String,String?,Priority,Boolean?,Boolean,Color)
++ Int duration()
++ void finishChore()
++ Boolean isException(LocalDate)
+}
+
+class com.altmann.choresmanager.models.chores.college.CollegeChore {
++ <<Create>> CollegeChore(Chore,String,String?,String?,Int?,Boolean,Int,Int)
++ Float? getAbsencePercentage()
++ void addAbsence()
++ void removeAbsence()
+- void calculateAbsencesAllowed()
+}
+
+class com.altmann.choresmanager.models.chores.grocery.Item {
++ <<Create>> Item(String,String,Int)
+}
+
+
+
+com.altmann.choresmanager.models.chores.Priority +.. com.altmann.choresmanager.models.chores.Priority$Companion
+com.altmann.choresmanager.models.chores.Chore <|-- com.altmann.choresmanager.models.chores.grocery.GroceryChore
+com.altmann.choresmanager.models.chores.Chore <|-- com.altmann.choresmanager.models.chores.gym.GymChore
+com.altmann.choresmanager.models.chores.Chore <|-- com.altmann.choresmanager.models.chores.college.CollegeChore
+@enduml

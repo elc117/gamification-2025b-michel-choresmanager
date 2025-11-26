@@ -22,49 +22,8 @@ actual fun ColorPicker(
     onColorSelected: (Color) -> Unit,
     selectedColor: Color
 ) {
-    val defaultColors = listOf(
-        Color.Red, Color.Green, Color.Blue, Color.Yellow, Color.Cyan,
-        Color.Magenta, Color.Black, Color.White, Color.Gray, Color.DarkGray, Color.LightGray
+    HslColorPicker(
+        initialColor = selectedColor,
+        onColorChanged = onColorSelected,
     )
-
-    Surface {
-        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                // show default color as a label
-                Text("Selected:", color = Color.Black)
-                Box(
-                    modifier = Modifier
-                        .size(20.dp)
-                        .clip(RoundedCornerShape(4.dp))
-                        .background(selectedColor)
-                )
-            }
-            // simple grid-like list of color boxes
-            Column {
-                defaultColors.chunked(4).forEach { row ->
-                    Row{
-                        row.forEach { color ->
-                            ColorItem(color = color, onColorSelected = onColorSelected)
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun ColorItem(
-    color: Color,
-    onColorSelected: (Color) -> Unit
-) {
-    Surface(
-        shape = RoundedCornerShape(8.dp),
-        color = color,
-        modifier = Modifier
-            .size(36.dp)
-            .padding(2.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .clickable { onColorSelected(color) }
-    ){}
 }

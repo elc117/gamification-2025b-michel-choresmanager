@@ -1,0 +1,50 @@
+@startuml
+class com.altmann.choresmanager.DateProvider {
++ Int getCurrentDay()
++ Int getCurrentMonth()
++ Int getCurrentYear()
+}
+
+class com.altmann.choresmanager.utils.ResponseToChore {
++ Chore toChore(ChoreResponseBase)
++ ChoreResponseBase toResponse(Chore)
+}
+
+class com.altmann.choresmanager.utils.AchievementHelper {
+-  newAchievements
+-  expGained
++ Pair<List<Achievement>, Int> checkForNewAchievements()
++ void add(Int)
+}
+
+
+class com.altmann.choresmanager.utils.ColorHelper {
++ AppTheme generateColorsFromPrimary(Color,Boolean)
++ Color readableOn(Color)
++ FloatArray toHSL()
+}
+
+class com.altmann.choresmanager.utils.DateTimeParser$Companion {
++ LocalTime parseTextToTime(String)
++ String parseTimeToText(LocalTime)
++ LocalDate parseTextToDate(String)
++ String parseDateToText(LocalDate)
+- Int normalizeTo15Minutes(Int)
++ LocalTime minutesToTime(Int)
+}
+
+class com.altmann.choresmanager.utils.DateTimeParser {
+}
+class com.altmann.choresmanager.utils.CalendarHelper {
++  dateProvider
++ Pair<LocalDate, LocalDate> monthGridWindow(LocalDate)
++ LocalDate previousOrSameSunday(LocalDate)
++ LocalDate today()
++ Int getDaysInMonth(LocalDate)
+}
+
+
+
+
+com.altmann.choresmanager.utils.DateTimeParser +.. com.altmann.choresmanager.utils.DateTimeParser$Companion
+@enduml

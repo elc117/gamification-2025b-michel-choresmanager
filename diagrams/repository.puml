@@ -1,0 +1,39 @@
+@startuml
+interface com.altmann.choresmanager.repository.IUserRepository {
++ ApiResult<Unit> registerUser(UserRequest)
++ ApiResult<Unit> updateUser(UserResponse)
++ ApiResult<UserResponse> authenticateUser(String,String)
++ ApiResult<Boolean> removeUser(Int)
+}
+
+class com.altmann.choresmanager.repository.ChoreRepository {
+-  URL
++ <<Create>> ChoreRepository(ApiClient)
++ ApiResult<List<ChoreResponseBase>> getChores(Int)
++ ApiResult<ChoreResponseBase> updateChore(Int,ChoreResponseBase)
++ ApiResult<ChoreResponseBase> addChore(Int,Chore)
+}
+
+
+interface com.altmann.choresmanager.repository.IChoreRepository {
++ ApiResult<List<ChoreResponseBase>> getChores(Int)
++ ApiResult<ChoreResponseBase> updateChore(Int,ChoreResponseBase)
++ ApiResult<ChoreResponseBase> addChore(Int,Chore)
+}
+
+class com.altmann.choresmanager.repository.UserRepository {
++  URL
++ <<Create>> UserRepository(ApiClient)
++ ApiResult<String> getBase()
++ ApiResult<Unit> registerUser(UserRequest)
++ ApiResult<Unit> updateUser(UserResponse)
++ ApiResult<UserResponse> authenticateUser(String,String)
++ ApiResult<Boolean> removeUser(Int)
+}
+
+
+
+
+com.altmann.choresmanager.repository.IChoreRepository <|.. com.altmann.choresmanager.repository.ChoreRepository
+com.altmann.choresmanager.repository.IUserRepository <|.. com.altmann.choresmanager.repository.UserRepository
+@enduml

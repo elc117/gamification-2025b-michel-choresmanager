@@ -1,0 +1,58 @@
+@startuml
+class com.altmann.choresmanager.network.model.response.UserResponse {
++ <<Create>> UserResponse(Int,String,String,LocalDate?,String?,Int,List<Int>,Int,Int,Int,Int,Color?,Boolean)
+}
+
+class com.altmann.choresmanager.network.ApiClient$Companion {
++  BASE_URL
+}
+
+class com.altmann.choresmanager.network.ApiClient {
++ HttpClient http
++ ApiResult<T> get(String)
++ ApiResult<T> post(String,R)
+}
+
+
+class com.altmann.choresmanager.network.serializers.ColorSerializer {
++ SerialDescriptor descriptor
++ void serialize(Encoder,Color)
++ Color deserialize(Decoder)
+}
+
+
+interface com.altmann.choresmanager.network.model.response.ChoreResponseBase {
++ Int? choreId
++ LocalTime startTime
++ LocalTime endTime
++ List<DayOfWeek> daysOfWeek
++ LocalDate startDate
++ LocalDate endDate
++ List<@Contextual LocalDate> choreException
++ String title
++ String? description
++ Priority priority
++ Boolean? deleted
++ Boolean finished
++ Color color
+}
+
+class com.altmann.choresmanager.network.ApiResult$Success {
++ <<Create>> Success(T)
+}
+
+class com.altmann.choresmanager.network.ApiResult$Error {
++ <<Create>> Error(String,Throwable?)
+}
+
+class com.altmann.choresmanager.network.ApiResult {
+}
+
+
+com.altmann.choresmanager.network.ApiClient +.. com.altmann.choresmanager.network.ApiClient$Companion
+kotlinx.serialization.KSerializer <|.. com.altmann.choresmanager.network.serializers.ColorSerializer
+com.altmann.choresmanager.network.ApiResult +.. com.altmann.choresmanager.network.ApiResult$Success
+com.altmann.choresmanager.network.ApiResult <|-- com.altmann.choresmanager.network.ApiResult$Success
+com.altmann.choresmanager.network.ApiResult +.. com.altmann.choresmanager.network.ApiResult$Error
+com.altmann.choresmanager.network.ApiResult <|-- com.altmann.choresmanager.network.ApiResult$Error
+@enduml

@@ -69,7 +69,6 @@ kotlin {
             implementation(libs.ktor.client.negotiation)
             implementation(libs.kotlinx.serialization)
 
-            implementation("io.coil-kt.coil3:coil-svg:3.3.0")
             implementation(libs.material.kolor)
             implementation(libs.coil.compose)
         }

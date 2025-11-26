@@ -1,0 +1,16 @@
+@startuml
+class com.altmann.choresmanager.theming.AppTheme {
++ <<Create>> AppTheme(Color,Color,Color,Color,Color,Color,Color,Color,Color,Color,Color,Color,Color,Color,Color,Color,Boolean)
+}
+
+class com.altmann.choresmanager.theming.MyTheme {
++ AppTheme theme
++ ThemeController controller
+}
+
+class com.altmann.choresmanager.theming.ThemeController {
++ <<Create>> ThemeController(MutableState<AppTheme>)
++ void setPrimary(AppTheme)
+}
+
+@enduml

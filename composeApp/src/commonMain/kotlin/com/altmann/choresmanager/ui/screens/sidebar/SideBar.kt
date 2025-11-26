@@ -104,6 +104,7 @@ fun SideBar(viewModel: SideBarViewModel, screen: MutableState<Int>) {
                         Box(contentAlignment = Alignment.Center) {
                             CircleUserIcon(
                                 imageResource = null,
+                                fallback = user.name,
                                 borderWidth = 2.dp,
                                 size = 48.dp,
                                 modifier = Modifier.padding(8.dp)

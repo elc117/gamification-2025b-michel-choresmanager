@@ -1,0 +1,72 @@
+@startuml
+class com.altmann.choresmanager.ui.screens.chore.addchorepopup.ChorePopupViewModel {
+-  _state
++ StateFlow<ChorePopupState> state
++ void onEvent(ChorePopupEvent)
++ void setSelectedDay(LocalDate)
+- void resetState()
+}
+
+
+class com.altmann.choresmanager.ui.screens.calendar.CalendarViewModel {
+-  _selectedDate
++ StateFlow<LocalDate> selectedDate
+-  _expandedAddChore
++ StateFlow<Boolean> expandedAddChore
+-  _weekAnchor
++ StateFlow<LocalDate> weekAnchor
++ StateFlow<LocalDate> anchor
++  mappedChores
++  enabledChores
++  text
++ StateFlow<CalendarUiState> state
++ <<Create>> CalendarViewModel(SharedChoreViewModel)
++ void onEvent(CalendarEvent)
++ void onNextWeek()
++ void onPrevWeek()
++ void onSelectDate(LocalDate)
++ void dismissExpandedDay()
+}
+
+
+class com.altmann.choresmanager.viewmodels.SharedChoreViewModel {
+-  _anchor
++  anchor
+-  _mappedChores
++  mappedChores
+-  _chores
++  chores
+-  _newAchievements
++  newAchievements
+-  _user
++  user
+-  _enabledChores
++  enabledChores
++ <<Create>> SharedChoreViewModel(ChoreRepository,UserRepository)
++ void loginUser(User)
++ void updateTheme(Boolean)
++ void updateColor(Color)
++ void updateApiChore(Chore)
++ void updateUser(User)
++ void addChore(Chore)
++ void updateChore(Chore)
++ void enableDisableChore(Chore)
++ void onNext()
++ void onPrev()
++ void markChoreFinished(Int,LocalDate)
++ void clearNewAchievements()
++ void addCompletedChoreToUser()
++ void levelUpUser()
+- void updateAchievements(Chore?,Boolean)
+- Map<LocalDate, List<Chore>> generateChoreMap(LocalDate,List<Chore>)
++ void remapChores()
++ void getChores()
+}
+
+
+
+
+androidx.lifecycle.ViewModel <|-- com.altmann.choresmanager.ui.screens.chore.addchorepopup.ChorePopupViewModel
+androidx.lifecycle.ViewModel <|-- com.altmann.choresmanager.ui.screens.calendar.CalendarViewModel
+androidx.lifecycle.ViewModel <|-- com.altmann.choresmanager.viewmodels.SharedChoreViewModel
+@enduml
