@@ -67,6 +67,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added achievement unlocked snackbar to HomeScreen
 - Added updateUser call to repository
 - Added user theme persistence by updating user theme in api
+- Added updateChore call to repository
+- Added updateChore logic to SharedChoreViewModel
 
 ### Changed
 

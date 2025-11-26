@@ -31,7 +31,7 @@ class CollegeChore(
 
     fun addAbsence() {
         absencesCurrent = (absencesCurrent) + 1
-        if (absencesCurrent > absencesAllowed / 1.5) {
+        if (absencesCurrent > absencesAllowed / 2) {
             priority = Priority.HIGH
         }
         if (absencesCurrent > absencesAllowed) {
@@ -41,14 +41,14 @@ class CollegeChore(
 
     fun removeAbsence() {
         absencesCurrent = (absencesCurrent) - 1
-        if (absencesCurrent <= absencesAllowed / 1.5) {
+        if (absencesCurrent <= absencesAllowed / 2) {
             priority = Priority.NORMAL
         }
         if (absencesCurrent < 0) absencesCurrent = 0
     }
 
     private fun calculateAbsencesAllowed() {
-        if (totalHours == null) return
+        if (totalHours == null || totalHours == 0) return
         absencesAllowed = floor((totalHours * 0.25) / (duration() / 60)).toInt()
     }
 }

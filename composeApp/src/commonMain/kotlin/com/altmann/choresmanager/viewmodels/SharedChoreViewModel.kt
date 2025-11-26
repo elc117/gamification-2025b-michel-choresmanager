@@ -75,6 +75,20 @@ class SharedChoreViewModel(private val choreRepository: ChoreRepository, private
         updateUser(user.value)
     }
 
+    fun updateApiChore(chore : Chore) = viewModelScope.launch {
+        val updatedChore = ResponseToChore.toResponse(chore)
+        val result = choreRepository.updateChore(user.value.userId, updatedChore)
+        when (result) {
+            is ApiResult.Success -> {
+                print("Chore updated successfully")
+            }
+
+            is ApiResult.Error -> {
+                print(result.message)
+            }
+        }
+    }
+
     fun updateUser(user : User) = viewModelScope.launch {
         val updatedUser = UserResponse(
             id = user.userId,
@@ -94,7 +108,7 @@ class SharedChoreViewModel(private val choreRepository: ChoreRepository, private
         val result = userRepository.updateUser(updatedUser)
         when (result) {
             is ApiResult.Success -> {
-                print("User updated successfully")
+//                print("User updated successfully")
             }
 
             is ApiResult.Error -> {
@@ -126,6 +140,7 @@ class SharedChoreViewModel(private val choreRepository: ChoreRepository, private
             _enabledChores.value =
                 _enabledChores.value.map { if (it.choreId == chore.choreId) chore else it }
         }
+        updateApiChore(chore)
     }
 
     fun enableDisableChore(chore: Chore) {
@@ -157,6 +172,7 @@ class SharedChoreViewModel(private val choreRepository: ChoreRepository, private
             }
             // Update achievements
             updateAchievements(chore)
+            updateApiChore(chore)
         }
         remapChores()
     }

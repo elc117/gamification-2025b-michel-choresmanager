@@ -14,11 +14,20 @@ class ChoreRepository(private val api: ApiClient = ApiClient()) : IChoreReposito
         return api.get("$URL$userId")
     }
 
+    override suspend fun updateChore(
+        userId: Int,
+        chore: ChoreResponseBase
+    ): ApiResult<ChoreResponseBase> {
+        return api.post("$URL$userId/${chore.choreId}", chore)
+    }
+
     override suspend fun addChore(
         userId: Int,
         chore: Chore
     ): ApiResult<ChoreResponseBase> {
         return api.post("$URL$userId", ResponseToChore.toResponse(chore))
     }
+
+
 
 }

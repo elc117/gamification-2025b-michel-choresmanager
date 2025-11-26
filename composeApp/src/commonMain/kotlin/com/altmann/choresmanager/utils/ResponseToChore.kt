@@ -19,6 +19,7 @@ object ResponseToChore {
             endDate = choreResponse.endDate,
             startTime = choreResponse.startTime,
             endTime = choreResponse.endTime,
+            choreException = choreResponse.choreException,
             daysOfWeek = choreResponse.daysOfWeek,
             description = choreResponse.description,
             priority = choreResponse.priority,
