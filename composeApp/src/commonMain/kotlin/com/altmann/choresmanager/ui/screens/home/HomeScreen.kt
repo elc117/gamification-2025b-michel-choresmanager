@@ -67,7 +67,7 @@ fun HomeScreen() {
 
     MyTheme.controller.setPrimary(
         generateColorsFromPrimary(
-            user.value.color!!,
+            user.value.color?.let { it } ?: MyTheme.theme.primary,
             user.value.isDarkTheme
         )
     )

@@ -80,7 +80,7 @@ class SharedChoreViewModel(private val choreRepository: ChoreRepository, private
         val result = choreRepository.updateChore(user.value.userId, updatedChore)
         when (result) {
             is ApiResult.Success -> {
-                print("Chore updated successfully")
+//                print("Chore updated successfully")
             }
 
             is ApiResult.Error -> {
@@ -125,7 +125,7 @@ class SharedChoreViewModel(private val choreRepository: ChoreRepository, private
                 _chores.value = _chores.value.plus(addedChore)
                 _enabledChores.value = _enabledChores.value.plus(addedChore)
                 _user.update { it.copy(createdChores = it.createdChores + 1) }
-                updateAchievements(chore)
+                updateAchievements(chore, false)
             }
 
             is ApiResult.Error -> {
@@ -171,7 +171,7 @@ class SharedChoreViewModel(private val choreRepository: ChoreRepository, private
                     _enabledChores.value.map { if (it.choreId == choreId) chore else it }
             }
             // Update achievements
-            updateAchievements(chore)
+            updateAchievements(chore, true)
             updateApiChore(chore)
         }
         remapChores()
@@ -192,10 +192,11 @@ class SharedChoreViewModel(private val choreRepository: ChoreRepository, private
         _user.value.levelUp()
     }
 
-    private fun updateAchievements(chore: Chore?) {
+    private fun updateAchievements(chore: Chore?, completedChore: Boolean) {
         AchievementHelper(
             user.value.achievements,
-            completedChore = chore,
+            chore = chore,
+            isChoreCompleted = completedChore,
             completedChores = user.value.completedChores,
             createdChores = user.value.createdChores
         ).checkForNewAchievements()

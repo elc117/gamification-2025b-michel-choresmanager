@@ -213,6 +213,8 @@ fun LoginScreen(
                             Button(
                                 onClick = {
                                     signup = !signup
+                                    login = ""
+                                    password = ""
                                     email = ""
                                     name = ""
                                 },
@@ -289,6 +291,7 @@ fun LoginScreen(
                             snackbarHostState.showSnackbar("User created successfully!")
                         }
                         signup = false
+                        login = email
                         email = ""
                         name = ""
                         password = ""

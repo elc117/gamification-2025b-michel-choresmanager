@@ -6,7 +6,8 @@ import com.altmann.choresmanager.models.user.Achievement
 
 class AchievementHelper(
     private val completedAchievements: List<Int>,
-    private val completedChore: Chore?,
+    private val chore: Chore?,
+    private val isChoreCompleted : Boolean,
     private val completedChores: Int,
     private val createdChores: Int
 ) {
@@ -80,31 +81,31 @@ class AchievementHelper(
                 }
 
                 10 -> {
-                    if (completedChore != null && completedChore.duration() >= 120) {
+                    if (chore != null && chore.duration() >= 120 && isChoreCompleted) {
                         add(10)
                     }
                 }
 
                 11 -> {
-                    if (completedChore != null && completedChore.duration() >= 240) {
+                    if (chore != null && chore.duration() >= 240 && isChoreCompleted) {
                         add(11)
                     }
                 }
 
                 12 -> {
-                    if (completedChore != null && completedChore.duration() >= 360) {
+                    if (chore != null && chore.duration() >= 360 && isChoreCompleted) {
                         add(12)
                     }
                 }
 
                 13 -> {
-                    if (completedChore != null && completedChore.duration() >= 600) {
+                    if (chore != null && chore.duration() >= 600 && isChoreCompleted) {
                         add(13)
                     }
                 }
 
                 14 -> {
-                    if (completedChore != null && completedChore.duration() >= 720) {
+                    if (chore != null && chore.duration() >= 720 && isChoreCompleted) {
                         add(14)
                     }
                 }

@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.3.0] - 2025-11-25
 
 ### Added
 
@@ -92,6 +92,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed ViewChorePopup not updating when removing items from GroceryChore in MonthlyCalendar
 - Fixed ViewChorePopup closing when removing items from GroceryChore in WeeklyCalendar
 - Fixed ThemeSelector not hiding the unlock text during level 5
+- Fixed crash related to null color when logging in with a new account
+- Fixed completed achievements being unlocked at creating chores
 
 ### Removed
 
