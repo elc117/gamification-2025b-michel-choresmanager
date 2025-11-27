@@ -142,6 +142,8 @@ Another thing that could be improved is the local database solution, since SQLDe
 app of this type, since it would be better to have it work offline, however, due to difficulties I had to settle for this approach, but I might add it for desktop in the future, and web
 only work with the server-side database, which would be a good compromise.
 
+The user profile is also something that could be improved, since right now it is just a placeholder, but in the future I might add the ability to change the profile picture, name and other details.
+
 ## Kotlin x Java
 
 Some code examples that I use in kotlin and how they would look like in java.
@@ -398,3 +400,51 @@ in your IDE's toolbar or run it directly from the terminal:
     ```
 
 ---
+
+### App running
+
+https://github.com/user-attachments/assets/2bf2e6d0-2f01-476f-9e48-3352391d2a88
+
+### References
+
+Its good to note that for most of the dependencies used, Philipp Lackner has videos explaining how to use them in a Kotlin Multiplatform project, so I highly recommend checking out his channel for more information.
+
+- [Kotlin Multiplatform Documentation](https://kotlinlang.org/docs/multiplatform.html)
+- [Compose Multiplatform Documentation](https://kotlinlang.org/docs/multiplatform/compose-multiplatform.html)
+- [Philipp Lackner YouTube Channel](https://www.youtube.com/@PhilippLackner)
+- [Ktor](https://ktor.io/docs/welcome.html)
+- [Koin](https://insert-koin.io/docs/quickstart/kotlin-multiplatform)
+- [Android Developers Material3](https://developer.android.com/develop/ui/compose/designsystems/material3#dynamic_color_schemes)
+- [Material Kolor](https://github.com/jordond/MaterialKolor)
+- [Kolor Picker](https://github.com/krizzu/kolor-picker)
+- [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
+
+### Some prompts used
+
+There was a LOT of prompts regarding the failed database implementation, so I will not be putting most of them here
+
+- why is my selectedDays list not updating?
+- how can I put the cursor at the end of the text
+- how can I align the Button to the right
+- `CoroutineExceptionHandlerImpl.kt:7 IllegalStateException: The driver used with SQLDelight is asynchronous, so SQLDelight should be configured for asynchronous usage: sqldelight { databases { MyDatabase { generateAsync = true } } }`
+- `WebWorkerException: {"message":"no such table: User","name":"Error"}`
+  is this related to how im creating the worker?
+- how do I make the calendar not go out of bounds?
+- Make the SQLDelight work in jsMain, change any files you see fit, check if sqljs-config and others js implementations makes sense 
+- how can I make an CircleUserIcon using an image
+- how can I make the circular progress indicator be centered on top of circleusericon
+- this is the MVI architecture right
+- your response broke, explain it again
+- im using koin, do I need this factory?
+- how would I use the state in the screen itself
+- how can I update _state in this setup
+- why are the achievements not adjusting in size when the screen is smaller? they are going below the image and not appearing in the way I want
+- so I can assume the grid itself is giving its children items no width to work with?
+- analyze every bit that could be a problem on building a fat jar executable, and set up what I need for creating the jar file
+- How do I use MaterialKolors to generate a scheme for me
+- dont give me the code just the theory.
+  how could I go about doing a weekly version of the calendar, putting on screen each chore on the respective time window, could I make like a 30dp per 15minutes and map each chore depending on the time by doing (minutes/15) * 30.dp for the Y pos
+- why is selected inside of pointerInput always false and only true to the current day, is it not updating? why is that happening
+- why is the addchorepopup always opening as if it were saturday?
+
+and more...
