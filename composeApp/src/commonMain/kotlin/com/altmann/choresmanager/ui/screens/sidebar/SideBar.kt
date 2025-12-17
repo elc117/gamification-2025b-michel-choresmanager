@@ -218,9 +218,11 @@ fun SideBar(viewModel: SideBarViewModel, screen: MutableState<Int>) {
 
             LazyColumn {
                 items(chores) { chore ->
-                    ChoreItem(chore = chore, onSelect = {
-                        viewModel.enableDisableChore(chore)
-                    }, modifier = Modifier)
+                    if (!chore.finished) {
+                        ChoreItem(chore = chore, onSelect = {
+                            viewModel.enableDisableChore(chore)
+                        }, modifier = Modifier)
+                    }
                 }
             }
         }

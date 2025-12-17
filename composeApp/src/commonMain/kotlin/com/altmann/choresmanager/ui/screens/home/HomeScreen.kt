@@ -99,7 +99,7 @@ fun HomeScreen() {
             Row(
                 modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
             ) {
-                SideBar(sideBarViewModel, screen)
+//                SideBar(sideBarViewModel, screen)
                 when (screen.value) {
                     0 -> CalendarScreen(calendarViewModel)
                     1 -> AchievementsScreen(

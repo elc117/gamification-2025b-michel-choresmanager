@@ -54,7 +54,7 @@ class SharedChoreViewModel(private val choreRepository: ChoreRepository, private
     val enabledChores = _enabledChores.asStateFlow()
 
     init {
-        // Auto-remap whenever anchor or enabled list changes
+    // Auto-remap whenever anchor or enabled list changes
 //        viewModelScope.launch(Dispatchers.Default) {
 //            combine(anchor, enabledChores) { _, _ -> } // values are read inside remap
 //                .collect { remapChores() }
